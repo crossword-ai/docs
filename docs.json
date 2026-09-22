@@ -13,7 +13,98 @@
     "groups": [
       {
         "group": "Getting started",
-        "pages": ["index", "quickstart"]
+        "pages": [
+          "index",
+          "quickstart",
+          "concepts"
+        ]
+      },
+      {
+        "group": "Components",
+        "pages": [
+          "components/overview",
+          {
+            "group": "Conversation",
+            "pages": [
+              "components/conversation/welcome-message",
+              "components/conversation/conversation-starter",
+              "components/conversation/follow-up-suggestion",
+              "components/conversation/proactive-message",
+              "components/conversation/assistant-reply"
+            ]
+          },
+          {
+            "group": "Cards",
+            "pages": [
+              "components/cards/product-card",
+              "components/cards/product-collection",
+              "components/cards/comparison-card",
+              "components/cards/cart-checkout-card",
+              "components/cards/order-refund-card"
+            ]
+          },
+          {
+            "group": "Interactive",
+            "pages": [
+              "components/interactive/quiz",
+              "components/interactive/bundle-builder",
+              "components/interactive/form",
+              "components/interactive/game",
+              "components/interactive/configurator"
+            ]
+          },
+          {
+            "group": "Page",
+            "pages": [
+              "components/page/page-sections",
+              "components/page/content-block",
+              "components/page/page-suggestions",
+              "components/page/recommendation-section",
+              "components/page/comparison-section",
+              "components/page/social-proof-section",
+              "components/page/offer-section"
+            ]
+          },
+          "components/primitives"
+        ]
+      },
+      {
+        "group": "Agents",
+        "pages": [
+          "agents/overview",
+          "agents/routing",
+          "agents/instructions-and-model",
+          "agents/knowledge-and-context",
+          "agents/guardrails-and-permissions",
+          "agents/response-configuration",
+          "agents/workflows"
+        ]
+      },
+      {
+        "group": "Orchestration",
+        "pages": [
+          "orchestration/overview",
+          "orchestration/channels-and-experiences",
+          "orchestration/playbooks",
+          "orchestration/rules",
+          "orchestration/rulebooks",
+          "orchestration/how-rulebooks-resolve",
+          "orchestration/campaigns",
+          "orchestration/playbooks-vs-campaigns",
+          "orchestration/audiences",
+          "orchestration/pages-and-placements",
+          "orchestration/experiments",
+          "orchestration/deployment"
+        ]
+      },
+      {
+        "group": "Use cases",
+        "pages": [
+          "use-cases/overview",
+          "use-cases/youtube-unboxing-playbook",
+          "use-cases/cart-recovery-campaign",
+          "use-cases/discovery-experiment"
+        ]
       }
     ]
   },
@@ -25,7 +116,12 @@
     }
   },
   "contextual": {
-    "options": ["copy", "view", "chatgpt", "claude"]
+    "options": [
+      "copy",
+      "view",
+      "chatgpt",
+      "claude"
+    ]
   },
   "footer": {
     "socials": {

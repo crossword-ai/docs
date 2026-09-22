@@ -1,0 +1,67 @@
+---
+title: "Knowledge and context"
+description: "The catalog, knowledge sources, and shopper context an Agent can read"
+---
+
+Knowledge and context access defines what an Agent can read when it composes a reply. There are three sources: the catalog, knowledge sources, and shopper context. Each Agent is given access to the sources its job needs.
+
+An Agent reads. It does not write. Anything it needs to change goes through a Workflow.
+
+## Example
+
+A shopper asks "will these fit if I'm usually a 9?". The shopping assistant reads the product's size guide from the catalog, the fit notes from a sizing guide in the knowledge sources, and the shopper's preferred size from shopper context. It replies with a recommendation and a product card for the right variant.
+
+The screenshot shows the **Knowledge** screen, where knowledge sources are managed before an Agent is given access to them. Filter tabs across the top read **All**, **Synced**, **Syncing**, **Failed**, and **Not started**, beside a search box and a **New knowledge base** button. The table lists each knowledge base with its name, embedding model, source count, chunk count, status, and when it was last updated. Help Center has 142 sources and 3,820 chunks and is Synced, as is Product Docs with 217 sources and 9,140 chunks. Billing Policies is still Syncing, Legal & Terms has Failed, and Onboarding Guides has Not started, so only the synced ones can be cited in a reply right now.
+
+<Frame caption="The Knowledge screen listing five knowledge bases">
+  <img src="/images/agents/knowledge-and-context.png" alt="The Knowledge screen listing five knowledge bases" />
+</Frame>
+
+## What it contains
+
+| Setting | What it controls | Example |
+| ------- | ---------------- | ------- |
+| Catalog access | Which products, variants, stock, and prices the Agent can read | The full catalog, or one collection |
+| Knowledge sources | Which policies, guides, and FAQs the Agent can cite | Returns policy, sizing guide |
+| Shopper context | Which session and profile signals the Agent can see | Current page, cart, segments |
+
+## The three sources
+
+| Source | What it holds | Who keeps it current |
+| ------ | ------------- | -------------------- |
+| Catalog | Products, variants, stock, and price | Your product data |
+| Knowledge sources | Policies, guides, FAQs, and other reference content | You, as documents and pages |
+| Shopper context | The current page, the cart, segment membership, and previous interactions in this session | Crossword, live, for every shopper |
+
+The catalog is what lets the Agent recommend, compare, and place [product cards](/components/cards/product-card) and [collections](/components/cards/product-collection) with accurate details.
+
+When the Agent answers from a knowledge source, it can cite it in the reply text. Restrict each Agent to the sources its job needs.
+
+Shopper context is what Crossword knows about this shopper right now: the page they are on, what is in their cart, which segments they belong to, and what they have already said and done in this session. Segment membership comes from [Audiences and segments](/orchestration/audiences).
+
+## What it can read versus what it can change
+
+An Agent reads all three sources and changes none of them directly.
+
+Every change goes through a [Workflow](/agents/workflows). The Agent calls the Workflow, passes the inputs, and uses the outputs in its reply. The Workflow's steps do the work against your systems, with confirmation and approval where you require it. Which Workflows an Agent may call is set in [Guardrails and permissions](/agents/guardrails-and-permissions).
+
+| The Agent wants to | How it happens |
+| ------------------ | -------------- |
+| Check stock for a variant | Reads the catalog |
+| Quote the return window | Reads a knowledge source |
+| Know what is in the cart | Reads shopper context |
+| Add an item to the cart | Calls a Workflow |
+| Apply a coupon or start a return | Calls a Workflow |
+
+## How it fits
+
+Knowledge and context access is set per Agent, so two Agents in the same Playbook can see different things. What the Agent reads shapes the reply text and the cards it composes. What it may put in the reply is decided by [Response configuration](/agents/response-configuration).
+
+## Related
+
+<CardGroup cols={2}>
+  <Card title="Audiences and segments" href="/orchestration/audiences" />
+  <Card title="Workflows" href="/agents/workflows" />
+  <Card title="Guardrails and permissions" href="/agents/guardrails-and-permissions" />
+  <Card title="Product card" href="/components/cards/product-card" />
+</CardGroup>

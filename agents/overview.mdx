@@ -1,0 +1,72 @@
+---
+title: "Agents"
+description: "Routing, instructions, knowledge, guardrails, and response configuration"
+---
+
+An Agent is the assistant that answers when a shopper asks something. It lives inside a Playbook and composes the assistant reply for each turn from reply text, cards, interactive components, follow-up suggestions, quick replies, and actions. You can have several Agents, each with one job, and the agent routing Rulebook decides which one takes a conversation.
+
+A shopper never picks an Agent. Welcome messages and conversation starters are chosen by their own Rulebooks before any Agent is involved. The Agent enters at the first question.
+
+## Example
+
+A sneaker storefront has two Agents in its Default Playbook. A shopping assistant handles discovery and recommendations. An order assistant handles tracking, returns, and refunds. The order assistant's routing rule matches when the shopper is signed in and asks about an order. Everything else routes to the shopping assistant.
+
+When a signed-in shopper asks where their parcel is, the order assistant answers. It calls a Workflow to look the order up and replies with an order card. When the same shopper asks for a similar pair in white, the shopping assistant takes over and replies with a product collection.
+
+The screenshot shows the **Agents** screen in the dashboard, with filter tabs for **All**, **Active**, and **Draft**, a search box, and a **New agent** button in the top right. Six Agents sit in a grid of cards, each with painted cover art, a name, a one-line description of its job, and a status badge. Support Router carries a **Master agent** tag and routes incoming messages to the right Agent, which is the routing role described above. Billing Support, Order Tracking, Greeter, and Feedback Collector are Active, each with one responsibility in its description. Refund Handler is still a Draft, so its routing rules are not yet eligible.
+
+<Frame caption="The Agents screen with six Agents in a grid">
+  <img src="/images/agents/overview.png" alt="The Agents screen with six Agents in a grid" />
+</Frame>
+
+## The seven parts
+
+| Part | What it holds | Read |
+| ---- | ------------- | ---- |
+| Name and responsibility | What this Agent is for, in one line, such as "Order assistant: tracking, returns, and refunds" | [Instructions and model](/agents/instructions-and-model) |
+| Routing rules | The conditions under which this Agent is a candidate for a conversation, resolved by the agent routing Rulebook | [Routing](/agents/routing) |
+| Instructions and model settings | What the Agent does, how it speaks, what it prioritises, and which model settings it uses | [Instructions and model](/agents/instructions-and-model) |
+| Knowledge and context access | The catalog, knowledge sources, and shopper context the Agent can read | [Knowledge and context](/agents/knowledge-and-context) |
+| Guardrails and permissions | What the Agent must not say or do, and which actions it may take, with limits and confirmations | [Guardrails and permissions](/agents/guardrails-and-permissions) |
+| Response configuration | Reply content and formatting, suggestions and quick replies, and the cards and interactive components it can use from the Component library | [Response configuration](/agents/response-configuration) |
+| Workflows | The Workflows this Agent can call for operational tasks | [Workflows](/agents/workflows) |
+
+## How it fits
+
+An Agent is neither a component nor orchestration. It sits inside a [Playbook](/orchestration/playbooks) beside that Playbook's components. Enabling the Playbook makes the Agent's routing rules eligible. The Agent in the Default Playbook is the fallback. It answers whenever no other routing rule matches.
+
+[Rulebooks](/orchestration/rulebooks) decide what the shopper sees before the Agent is involved. The welcome message and conversation starters that open a conversation are picked by their own Rulebooks. The agent routing Rulebook then picks the Agent. From that point the Agent composes one [assistant reply](/components/conversation/assistant-reply) per turn. The reply is the only component an Agent produces, and it carries no rule.
+
+A [Campaign](/orchestration/campaigns) step can hand a shopper to an Agent when a sequence needs a live conversation. For operational tasks such as looking up an order or applying a coupon, the Agent calls a [Workflow](/agents/workflows). The Agent decides when to call it. The Workflow decides what happens once called. An Agent changes nothing in your systems on its own.
+
+## In this section
+
+<CardGroup cols={2}>
+  <Card title="Routing" icon="route" href="/agents/routing">
+    How the agent routing Rulebook picks one Agent, and what happens on handoff.
+  </Card>
+  <Card title="Instructions and model" icon="pen-to-square" href="/agents/instructions-and-model">
+    Responsibility, instructions, tone, reply length, and model settings.
+  </Card>
+  <Card title="Knowledge and context" icon="book-open" href="/agents/knowledge-and-context">
+    The catalog, knowledge sources, and shopper context an Agent can read.
+  </Card>
+  <Card title="Guardrails and permissions" icon="shield-halved" href="/agents/guardrails-and-permissions">
+    What an Agent must not say, and which actions it may take.
+  </Card>
+  <Card title="Response configuration" icon="message" href="/agents/response-configuration">
+    Reply formatting, allowed components, suggestions, quick replies, and actions.
+  </Card>
+  <Card title="Workflows" icon="diagram-project" href="/agents/workflows">
+    Deterministic steps an Agent or a Campaign step can run.
+  </Card>
+</CardGroup>
+
+## Related
+
+<CardGroup cols={2}>
+  <Card title="Assistant reply" href="/components/conversation/assistant-reply" />
+  <Card title="Playbooks" href="/orchestration/playbooks" />
+  <Card title="Rulebooks" href="/orchestration/rulebooks" />
+  <Card title="Campaigns" href="/orchestration/campaigns" />
+</CardGroup>

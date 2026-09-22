@@ -1,0 +1,68 @@
+---
+title: "Instructions and model"
+description: "Responsibility, tone, instructions, and model settings"
+---
+
+Instructions tell an Agent what to do, how to speak, and what to prioritise. They are written in plain language, per Agent, alongside the Agent's name and responsibility. Model settings choose the model the Agent runs on and how it generates replies.
+
+Routing decides which Agent answers. Instructions decide how it answers.
+
+## Example
+
+The order assistant on a sneaker storefront has instructions like these.
+
+```text
+You are the order assistant for a sneaker storefront.
+Help signed-in shoppers track orders, start returns, and understand refund timing.
+Always confirm the order number before you look anything up.
+Speak plainly. Keep replies to two or three sentences unless the shopper asks for detail.
+When a return is eligible, offer to generate the label instead of describing the steps.
+If the shopper asks about products or sizing, say the shopping assistant can help with that.
+Never promise a refund date. Give the range from the refunds policy instead.
+```
+
+The screenshot shows the **Instructions** tab of the Order assistant. Name reads Order assistant and Responsibility reads "Tracking, returns, and refunds". The instructions box holds the seven lines above. Below it, Tone is set to Warm and direct, Reply length to Two to three sentences, and the model settings show a fast model with variation set to Low.
+
+<Frame caption="Order assistant instructions and model settings">
+  <img src="/images/placeholder.svg" alt="Order assistant instructions and model settings" />
+</Frame>
+
+## What it contains
+
+| Setting | What it controls | Example |
+| ------- | ---------------- | ------- |
+| Name | How the Agent is identified in the dashboard and in conversation history | Order assistant |
+| Responsibility | What this Agent is for, in one line | Tracking, returns, and refunds |
+| Instructions | What to do, how to speak, and what to prioritise, in plain language | Confirm the order number before any lookup |
+| Tone | The voice the Agent uses | Warm and direct |
+| Reply length | How long a reply should be | Two to three sentences |
+| Model settings | The model the Agent runs on and how it generates replies | A fast model with low variation |
+
+## Writing instructions
+
+Write instructions as you would brief a new member of staff. Say what the job is, what good looks like, and what to do when a question falls outside the job. Three things belong in every set.
+
+- What to do: the tasks the Agent handles, and the order it handles them in.
+- How to speak: voice, formality, and anything about the brand's language.
+- What to prioritise: what to do when two goals compete, such as answering fast versus confirming details first.
+
+Anything the Agent must never say or do belongs in [Guardrails and permissions](/agents/guardrails-and-permissions), not in the instructions. Guardrails are enforced. Instructions are followed.
+
+## Per Agent, with a baseline
+
+Instructions are per Agent. The shopping assistant and the order assistant on the same storefront have different instructions because they have different jobs.
+
+The Agent in the Default Playbook supplies the baseline. Its tone, reply length, and model settings are the experience's defaults, in line with the baseline response settings the [Default Playbook](/orchestration/playbooks#the-default-playbook) provides. Every other Agent starts from that baseline and overrides only what its job needs.
+
+## How it fits
+
+Instructions apply once the agent routing Rulebook has picked the Agent. Read [Routing](/agents/routing). They shape the reply text within the limits set by [Guardrails and permissions](/agents/guardrails-and-permissions) and the components allowed by [Response configuration](/agents/response-configuration). An instruction cannot grant an action the permissions withhold, and it cannot add a component the response configuration excludes.
+
+## Related
+
+<CardGroup cols={2}>
+  <Card title="Agents" href="/agents/overview" />
+  <Card title="Guardrails and permissions" href="/agents/guardrails-and-permissions" />
+  <Card title="Response configuration" href="/agents/response-configuration" />
+  <Card title="Playbooks" href="/orchestration/playbooks" />
+</CardGroup>

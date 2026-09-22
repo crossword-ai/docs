@@ -1,0 +1,104 @@
+---
+title: "Page suggestions"
+description: "A set of prompts placed on a merchant page that open the conversation"
+---
+
+Page suggestions put a set of prompts on a merchant page instead of inside the widget. A shopper reading a product page sees "Compare alternatives" or "Is this right for a marathon?" beneath the description, and tapping one opens the conversation with that prompt already sent. It gives shoppers a way into the conversation from the page they are already reading.
+
+## Examples
+
+Each scene below is a suggestion set on a sneaker brand's storefront, first with no rule and then with a different rule each time.
+
+### Out of the box
+
+The Default Playbook's set sits on the product page, inserted below the size selector, for every shopper. A row of three chips reads **Find my size**, **Compare alternatives**, and **Is this right for a marathon?**. Tapping any chip opens the widget with that prompt already sent. Maximum visible is 3, there are no conditions, and the priority is 0.
+
+<Frame caption="Default suggestion chips below the size selector">
+  <img src="/images/placeholder.svg" alt="Default suggestion chips below the size selector" />
+</Frame>
+
+### With a rule: returning customers
+
+> Rule: product page, below the size selector, insert. Member of "Returning customers". Priority 10.
+
+A returning shopper sees a different set in the same spot: **Reorder my usual size** and **What's new since my last order**. Tapping the first opens the widget with that prompt sent, and the reply offers the shopper's last size as a quick reply. The placement takes one set, so the default chips are not shown to this shopper.
+
+<Frame caption="Returning-customer chips replacing the default set">
+  <img src="/images/placeholder.svg" alt="Returning-customer chips replacing the default set" />
+</Frame>
+
+### With a rule: arrival from an ad
+
+> Rule: collection page, above the product grid, insert. Referrer is Instagram. Priority 10.
+
+A shopper who taps through from an Instagram ad lands on the collection and sees two chips above the grid: **Show me what was in the post** and **Which of these fits my budget?**. A shopper who reaches the same collection from the menu sees nothing above the grid, because the Default Playbook has no set for that placement.
+
+<Frame caption="Ad-arrival chips above the collection grid">
+  <img src="/images/placeholder.svg" alt="Ad-arrival chips above the collection grid" />
+</Frame>
+
+### With a rule: cart below free shipping
+
+> Rule: cart page, next to the cart items, insert. Cart value is under 75. Priority 20.
+
+A shopper whose cart totals 58 sees two chips beside the items: **What gets me to free shipping?** and **Is there a bundle deal?**. The reply to the first shows products priced to close the gap. Once the cart passes 75 the condition no longer matches, and the chips disappear on the next page load.
+
+<Frame caption="Free-shipping chips next to the cart items">
+  <img src="/images/placeholder.svg" alt="Free-shipping chips next to the cart items" />
+</Frame>
+
+### With a rule: product out of stock
+
+> Rule: product page, below the size selector, insert. Product on the page is out of stock. Priority 30.
+
+On a sold-out pair, the chips change to **Notify me when it's back** and **Show me something similar**. Priority 30 puts this set above both the default set and the returning-customer set for the same placement, so a returning shopper on a sold-out page sees these two chips and not their usual ones.
+
+<Frame caption="Out-of-stock chips on a sold-out product page">
+  <img src="/images/placeholder.svg" alt="Out-of-stock chips on a sold-out product page" />
+</Frame>
+
+### What else a rule can do
+
+- Show a stacked list of two chips on mobile and a row of four on desktop.
+- Serve one set to any of several UTM campaigns, with an any combination.
+- Exclude shoppers who already opened chat this session.
+- Target every page under `/collections/` with one broad set.
+- Show a campaign-specific set only during a scheduled window.
+- Hold a set back until the shopper has been on the page for 30 seconds.
+- Fill prompts with the product name or the size the shopper asked about.
+- Rank several sets for the same placement so the most specific one wins.
+
+Every condition, combination, timing option, and delivery limit is listed in [Rules](/orchestration/rules). The shared rule shape is under [Page sections](/components/page/page-sections).
+
+## Anatomy
+
+| Property | What it holds |
+| -------- | ------------- |
+| Suggestions | The candidate prompts. Each has a label the shopper sees and the message it sends when tapped. |
+| Maximum visible | How many prompts show at once. |
+| Ranking | The order prompts are considered when more exist than fit. |
+| Layout | How the prompts are arranged, such as a row of chips or a stacked list. |
+| Fallback set | The prompts shown when the candidates cannot fill the set. |
+
+Prompts can be written in advance or generated at display time from variables such as the product on the page. The prompts belong to the section and embed nothing else from the [Component library](/components/overview). The reply that follows a tap is composed by an Agent and can render any card.
+
+## Where it appears
+
+Page suggestions make the most sense where a shopper is weighing a decision: product pages, near the description or the size selector; collection pages, above the grid; and the cart page, next to the items. Home and about pages work when the prompts are broad, such as "Help me find a shoe".
+
+The set goes into a placement. Insert is the usual action, since a suggestion set rarely replaces an existing part of the page. Read [Pages and placements](/orchestration/pages-and-placements).
+
+## Rules
+
+Page suggestions carry their own rule, scoped by target page and placement. Target page, placement, and placement action are required. Conditions, priority, timing, and delivery limits are optional, and timing and delivery limits are rarely needed because the set usually renders with the page.
+
+The component selection by page placement Rulebook picks one set per placement. How many prompts the shopper sees inside the winning set is the set's own maximum visible count, not a Rulebook setting. When no rule matches, the Default Playbook's set shows. If it has none, the placement stays empty.
+
+## Related
+
+<CardGroup cols={2}>
+  <Card title="Page sections" href="/components/page/page-sections" />
+  <Card title="Conversation starters" href="/components/conversation/conversation-starter" />
+  <Card title="Follow-up suggestions" href="/components/conversation/follow-up-suggestion" />
+  <Card title="Rulebooks" href="/orchestration/rulebooks" />
+</CardGroup>

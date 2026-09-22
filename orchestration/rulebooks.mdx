@@ -1,0 +1,61 @@
+---
+title: "Rulebooks"
+description: "Where rules from every enabled Playbook are resolved into what actually shows"
+---
+
+A Rulebook is the engine for one component type that looks at every eligible rule from every enabled Playbook and decides what shows. It is how several Playbooks can propose the same kind of component without fighting.
+
+There is one Rulebook per component type in each experience. Playbooks propose. Rulebooks decide.
+
+## Example
+
+Three Playbooks are enabled: YouTube Unboxing, Instagram Ad, and Default. A visitor arrives from an Instagram ad about a discount. Each Playbook proposes a welcome message. The welcome message Rulebook walks the candidates from the highest priority down and returns the first match: the discount message from the Instagram Ad Playbook. The YouTube message did not match, and the Default message was never needed.
+
+The full walk-through, with conversation starters and proactive messages as well, is in [How rulebooks resolve conflicts](/orchestration/how-rulebooks-resolve).
+
+The screenshot shows the **Rulebooks** screen with the six Rulebooks listed and Welcome message selection open. Result mode reads One and tie-breaking reads More specific, then most recently updated. The Candidates panel lists four welcome messages from the three enabled Playbooks with priorities 10, 8, 7, and 0. A preview for a visitor arriving from an Instagram ad about a discount highlights "Would you like a discount?" at priority 8 as the winner.
+
+<Frame caption="Welcome message Rulebook with its candidates">
+  <img src="/images/placeholder.svg" alt="Welcome message Rulebook with its candidates" />
+</Frame>
+
+## What it contains
+
+| Concept | Meaning | Example |
+| ------- | ------- | ------- |
+| Priority and tie-breaking | Which candidate wins when more than one rule matches. Higher priority wins. Ties go to the more specific rule, then to the most recently updated | Priority 8 beats priority 7 |
+| One result or multiple results | Whether the Rulebook returns a single winner or a set | Welcome message returns one. Conversation starters return a set |
+| Limits and suppression | How many results to return, how to draw them from the matching rules, and which frequency caps apply | Take 2 from the highest, then 1 from each, total 3 |
+| Fallback | What to return when nothing matches. Always the Default Playbook's component | "Hello! How can I help?" |
+
+## The six Rulebooks
+
+| Rulebook | Result mode | What it decides |
+| -------- | ----------- | --------------- |
+| Welcome message selection | One | Which welcome message opens the conversation |
+| Conversation starter selection | Several | Which starters appear under the welcome, up to a total limit |
+| Proactive message delivery | One or several, your choice per experience | Which proactive messages are delivered, and whether they stack or only the first shows |
+| [Agent routing](/agents/routing) | One | Which Agent takes the conversation |
+| Dynamic landing page selection | One | Which landing page configuration a visitor is served |
+| Component selection by page placement | One per placement | Which page section fills each placement on a page |
+
+Multiple-result Rulebooks carry extra settings for how the set is built: how many to take from the highest-priority matching rule, how many from each remaining rule, and the total limit. The proactive message Rulebook adds a choice between **First by priority** and **Stack**.
+
+## Fallback
+
+Every Rulebook falls back to the Default Playbook. The Default Playbook's components carry no rule, or a rule that always matches, at priority 0. Because they always match and always lose to anything higher, they show only when nothing else applies. This is what guarantees the shopper always sees a welcome message, always has starters, and always reaches an Agent.
+
+## How it fits
+
+Rulebooks sit inside an experience, beside Playbooks. They take input from the rules on components in every enabled Playbook and hand the result to the conversation, the page, or the channel.
+
+Rulebooks do not hold content and do not hold conditions. Components come from the Component library, and conditions live on the components themselves. Read [Rules](/orchestration/rules) for what a rule contains.
+
+Campaigns feed Rulebooks indirectly. When a Campaign activates a Playbook for a shopper, that Playbook's rules become eligible for that shopper, and the Rulebooks evaluate them like any other. Read [Campaigns](/orchestration/campaigns).
+
+## Related
+
+<CardGroup cols={2}>
+  <Card title="How rulebooks resolve conflicts" href="/orchestration/how-rulebooks-resolve" />
+  <Card title="Rules" href="/orchestration/rules" />
+</CardGroup>

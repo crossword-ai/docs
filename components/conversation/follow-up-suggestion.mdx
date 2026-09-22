@@ -1,0 +1,119 @@
+---
+title: "Follow-up suggestion"
+description: "Suggested next prompts shown after an assistant reply"
+---
+
+A follow-up suggestion is a prompt a shopper sees directly under an assistant reply. Each one offers a next step that fits what the Agent just said, and tapping it sends that prompt back to the Agent. A new set appears with each reply, several at a time, up to the suggestion set's limit.
+
+## Examples
+
+The same chip row under an assistant reply on a sneaker storefront, first with only generated follow-ups and then with one configured rule at a time adding its own.
+
+### Out of the box
+
+A shopper has told the Agent they run on roads, wear a size 9, and want to stay under a set budget. The Agent's reply, "Based on what you've told me, these three are your best matches", ends with a carousel of three product cards. Directly under the carousel sit three generated chips: "Compare the first two", "Show me cheaper options", and "Only show black". No configured rule matched, so the Agent wrote all three from the reply itself, ranked by relevance. This is what every shopper sees when no rule adds anything.
+
+<Frame caption="Generated follow-ups under a product collection reply">
+  <img src="/images/placeholder.svg" alt="Generated follow-ups under a product collection reply" />
+</Frame>
+
+### With a rule: after a product collection
+
+> Rule: the reply contains a product collection and the shopper's preferred size is known. Priority 10.
+
+The same reply, but the shopper's profile records a preferred size. The first chip is now a configured one, "Only show my size", followed by the generated "Compare the first two" and "Show me cheaper options". The configured chip takes the first slot because the set ranks configured follow-ups by priority ahead of generated ones, and the third generated chip drops off the end of the three-chip limit.
+
+<Frame caption="Configured follow-up added after a product collection">
+  <img src="/images/placeholder.svg" alt="Configured follow-up added after a product collection" />
+</Frame>
+
+### With a rule: after a comparison
+
+> Rule: the reply contains a comparison card. Priority 10.
+
+The shopper tapped "Compare the first two" and the Agent replied with a comparison card that puts the two pairs side by side on cushioning, weight, and price. Under it sit "Add the winner to my cart" and "Add a third pair to compare", both configured, and one generated chip, "Which is better for wet roads?". The configured chips move the shopper from comparing to deciding, which a generated chip is less likely to do on its own.
+
+<Frame caption="Configured follow-ups under a comparison card">
+  <img src="/images/placeholder.svg" alt="Configured follow-ups under a comparison card" />
+</Frame>
+
+### With a rule: signed in with an order
+
+> Rule: shopper is signed in and lifetime orders is at least 1. Exclusion: page type is checkout. Priority 15.
+
+A signed-in shopper with a past order asks whether the brand ships to Canada. The Agent replies "Yes, standard shipping takes 5 to 7 days", and under it sit "Where's my last order?" as a configured chip alongside two generated ones, "Do you ship express?" and "What does shipping cost?". The order chip appears under every reply for this shopper, whatever the topic, except on the checkout page where the exclusion removes it.
+
+<Frame caption="Order follow-up for a signed-in shopper">
+  <img src="/images/placeholder.svg" alt="Order follow-up for a signed-in shopper" />
+</Frame>
+
+### With a rule: configured fallback set
+
+> Rule: no conditions, so it always matches. Priority 0. This is the suggestion set's fallback set.
+
+A guest shopper asks "Are you open on Sundays?" and the Agent replies "Our support team is available every day". There is little for the Agent to generate from a one-line answer and no higher-priority rule matches, so the fallback set shows: "Help me find a shoe", "Track my order", and "Talk to a person". It plays the same role as the Default Playbook does for starters, and it is the reason a reply never ends with an empty chip row.
+
+<Frame caption="Fallback follow-ups under a short reply">
+  <img src="/images/placeholder.svg" alt="Fallback follow-ups under a short reply" />
+</Frame>
+
+### What else a rule can do
+
+- Show a page-specific chip, such as "Does this run true to size?" only on product pages.
+- Offer a segment-specific chip, such as "Use my member discount" for VIP members.
+- React to cart contents, such as "Finish my checkout" once the cart has items.
+- Respond to previous interaction, such as "Book a fitting" after the shopper has viewed three product pages.
+- Exclude a segment, such as skipping promotional follow-ups for shoppers who opted out.
+- Match any of several conditions, so one chip covers signed-in shoppers and shoppers with a known email.
+- Outrank generated follow-ups with a high priority, or sit below them with a low one.
+
+Every condition and how they combine is in [Rules](/orchestration/rules).
+
+## What it contains
+
+| Property | What it holds |
+| -------- | ------------- |
+| Label | The text on the suggestion |
+| Source | Generated by the Agent at reply time, or configured by you in advance |
+| Action | What tapping the suggestion does. Usually it sends a prompt to the Agent |
+| Relevance | How closely a generated suggestion fits the reply it follows. Used to rank it |
+| Rule | The conditions and priority on a configured suggestion |
+
+A follow-up holds its own label and embeds nothing from the [Component library](/components/overview). A [quick reply](/components/conversation/assistant-reply#quick-reply) is different. It is a closed answer with a fixed value, such as Yes or Size 9, and the Agent composes it into the reply itself.
+
+## Rule
+
+Follow-ups have no Rulebook. The Agent that wrote the reply produces the candidates, through its response configuration, and the suggestion set caps how many show. Two kinds of candidate qualify.
+
+- **Generated** follow-ups are written at reply time from the reply and the conversation so far. They carry no rule. Relevance ranks them.
+- **Configured** follow-ups are written by you in the Agent's response configuration and attached when their rule matches. Priority ranks them.
+
+Only configured follow-ups carry a rule, and it is lighter than a starter's, because the reply it follows already narrows the context. Timing and delivery restrictions do not apply.
+
+| Rule field | What you can set |
+| ---------- | ---------------- |
+| Conditions | Page or URL, segment membership, shopper attributes, session behavior |
+| Condition combinations | All, any, and exclusions |
+| Priority | Orders configured follow-ups against each other |
+
+Which Agent answers, and so which response configuration applies, is decided upstream by the agent routing Rulebook. Read [Agents](/agents/overview) for routing and response configuration. For the contrast with components that a Rulebook does resolve, read [How rulebooks resolve conflicts](/orchestration/how-rulebooks-resolve).
+
+## Suggestion set
+
+Follow-ups render inside a suggestion set under the reply. The set is a setting on the follow-ups, not a component with a rule of its own. It is the only thing that limits how many follow-ups the shopper sees.
+
+| Setting | What it controls |
+| ------- | ---------------- |
+| Maximum visible | How many follow-ups show under one reply |
+| Ranking | The order of the visible follow-ups. Relevance for generated, priority for configured |
+| Layout | How the visible follow-ups are arranged, such as a row of chips or a stacked list |
+| Fallback set | The follow-ups shown when nothing qualifies |
+
+## Related
+
+<CardGroup cols={2}>
+  <Card title="Assistant reply" href="/components/conversation/assistant-reply" />
+  <Card title="Agents" href="/agents/overview" />
+  <Card title="Conversation starter" href="/components/conversation/conversation-starter" />
+  <Card title="Rules" href="/orchestration/rules" />
+</CardGroup>

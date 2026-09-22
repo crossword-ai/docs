@@ -1,0 +1,126 @@
+---
+title: "Routing"
+description: "How a conversation reaches the right Agent"
+---
+
+Routing decides which Agent answers a conversation. Each Agent carries a routing rule, and the agent routing Rulebook resolves those rules to one winner. A shopper never chooses an Agent.
+
+A routing rule is a rule like any other, with conditions, condition combinations, and a priority. Read [Rules](/orchestration/rules) for the full reference.
+
+## Examples
+
+Every scene below is the same chat widget on a sneaker brand's storefront. What changes is which Agent takes the conversation, and each screenshot shows the Agent's name above its reply.
+
+### Out of the box
+
+The Default Playbook's Shopping assistant has a routing rule that always matches, at priority 0. A shopper on a product page opens chat and types "Do these come in wide?". The reply appears under the name **Shopping assistant**, with a product card for the wide fit and two follow-up suggestions. With no other Agent enabled, every conversation ends up here.
+
+<Frame caption="Shopping assistant answering a sizing question">
+  <img src="/images/placeholder.svg" alt="Shopping assistant answering a sizing question" />
+</Frame>
+
+### With a rule: signed-in shopper asking about an order
+
+> Rule: all of: signed in, topic is an order. Exclude members of "Open support ticket". Priority 10.
+
+A signed-in shopper opens chat on the cart page and types "where is my parcel?". The Order assistant's rule matches, and the reply appears under the name **Order assistant**, with an order card showing the shipment status and a **Track parcel** button. The Shopping assistant also matched, at 0, but the Rulebook takes the higher priority.
+
+<Frame caption="Order assistant taking a parcel question">
+  <img src="/images/placeholder.svg" alt="Order assistant taking a parcel question" />
+</Frame>
+
+### With a rule: VIP segment
+
+> Rule: all of: member of "VIP customers", page type is product. Priority 20.
+
+A VIP shopper on a product page types "does this come in white?". The VIP stylist's rule matches at 20, above the Order assistant's 10 and the Shopping assistant's 0, so the reply appears under the name **VIP stylist**. It mentions early access to the white colorway and shows a product card with a **Reserve my size** button. The same shopper on the cart page would not match, because the page condition fails.
+
+<Frame caption="VIP stylist answering on a product page">
+  <img src="/images/placeholder.svg" alt="VIP stylist answering on a product page" />
+</Frame>
+
+### With a Campaign handoff
+
+> Rule: none evaluated. A step in the Cart recovery Campaign names the Cart recovery assistant.
+
+The conversation opens with the Agent's message rather than the shopper's. Under the name **Cart recovery assistant**, the first message reads "Still thinking about the trail pair? Your cart is saved and your size is in stock.", followed by a cart card and a **Checkout** button. Routing rules were not consulted, because the [Campaign](/orchestration/campaigns) step names the Agent directly.
+
+<Frame caption="Cart recovery assistant opening a Campaign handoff">
+  <img src="/images/placeholder.svg" alt="Cart recovery assistant opening a Campaign handoff" />
+</Frame>
+
+### What else a rule can do
+
+- Send every conversation opened on the cart page to the Order assistant, whatever the topic.
+- Route returns and exchanges to a Returns assistant on any page.
+- Hand a shopper with Product A in the cart to that product's specialist.
+- Keep a shopper with an open support ticket on the Shopping assistant, using an exclusion.
+- Match any of several topics with one rule, so sizing and fit reach the same Agent.
+- Route conversations opened under `/collections/gifts` to a gifting assistant.
+- Give mobile shoppers an Agent with shorter response settings, with a device condition.
+- Let a higher-priority Agent take over mid-conversation when the page or topic changes.
+
+Every condition and combination is listed in [Rules](/orchestration/rules).
+
+## What it contains
+
+| Setting | What it controls | Example |
+| ------- | ---------------- | ------- |
+| Conditions | When this Agent is a candidate | Signed in, and topic is an order |
+| Condition combinations | Whether all or any conditions must match, and which exclude the Agent | All, excluding members of "Open support ticket" |
+| Priority | Which candidate wins when more than one Agent matches | 10 |
+
+Routing rules carry no timing and no delivery restrictions.
+
+## What a routing rule can test
+
+| Condition | What it tests | Example |
+| --------- | ------------- | ------- |
+| Signed in | Whether the shopper is authenticated | Shopper is signed in |
+| Page or URL | Where the shopper opened the conversation, by page type or path | Page type is cart |
+| Segment membership | Whether the shopper's profile is in a segment | Member of "VIP customers" |
+| Session behavior | What the shopper has done this session, including cart contents | Cart contains Product A |
+| Topic | What the shopper's message is about | Topic is an order, a return, or sizing |
+
+Topic is the one condition specific to routing. Crossword reads it from the shopper's message, so order questions and product questions can reach different Agents in the same session.
+
+## How the Rulebook resolves
+
+The agent routing Rulebook returns one result. It evaluates the routing rule of every Agent in every enabled Playbook, walks the matching candidates from the highest priority down, and takes the first. Ties go to the more specific rule, then to the most recently updated.
+
+When no rule matches, the conversation goes to the Agent in the Default Playbook. It sits at priority 0 and always matches, so every conversation reaches an Agent. Read [How rulebooks resolve conflicts](/orchestration/how-rulebooks-resolve).
+
+## Handoff from a Campaign
+
+A [Campaign](/orchestration/campaigns) step can hand a shopper to an Agent when a sequence needs a live conversation. The step names the Agent, so routing rules are not evaluated for that handoff.
+
+## When conditions change mid-conversation
+
+The Agent that takes a conversation keeps it. Routing is evaluated again on each shopper message, but the current Agent only loses the conversation when a routing rule with a higher priority than its own now matches. A new page or a new topic can trigger that. A rule at equal or lower priority cannot.
+
+## Worked example
+
+Three Agents are eligible.
+
+| Agent | Playbook | Routing rule | Priority |
+| ----- | -------- | ------------ | -------- |
+| Shopping assistant | Default | Always matches | 0 |
+| Order assistant | Default | Signed in, and topic is an order | 10 |
+| VIP stylist | VIP Customer | Member of "VIP customers", and page type is product | 20 |
+
+A signed-in VIP shopper opens chat on the cart page and asks "where is my order?". The VIP stylist does not match, because the page is not a product page. The order assistant matches at 10 and the shopping assistant at 0. The order assistant wins.
+
+The same shopper moves to a product page and asks "does this come in white?". The VIP stylist now matches at 20, higher than the order assistant's 10, so the VIP stylist takes over.
+
+## How it fits
+
+Routing is the one part of an Agent that a Rulebook reads. Everything else applies only after the Agent has won. Enabling a Playbook makes its Agents' routing rules eligible.
+
+## Related
+
+<CardGroup cols={2}>
+  <Card title="Rulebooks" href="/orchestration/rulebooks" />
+  <Card title="Rules" href="/orchestration/rules" />
+  <Card title="How rulebooks resolve conflicts" href="/orchestration/how-rulebooks-resolve" />
+  <Card title="Campaigns" href="/orchestration/campaigns" />
+</CardGroup>
