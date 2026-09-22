@@ -5,13 +5,70 @@ description: "A product collection with a contextual explanation, placed on a me
 
 A recommendation section is a product collection paired with an explanation of why these products were picked, placed on a merchant page. The shopper sees several products and a sentence that ties them to what they said, did, or arrived from, such as "Picked for your trip". The explanation is what separates it from a plain list of products.
 
-## Example
+## Examples
 
-A shopper whose cart holds a pair of trail shoes opens the cart page. Directly below the cart items, a recommendation section reads **Complete your trail kit** above a row of three product cards, a pair of merino trail socks, a set of gaiters, and a pair of insoles, each with image, price, and an **Add to cart** button. Under the heading, the explanation reads "Chosen to go with the trail shoes in your cart." Shoppers with road shoes in the cart see a different section from another Playbook, or the cart page as it ships.
+Every scene below is a recommendation section on a sneaker brand's storefront. The rule decides where it lands and who sees it; the embedded collection decides what is inside.
 
-<Frame caption="Recommendation section below the cart items">
-  <img src="/images/placeholder.svg" alt="Recommendation section below the cart items" />
+### Out of the box
+
+The Default Playbook's section sits on the product page and replaces the storefront's generic "You may also like" carousel, for every shopper. The heading reads **Pairs well with**, three product cards show socks, insoles, and a running cap, each with image, price, and an **Add to cart** button, and the explanation reads "Chosen for the shoe you are viewing." No conditions, priority 0.
+
+<Frame caption="Default recommendation section replacing the related carousel">
+  <img src="/images/placeholder.svg" alt="Default recommendation section replacing the related carousel" />
 </Frame>
+
+### With a rule: trail shoes in the cart
+
+> Rule: cart page, below the cart items, insert. Cart contains a product in the Trail category. Priority 10.
+
+A shopper with a pair of trail shoes in the cart sees a section under the items headed **Complete your trail kit**, with merino trail socks, a set of gaiters, and a pair of insoles. The explanation reads "Chosen to go with the trail shoes in your cart." A shopper with road shoes in the cart does not match, so the cart page stays as it ships.
+
+<Frame caption="Trail kit recommendations below the cart items">
+  <img src="/images/placeholder.svg" alt="Trail kit recommendations below the cart items" />
+</Frame>
+
+### With a rule: VIP customers with a known size
+
+> Rule: home page, below the hero, insert. All of: member of "VIP customers", preferred size is known. Priority 20.
+
+A VIP shopper whose size is on their profile opens the home page and sees **New arrivals in your size** under the hero, with four cards filtered to that size and the explanation "Everything here is in stock in a size 9.". Both conditions must hold. A VIP shopper with no size on file does not match, and sees the home page as it ships.
+
+<Frame caption="VIP new arrivals in the shopper's size">
+  <img src="/images/placeholder.svg" alt="VIP new arrivals in the shopper's size" />
+</Frame>
+
+### With a rule: product out of stock
+
+> Rule: product page, add-to-cart area, replace. Product on the page is out of stock. Priority 30.
+
+On a sold-out pair, the add-to-cart area is replaced by a section headed **In stock now, same feel**, with three alternatives that share the pair's cushioning and drop, and the explanation "Closest matches to the pair on this page, all shipping today.". The disabled add-to-cart button is gone, so the shopper has a way forward instead of a dead end.
+
+<Frame caption="In-stock alternatives replacing the add-to-cart area">
+  <img src="/images/placeholder.svg" alt="In-stock alternatives replacing the add-to-cart area" />
+</Frame>
+
+### With a rule: sale weekend
+
+> Rule: cart page, below the cart items, replace. Scheduled window 28 to 30 November. Priority 15.
+
+For three days, the section under the cart items reads **Sale picks under 50** with four discounted products and the explanation "Marked down this weekend only.". At priority 15 it outranks the trail kit section at 10 for the same placement, so a trail shopper sees the sale picks during the window and the trail kit again on Monday.
+
+<Frame caption="Sale-weekend picks below the cart items">
+  <img src="/images/placeholder.svg" alt="Sale-weekend picks below the cart items" />
+</Frame>
+
+### What else a rule can do
+
+- Show picks tied to a campaign for shoppers who arrived with a specific UTM campaign.
+- Recommend alternatives only after the shopper has viewed two products in a row.
+- Show a two-card carousel on mobile and a four-card grid on desktop.
+- Skip the section once a shopper has dismissed it, for 14 days.
+- Exclude shoppers who already have one of the recommended products in the cart.
+- Wait 10 seconds after the page loads before the section appears.
+- Target every page under `/collections/` with picks for that collection.
+- Cap the section to once per session on the cart page.
+
+Every condition, combination, timing option, and delivery limit is listed in [Rules](/orchestration/rules). The shared rule shape is under [Page sections](/components/page/page-sections).
 
 ## Anatomy
 
@@ -33,14 +90,9 @@ The section goes into a placement. It can be inserted at a location, or replace 
 
 ## Rules
 
-A recommendation section carries its own rule, scoped by its target page and placement. Everything in the shared rule shape applies.
+A recommendation section carries its own rule, scoped by its target page and placement. Target page, placement, and placement action are required. Conditions, priority, timing, and delivery limits are optional.
 
-- **Target page, placement, and placement action.** Required.
-- **Conditions and priority.** Cart contents, segment membership, and arrival source are the usual conditions, since they decide what the recommendation is for. Priority ranks it against other sections for the same placement.
-- **Timing.** A delay after the page loads, or a scheduled window.
-- **Delivery limits.** Frequency cap, suppression, and repeat behavior, so a shopper who dismissed the picks does not see them on every visit.
-
-The rule decides whether the section shows. The ordering and filters on the embedded collection shape what is inside it. The shared rule shape is described under [Page sections](/components/page/page-sections). The full list of conditions and how they combine is in [Rules](/orchestration/rules).
+The rule decides whether the section shows. The ordering and filters on the embedded collection shape what is inside it.
 
 ## Related
 

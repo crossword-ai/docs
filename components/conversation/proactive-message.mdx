@@ -5,15 +5,70 @@ description: "Messages Crossword sends before the shopper asks"
 
 A proactive message is one Crossword sends without waiting for the shopper to type. It appears as a nudge from the widget while the shopper is on a page: a sizing offer after fifteen seconds of silence, or "Still deciding between these?" after they open two product pages. Per experience, you choose whether only the highest-priority match shows or every match is queued in priority order.
 
-## Example
+## Examples
 
-A shopper from a sneaker brand's unboxing campaign has been on a product page for fifteen seconds without scrolling, tapping, or opening the widget. A bubble rises from the closed launcher in the bottom corner of the page: "Need help finding your size?" with two chips beneath it, "Yes, help me" and "No thanks", and a close control in its corner. The rest of the page is unchanged. This is First by priority mode, so only that message shows even though a lower-priority "Free shipping on orders over $100" nudge also matched. In Stack mode the shipping nudge would queue and appear once the shopper dismisses the first.
+The same sneaker storefront with the widget closed, first with no rule firing and then with one rule at a time deciding what rises from the launcher and when.
+
+### Out of the box
+
+A shopper browses a product page with the widget closed. Nothing rises from the launcher in the bottom corner, however long they stay, because the Default Playbook on most storefronts carries no proactive message. This is what every shopper sees when nothing else matches. Silence is the out-of-the-box result for this component, and it is a valid one.
+
+<Frame caption="Product page with the launcher closed and no nudge">
+  <img src="/images/placeholder.svg" alt="Product page with the launcher closed and no nudge" />
+</Frame>
+
+### With a rule: inactivity on a product page
+
+> Rule: UTM campaign is unboxing-a and page type is product. Timing: 15 seconds of inactivity. Priority 10. Once per session.
+
+A shopper from the brand's unboxing campaign has been on a product page for fifteen seconds without scrolling, tapping, or opening the widget. A bubble rises from the closed launcher: "Need help finding your size?" with two chips beneath it, "Yes, help me" and "No thanks", and a close control in its corner. The rest of the page is unchanged. In First by priority mode only this message shows, even though a lower-priority shipping nudge also matched. In Stack mode the shipping nudge would queue and appear once the shopper dismisses this one.
 
 <Frame caption="Sizing nudge on a product page after fifteen seconds idle">
   <img src="/images/placeholder.svg" alt="Sizing nudge on a product page after fifteen seconds idle" />
 </Frame>
 
-A sneaker brand's YouTube Unboxing Playbook carries one proactive message. Its rule reads: the shopper is on a product page, they arrived from the unboxing campaign, fifteen seconds have elapsed, and they have not engaged. When all four hold, the widget shows "Need help finding your size?" with a frequency cap of once per session.
+### With a rule: scroll depth on a collection page
+
+> Rule: path starts with /collections/ and scroll depth is over 60%. Priority 8. Once per session.
+
+A shopper scrolls most of the way down the running collection. As they pass the 60% mark, a bubble rises: "Seeing a lot of options? Tell me what you run on and I'll narrow it down", with one chip, "Narrow it down". This one fires on something the shopper did rather than on something they did not do, so there is no timing on the rule at all. The condition alone decides the moment.
+
+<Frame caption="Nudge after scrolling deep into a collection page">
+  <img src="/images/placeholder.svg" alt="Nudge after scrolling deep into a collection page" />
+</Frame>
+
+### With a rule: cart value with a frequency cap
+
+> Rule: cart value is over ₹6,000 and under ₹8,000. Timing: 30 seconds elapsed on the page. Priority 12. Frequency cap once per week. If dismissed, do not show again for 14 days.
+
+A shopper with one pair in the cart has been on the site for half a minute. A bubble rises: "You're a few dollars from free shipping. Want to see socks that get you there?" with a product collection of three socks embedded beneath it. The shopper saw this once already this week, so on their next visit the Rulebook skips it even though it still matches and outranks the sizing nudge. The cap, not the priority, decides whether it shows.
+
+<Frame caption="Free shipping nudge with an embedded product collection">
+  <img src="/images/placeholder.svg" alt="Free shipping nudge with an embedded product collection" />
+</Frame>
+
+### With a rule: sale weekend
+
+> Rule: any page. Timing: scheduled window from Friday 00:00 to Sunday 23:59 of the sale weekend. Exclusion: member of "Opened chat this session". Priority 5. Once per session.
+
+During the sale weekend a shopper lands on the home page. Ten seconds in, a bubble rises: "Sale ends Sunday. Want me to find the best deal in your size?" with a "Find my deal" chip. Outside the window the rule never becomes a candidate, so nothing is needed to switch it off on Monday. The exclusion keeps it from interrupting a shopper who has already opened chat. In Stack mode, a shopper who also triggers the sizing nudge sees the sizing nudge first and this one after they dismiss it.
+
+<Frame caption="Sale weekend nudge inside a scheduled window">
+  <img src="/images/placeholder.svg" alt="Sale weekend nudge inside a scheduled window" />
+</Frame>
+
+### What else a rule can do
+
+- Fire on a referrer, such as a visitor from a social network with no UTM parameters.
+- Change presentation by device, such as a bottom sheet on mobile and a bubble on desktop.
+- Respond to previous interaction, such as "Still deciding?" when the shopper returns to the same product page twice in a session.
+- Wait for elapsed time in the session rather than on one page.
+- Exclude a segment, such as never nudging members of "Opted out of promotions".
+- Suppress itself after another proactive message has already been delivered this session.
+- Set repeat behavior after the shopper acts on it, such as never showing again once they tap a chip.
+- Embed a quiz or a form so the nudge collects an answer instead of opening chat.
+
+Every condition and how they combine is in [Rules](/orchestration/rules).
 
 ## What it contains
 
@@ -52,9 +107,7 @@ The proactive message Rulebook resolves candidates in one of two modes.
 
 In both modes each message's own delivery restrictions still apply. A message that has hit its frequency cap is skipped even if it wins on priority.
 
-When no rule matches, the Rulebook falls back to the Default Playbook. Most storefronts leave the Default Playbook without a proactive message, so nothing is sent. Silence is a valid result for this component.
-
-The full list of conditions and how they combine is in [Rules](/orchestration/rules). Read [How rulebooks resolve conflicts](/orchestration/how-rulebooks-resolve#proactive-messages) for how the two modes interact with caps.
+Read [How rulebooks resolve conflicts](/orchestration/how-rulebooks-resolve#proactive-messages) for how the two modes interact with caps.
 
 ## Related
 

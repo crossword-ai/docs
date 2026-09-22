@@ -5,15 +5,70 @@ description: "Suggested prompts shown under the welcome message"
 
 A conversation starter is a tappable prompt a shopper sees under the welcome message, before they type. Tapping one sends its prompt to the Agent. Several starters show at once, three to five, drawn by priority from every enabled Playbook by the conversation starter Rulebook.
 
-## Example
+## Examples
 
-A shopper from a sneaker brand's unboxing video has just opened the widget on the product page, and the pair from the video is in stock. Below the welcome message sit three chips in a row: "Shop the pair from the video", "Help me find a shoe", and "Track my order". None is selected yet and the composer under them is empty. Tapping the first chip sends that prompt to the Agent as if the shopper had typed it. Had the pair sold out, the first chip would read "Find something similar" instead.
+The same three-chip row on a sneaker storefront, first with nothing matching and then with one rule at a time adding its starters to the set.
 
-<Frame caption="Three conversation starters under the welcome message">
-  <img src="/images/placeholder.svg" alt="Three conversation starters under the welcome message" />
+### Out of the box
+
+A shopper lands on any page and no rule from any other Playbook matches. Before the widget even opens, three chips from the Default Playbook stack above the launcher button in the corner of the page: "Help me brainstorm", "Explain a concept", and "What can you do?". Tapping one opens the widget with that prompt already sent. The same three chips sit under the welcome message once the widget is open. This is what every shopper sees when nothing else matches, because the Default Playbook's starters always match at priority 0 and fill whatever room is left.
+
+<Frame caption="Default conversation starters stacked above the launcher">
+  <img src="/images/conversation/conversation-starter.png" alt="Default conversation starters stacked above the launcher" />
 </Frame>
 
-The brand's YouTube Unboxing Playbook carries two starters with opposite rules. If the product from the video is in stock, it shows "Shop the pair from the video". If the product is out of stock, it shows "Find something similar". The Default Playbook adds "Help me find a shoe" and "Track my order" for everyone. A visitor from the video sees one of the first two plus the defaults.
+### With a rule: arrival from a video
+
+> Rule: UTM source is youtube and UTM campaign is unboxing-a, and the product on the page is in stock. Priority 10.
+
+A shopper from the brand's unboxing video opens the widget on the product page for the pair in the video. The first chip now reads "Shop the pair from the video", followed by "Help me find a shoe" and "Track my order" from the Default Playbook. One starter from the higher-priority rule took the first slot, and the defaults filled the rest. Tapping the first chip sends that prompt to the Agent as if the shopper had typed it.
+
+<Frame caption="Starters for a shopper arriving from a video">
+  <img src="/images/placeholder.svg" alt="Starters for a shopper arriving from a video" />
+</Frame>
+
+### With a rule: on a collection page
+
+> Rule: path starts with /collections/running. Priority 8.
+
+A shopper opens the widget while browsing the running collection. The row reads "Which of these is best for long runs?", "Show only my size", and "Track my order". The first two come from the collection rule, because the Rulebook is set to take two from the highest-priority match, and the last is a default. The chips now ask about the products on screen instead of the storefront in general.
+
+<Frame caption="Starters on a collection page">
+  <img src="/images/placeholder.svg" alt="Starters on a collection page" />
+</Frame>
+
+### With a rule: product out of stock
+
+> Rule: page type is product and the product on the page is out of stock. Priority 12.
+
+A shopper opens the widget on a product page for a pair that has sold out. The first chip reads "Find something similar" and the second "Tell me when it's back", followed by "Help me find a shoe". The first label is generated at display time with `{product_name}` filled in, so it names the sold-out pair. Compare this with the video example: the same product page, a different stock state, a different first chip.
+
+<Frame caption="Starters when the product is out of stock">
+  <img src="/images/placeholder.svg" alt="Starters when the product is out of stock" />
+</Frame>
+
+### With a rule: VIP segment
+
+> Rule: shopper is a member of the "VIP customers" segment. Priority 20.
+
+A VIP shopper opens the widget on the home page. Four chips show: "See early access drops", "Use my member discount", "Help me find a shoe", and "Track my order". The VIP rule outranks every other rule, so its two starters lead the row, and the Total setting of 4 leaves room for two defaults. A VIP shopper arriving from the video would see the VIP starters first and the video starter after them.
+
+<Frame caption="Starters for a VIP segment member">
+  <img src="/images/placeholder.svg" alt="Starters for a VIP segment member" />
+</Frame>
+
+### What else a rule can do
+
+- Match any of several referrers, so visitors from any social network share one set of starters.
+- Use a shopper attribute, such as offering "Show size 9 only" when the preferred size is known.
+- React to cart contents, such as leading with "Finish my checkout" when the cart has items.
+- Respond to previous interaction, such as "Continue where I left off" for a shopper who chatted earlier this session.
+- Exclude a segment, such as hiding order-tracking starters from shoppers who are not signed in.
+- Carry fewer, shorter starters for mobile devices so the row fits on one line.
+- Fill a generated label from the ad `{content}` the shopper arrived with.
+- Combine page and campaign, so a starter shows only on product pages reached from one campaign.
+
+Every condition and how they combine is in [Rules](/orchestration/rules).
 
 ## What it contains
 
@@ -46,9 +101,9 @@ The conversation starter Rulebook returns several results, up to a limit. It col
 | Then one from each | After that, take one starter from each remaining matching rule, in priority order |
 | Total | The maximum number of starters to show. Choose 3, 4, or 5 |
 
-The Default Playbook's starters carry a rule that always matches, at priority 0. They are always the last matching rule, so they fill whatever room remains. If no other Playbook matches, the shopper sees only the Default Playbook's starters.
+The Default Playbook's starters, at priority 0, are always the last matching rule.
 
-The full list of conditions and how they combine is in [Rules](/orchestration/rules). Read the [worked example](/orchestration/how-rulebooks-resolve#worked-example-conversation-starters) to see how the same candidates produce different sets under four different settings.
+Read the [worked example](/orchestration/how-rulebooks-resolve#worked-example-conversation-starters) to see how the same candidates produce different sets under four different settings.
 
 ## Suggestion set
 

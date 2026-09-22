@@ -5,13 +5,70 @@ description: "A heading, copy, media, and a call to action placed on a merchant 
 
 A content block is a heading, some copy, optional media, and a call to action placed on a merchant page. It tells a shopper something the page does not already say: why this product fits them, how it connects to where they came from, or what to do next. It is the general-purpose page section, and the one to reach for when none of the others fit.
 
-## Example
+## Examples
 
-A shopper arrives on a sneaker brand's product page from a link in a YouTube unboxing video. Directly above the add-to-cart button, the YouTube Unboxing Playbook inserts a content block: the heading reads **The pair from the video**, the copy reads "This is the colorway unboxed at 4:12. Same drop, same size run.", a thumbnail from the video sits beside it, and the call to action reads **Find my size**. Tapping the button opens the widget with "What size should I get in this pair?" already sent. Shoppers who arrive any other way see the page as it ships.
+The same content block appears in every scene below. What changes is the rule on it: which page, which placement, and which shoppers.
 
-<Frame caption="Content block above the add-to-cart button">
-  <img src="/images/placeholder.svg" alt="Content block above the add-to-cart button" />
+### Out of the box
+
+The Default Playbook's content block sits on the product page, inserted below the product description, for every shopper. The heading reads **Why runners pick this pair**, the copy lists three short reasons, and the call to action reads **Ask about this shoe**. There is no media, no condition, and the priority is 0.
+
+<Frame caption="Default content block below the product description">
+  <img src="/images/placeholder.svg" alt="Default content block below the product description" />
 </Frame>
+
+### With a rule: arrival from a campaign
+
+> Rule: product page, above the add-to-cart button, insert. UTM campaign is `unboxing-a`. Priority 10.
+
+A shopper who follows the link from an unboxing video sees a second block, higher on the page. The heading reads **The pair from the video**, the copy reads "This is the colorway unboxed at 4:12. Same drop, same size run.", a thumbnail from the video sits beside it, and the button reads **Find my size**. Tapping it opens the widget with "What size should I get in this pair?" already sent. The default block below the description still shows, because it belongs to a different placement.
+
+<Frame caption="Campaign content block above the add-to-cart button">
+  <img src="/images/placeholder.svg" alt="Campaign content block above the add-to-cart button" />
+</Frame>
+
+### With a rule: returning customers
+
+> Rule: home page, hero placement, replace. Member of "Returning customers". Priority 20.
+
+A returning shopper opens the home page and the storefront's generic hero is gone. In its place a content block greets them by first name, the copy reads "Your last pair has about 300 miles on it. Here is what is new in your size.", and the button reads **Show me what's new**. Everyone else sees the storefront's own hero, because a replace only happens when the rule matches.
+
+<Frame caption="Returning-customer block replacing the home page hero">
+  <img src="/images/placeholder.svg" alt="Returning-customer block replacing the home page hero" />
+</Frame>
+
+### With a rule: product out of stock
+
+> Rule: product page, sold-out notice, update. Product on the page is out of stock. Priority 30.
+
+The storefront's own "Sold out" notice keeps its position and styling, but the block updates its content in place. The heading reads **Back on 14 October**, the copy says the restock covers every size, and two buttons read **Notify me** and **Find a similar pair**. Tapping the second opens the widget with "Show me pairs like this that are in stock" already sent. On a pair that is in stock, the notice is not on the page and the rule has nothing to update.
+
+<Frame caption="Out-of-stock block updating the sold-out notice">
+  <img src="/images/placeholder.svg" alt="Out-of-stock block updating the sold-out notice" />
+</Frame>
+
+### With a rule: sale weekend
+
+> Rule: cart page, top of the cart, insert. Scheduled window 28 to 30 November. Frequency cap once per session. Priority 15.
+
+For three days, every shopper who opens the cart sees a block at the top: **Sale weekend prices are already in your cart**, a line of copy saying the sale ends Sunday, and a **Checkout** button. Outside the window the block is not a candidate at all. The frequency cap means a shopper who comes back to the cart in the same session does not see it a second time.
+
+<Frame caption="Sale-weekend block at the top of the cart">
+  <img src="/images/placeholder.svg" alt="Sale-weekend block at the top of the cart" />
+</Frame>
+
+### What else a rule can do
+
+- Show a shorter block on mobile and the full block on desktop, with a device condition on each.
+- Wait until the shopper has scrolled past the gallery before the block appears.
+- Skip the block for shoppers who already opened chat this session.
+- Match any of several UTM sources, so one block serves several channels.
+- Require a campaign arrival and a product category at the same time.
+- Target every page under a path such as `/collections/`.
+- Cap the block to once a week, or hold it back for 30 days after a dismissal.
+- Fill dynamic fields from the use case the shopper described in chat.
+
+Every condition, combination, timing option, and delivery limit is listed in [Rules](/orchestration/rules). The shared rule shape is under [Page sections](/components/page/page-sections).
 
 ## Anatomy
 
@@ -35,14 +92,7 @@ The block goes into a placement. The placement action decides whether it is inse
 
 ## Rules
 
-A content block carries its own rule, scoped by its target page and placement. Everything in the shared rule shape applies.
-
-- **Target page, placement, and placement action.** Required.
-- **Conditions and priority.** Which shoppers see it, and where it ranks against other sections for the same placement.
-- **Timing.** A delay after the page loads, or a scheduled window such as the length of a sale.
-- **Delivery limits.** Frequency cap, suppression, and repeat behavior, so a returning shopper does not see the same block on every visit.
-
-The shared rule shape is described under [Page sections](/components/page/page-sections). The full list of conditions and how they combine is in [Rules](/orchestration/rules).
+A content block carries its own rule, scoped by its target page and placement. Target page, placement, and placement action are required. Conditions, priority, timing, and delivery limits are optional. When no rule matches a placement, the Default Playbook's block for that placement shows, and if there is none the page stays as it ships.
 
 ## Related
 

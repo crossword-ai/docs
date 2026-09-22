@@ -7,10 +7,10 @@ A form collects structured information from a shopper inside the conversation. T
 
 ## Example
 
-A shopper on a product page picks size 9 and the widget replies that it is out of stock. The assistant reply reads "Want me to let you know when size 9 is back?" and holds a form with two fields, **Email** and **Name**, a consent checkbox that reads "Send me restock alerts and occasional offers", and a **Notify me** button. The shopper submits with an incomplete email and the field shows "Enter a valid email address" in red under it. After a valid submission, the form collapses into the success message "Done. We'll email you the moment size 9 is back."
+A shopper asks how to reach the team about a bulk order and the Agent replies with a contact form. The card is headed **Get in touch** with the subtitle "Send us a message and we'll reply soon." Three fields follow, labelled **NAME**, **WORK EMAIL**, and **MESSAGE**, each with placeholder text that shows the expected value, such as "you@company.com" for the email. The **Send message** button stays disabled until every field is filled and the email is valid. After a valid submission, the values run through a Workflow and the form collapses into a success message.
 
-<Frame caption="Back-in-stock alert form in an assistant reply">
-  <img src="/images/placeholder.svg" alt="Back-in-stock alert form in an assistant reply" />
+<Frame caption="Contact form with three fields and a disabled submit">
+  <img src="/images/interactive/form.png" alt="Contact form with three fields and a disabled submit" />
 </Frame>
 
 ## Anatomy

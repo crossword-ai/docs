@@ -5,13 +5,70 @@ description: "A comparison placed on a merchant page"
 
 A comparison section places a comparison on a merchant page. Two or more products sit side by side across the attributes that matter, with the differences explained, so a shopper who is choosing between options can decide without opening the chat. It brings the comparison card out of the conversation and onto the page where the decision is being made.
 
-## Example
+## Examples
 
-A shopper arrives on the product page of the pair featured in a sneaker brand's unboxing video. Below the description, where the storefront's "You may also like" carousel normally sits, a comparison section has replaced it. The heading reads **How it compares**, the intro reads "The pair from the video against its two closest alternatives", and the table lists the three shoes as columns with **Cushioning**, **Weight**, and **Price** as rows, with the featured pair marked **Recommended for daily miles**. Under the table, two buttons read **Choose this pair** and **Show me a third option**, and tapping either opens the widget. Everyone else sees the carousel as it ships.
+Every scene below is a comparison section on a sneaker brand's product page, first with no rule and then with a different rule each time.
 
-<Frame caption="Comparison section replacing the related-products carousel">
-  <img src="/images/placeholder.svg" alt="Comparison section replacing the related-products carousel" />
+### Out of the box
+
+The Default Playbook's section sits on the product page, inserted below the description, for every shopper. The heading reads **How it compares**, and the table shows the pair on the page against its two nearest alternatives as columns, with **Cushioning**, **Weight**, and **Price** as rows. No product is marked as recommended. Under the table, a single button reads **Help me choose**, and tapping it opens the widget. No conditions, priority 0.
+
+<Frame caption="Default comparison section below the description">
+  <img src="/images/placeholder.svg" alt="Default comparison section below the description" />
 </Frame>
+
+### With a rule: arrival from a campaign
+
+> Rule: product page, related-products carousel, replace. UTM campaign is `unboxing-a`. Priority 10.
+
+A shopper who follows the link from an unboxing video sees the storefront's "You may also like" carousel replaced by a comparison. The intro reads "The pair from the video against its two closest alternatives", the featured pair is marked **Recommended for daily miles**, and two buttons read **Choose this pair** and **Show me a third option**. The default section below the description is untouched, because it is a different placement.
+
+<Frame caption="Campaign comparison replacing the related-products carousel">
+  <img src="/images/placeholder.svg" alt="Campaign comparison replacing the related-products carousel" />
+</Frame>
+
+### With a rule: two products viewed in a row
+
+> Rule: product page, above the add-to-cart button, insert. Session behavior: viewed two products in a row. Priority 20.
+
+A shopper who has just moved from one product page to another sees a two-column comparison right above the add-to-cart button: this pair against the one they looked at a moment ago. The intro reads "Still deciding? Here is how these two compare.", and the button reads **Go back to the other pair**. A shopper who arrives on the page cold never sees it.
+
+<Frame caption="Two-product comparison above the add-to-cart button">
+  <img src="/images/placeholder.svg" alt="Two-product comparison above the add-to-cart button" />
+</Frame>
+
+### With a rule: marathon runners
+
+> Rule: product page, below the description, insert. Member of "Marathon runners". Priority 15.
+
+A shopper in the marathon segment sees the section in the same spot as the default, but the rows are different: **Cushioning**, **Drop**, and **Race-day weight**, with the pair on the page marked **Recommended for race day**. At priority 15 this section outranks the default at 0 for the same placement, so the marathon runner sees one comparison, not two.
+
+<Frame caption="Race-focused comparison for the marathon segment">
+  <img src="/images/placeholder.svg" alt="Race-focused comparison for the marathon segment" />
+</Frame>
+
+### With a rule: product out of stock
+
+> Rule: product page, below the sold-out notice, insert. Product on the page is out of stock. Priority 30.
+
+On a sold-out pair, a comparison appears under the storefront's "Sold out" notice: the sold-out pair against two in-stock alternatives, with the closest marked **Closest match, in stock**. The button under the table reads **Choose the closest match**, and tapping it opens the widget with that pair already selected.
+
+<Frame caption="Sold-out pair compared with in-stock alternatives">
+  <img src="/images/placeholder.svg" alt="Sold-out pair compared with in-stock alternatives" />
+</Frame>
+
+### What else a rule can do
+
+- Compare the top three in a collection, above the grid, for shoppers arriving from a search ad.
+- Show a two-column comparison on mobile and a three-column one on desktop.
+- Show the section only during a scheduled window, such as a launch week.
+- Delay the section until the shopper has scrolled past the gallery.
+- Exclude shoppers who already have the pair in their cart.
+- Draw the rows from the attribute the shopper asked about in chat.
+- Cap the section to once per session so it does not follow the shopper between products.
+- Match any of several referrers with one rule.
+
+Every condition, combination, timing option, and delivery limit is listed in [Rules](/orchestration/rules). The shared rule shape is under [Page sections](/components/page/page-sections).
 
 ## Anatomy
 
@@ -33,14 +90,9 @@ The section goes into a placement. It can be inserted at a location or replace a
 
 ## Rules
 
-A comparison section carries its own rule, scoped by its target page and placement. Everything in the shared rule shape applies.
+A comparison section carries its own rule, scoped by its target page and placement. Target page, placement, and placement action are required. Conditions, priority, timing, and delivery limits are optional.
 
-- **Target page, placement, and placement action.** Required.
-- **Conditions and priority.** Arrival source, session behavior such as having viewed two products in a row, and segment membership are the usual conditions. Priority ranks it against other sections for the same placement.
-- **Timing.** A delay after the page loads, or a scheduled window.
-- **Delivery limits.** Frequency cap, suppression, and repeat behavior.
-
-The rule decides whether the section shows. The controls on the embedded card act once it is on screen, and a tap on **Choose Product A** or **Show me a third option** can open the conversation. The shared rule shape is described under [Page sections](/components/page/page-sections). The full list of conditions and how they combine is in [Rules](/orchestration/rules).
+The rule decides whether the section shows. The controls on the embedded card act once it is on screen, and a tap on **Choose Product A** or **Show me a third option** can open the conversation.
 
 ## Related
 
