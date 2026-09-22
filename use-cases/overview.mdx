@@ -1,0 +1,43 @@
+---
+title: "Use cases"
+description: "End-to-end walkthroughs that assemble components and orchestration into something a shopper sees"
+---
+
+The rest of these docs describe one object at a time: a welcome message, a Rulebook, a Campaign. A use case page puts them together. Each one follows a single shopper on a generic storefront, shows what they see, and then works backwards to the Playbooks, components, rules, and orchestration that produced it. Read these when you know what you want a shopper to experience and want to see how the pieces combine in Crossword before you build it yourself.
+
+The screenshot below is the sneaker storefront every walkthrough uses: Product A's page with the chat widget open, showing a welcome message, three conversation starters, and a product card inside the conversation. Nothing is annotated. It is the plain starting point that each use case changes.
+
+<Frame caption="The storefront the walkthroughs use">
+  <img src="/images/placeholder.svg" alt="The storefront the walkthroughs use" />
+</Frame>
+
+## How to read a use case
+
+Every walkthrough has the same four sections.
+
+| Section | What it answers |
+| ------- | --------------- |
+| What the shopper sees | The moment on the storefront, told from the shopper's side. No configuration yet. |
+| Building blocks used | Every component and orchestration object involved, and the rule on each component that carries one. |
+| Step by step | The order to build it in the Crossword dashboard, from an empty experience to a published revision. |
+| Measuring it | The goal event and the events emitted along the way, so you can tell whether it worked. |
+
+The walkthroughs use a sneaker storefront, Product A and Product B, and prices in ₹. Swap in your own catalog. The structure does not change.
+
+Two ideas from [Core concepts](/concepts) come up on every page. Rules live on components, not on Playbooks, so each walkthrough lists the rule on every component that carries one. Playbooks are not mutually exclusive, so each walkthrough shows what happens when its Playbook runs alongside the Default and any others you have enabled.
+
+## In this section
+
+<CardGroup cols={2}>
+  <Card title="YouTube unboxing playbook" icon="video" href="/use-cases/youtube-unboxing-playbook">
+    Convert shoppers who arrive from an unboxing video by greeting them with the pair they just watched.
+  </Card>
+  <Card title="Cart recovery campaign" icon="cart-shopping" href="/use-cases/cart-recovery-campaign">
+    Recover abandoned carts with a timed, branching sequence that stops the moment the shopper buys.
+  </Card>
+  <Card title="Quiz-led vs conversation-led discovery" icon="flask" href="/use-cases/discovery-experiment">
+    Find out whether a quiz or a conversation drives more add-to-carts by splitting traffic between two Playbooks.
+  </Card>
+</CardGroup>
+
+Each walkthrough uses a different orchestration object. The first is a [Playbook](/orchestration/playbooks) on its own. The second is a [Campaign](/orchestration/campaigns) that activates a Playbook. The third is an [Experiment](/orchestration/experiments) that splits traffic between two Playbooks. If you are unsure which you need, start with [Playbooks vs campaigns](/orchestration/playbooks-vs-campaigns).

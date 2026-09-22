@@ -1,0 +1,50 @@
+---
+title: "Product collection"
+description: "Several product cards under a heading, ranked and optionally filtered"
+---
+
+A product collection shows several [product cards](/components/cards/product-card) together under one heading, such as **Best matches for you**. It gives the shopper a set to choose from instead of one product at a time. It is how the Agent answers a question that has more than one good answer, and how a page shows a group of products picked for the visitor.
+
+## Example
+
+A shopper asks "Which of your road shoes suit a heavier runner?" and the Agent has three good answers. The reply shows a collection with the heading **Best matches for heavier road runners**, then a horizontal carousel of three product cards the shopper swipes through, best match first, each with its own image, price, size selector, and **Add to cart** button. Above the cards a row of filter chips offers **Size**, **Color**, and **Price** so the shopper can narrow the set without asking again. The second card is partly visible at the right edge, which is how the shopper knows there is more to swipe. The same collection inside a page recommendation section renders as a grid with all three cards visible at once.
+
+<Frame caption="Product collection as a carousel in the conversation">
+  <img src="/images/placeholder.svg" alt="Product collection as a carousel in the conversation" />
+</Frame>
+
+## Anatomy
+
+| Property | What it holds |
+| -------- | ------------- |
+| Product cards | The products in the collection, each rendered as a [product card](/components/cards/product-card) with its own image, price, variant selection, and buttons. |
+| Heading | The title above the collection, such as **Best matches for you** or **Complete the look**. Supports dynamic variables, so a heading can name the use case the shopper described. |
+| Ordering and ranking | The order the products appear in. Best match first when the Agent picked them, or a fixed order such as price ascending or newest first when you configure the collection. |
+| Filters | Optional controls that let the shopper narrow the set, such as size, color, or price range. Built from the [selector](/components/primitives#selector) primitive. |
+| Layout | Carousel or grid. A carousel suits the conversation, where width is limited and the shopper swipes. A grid suits a page, where there is room to show the whole set at once. |
+
+Each product card inside the collection keeps its own identity and emits its own events. You can follow a shopper from the collection being shown, to one card being clicked, to that product being added to the cart.
+
+## Where it appears
+
+A product collection never shows on its own. One of these rule-based components includes it.
+
+- In a [welcome message](/components/conversation/welcome-message), for example the products featured in the campaign a shopper arrived from.
+- In a [proactive message](/components/conversation/proactive-message), for example alternatives sent when the product a shopper came to see is out of stock, or a set of picks for a shopper who has stalled on a collection page.
+- In the [assistant reply](/components/conversation/assistant-reply), where the Agent chooses it. When a question has several matches, the Agent writes a sentence such as **These three are your best matches**, follows it with a product collection, and adds follow-up suggestions such as **Compare the first two** or **Only show black**.
+- On a page, inside a [recommendation section](/components/page/recommendation-section). The section pairs the collection with an explanation of why these products were picked, and its rule decides which page and which visitor see it.
+
+A collection on its own has no explanation. When you want copy that ties the picks to what the shopper said, did, or arrived from, use a [recommendation section](/components/page/recommendation-section) on a page, or let the Agent write the explanation in the assistant reply.
+
+## Rules
+
+A product collection carries no rule. It shows because a welcome message, a proactive message, or a recommendation section with a rule included it, or because the Agent composed it into the assistant reply. Ordering and filters shape what the shopper sees once the collection is on screen. They do not decide whether it shows. That decision lives on the component that included it. Read [Rules](/orchestration/rules).
+
+## Related
+
+<CardGroup cols={2}>
+  <Card title="Product card" href="/components/cards/product-card" />
+  <Card title="Recommendation section" href="/components/page/recommendation-section" />
+  <Card title="Assistant reply" href="/components/conversation/assistant-reply" />
+  <Card title="Comparison card" href="/components/cards/comparison-card" />
+</CardGroup>

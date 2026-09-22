@@ -1,0 +1,99 @@
+---
+title: "Campaigns"
+description: "A stateful engagement program that enrolls an audience and orchestrates actions over time"
+---
+
+A Campaign is a stateful customer-engagement program that enrolls an audience and orchestrates actions over time. It handles the behavior a Playbook cannot: anything that depends on what already happened and what should happen next.
+
+Stateful is the key word. A Campaign remembers where each enrolled shopper is in its sequence. It waits, checks, branches, and continues.
+
+## Example
+
+A Campaign called Cart Recovery enrolls shoppers whose cart is over ₹2,000 and who have been inactive for 30 minutes. It sends a message, waits, checks whether the shopper clicked, branches, waits again, and sends a second message. It exits as soon as the shopper purchases. Read the sequence in full in [Playbooks vs campaigns](/orchestration/playbooks-vs-campaigns) and the build in [Cart recovery campaign](/use-cases/cart-recovery-campaign).
+
+The screenshot shows Cart Recovery open in the **Campaigns** sequence builder. The settings panel reads Audience High-value abandoned-cart shoppers, Entry trigger Segment entry, Re-entry Once every 7 days, Exit rule Purchase completed, Goal event `purchase`, and On audience exit set to Exit Campaign. The canvas runs Wait 30 minutes, a Purchased? branch, Send message "Still thinking it over?", Wait 6 hours, a Message clicked? branch, Wait one day, and a second message. Delivery limits shows No more than one message per day.
+
+<Frame caption="Cart Recovery Campaign in the sequence builder">
+  <img src="/images/placeholder.svg" alt="Cart Recovery Campaign in the sequence builder" />
+</Frame>
+
+## What it contains
+
+| Concept | Meaning | Example |
+| ------- | ------- | ------- |
+| Name and goal event | What the Campaign is called and the event that counts as success | Cart Recovery, goal `purchase` |
+| Audience | Who the Campaign is for, as a static or dynamic segment | Shoppers with abandoned carts |
+| Enrollment rule | When someone enters | Cart value over ₹2,000 and inactive for 30 minutes |
+| Entry trigger | What starts enrollment: segment entry, an event, or a schedule | Segment entry |
+| Re-entry policy | Whether and how soon a shopper can enter again | Once every 7 days |
+| Exit rule | When a shopper leaves the sequence | Purchase completed |
+| Goal | The outcome the Campaign seeks | Complete purchase |
+| Sequence | The stateful orchestration | Message, wait, branch, message |
+| Step | One node in the sequence | Wait 6 hours |
+| Branch | Selects the next path | Was the message clicked? |
+| Wait | Delays progression for a time or until an event | 6 hours |
+| Campaign message | Proactive outreach sent by a step | "Still thinking it over?" |
+| Action | Something a step executes | Add a coupon, update an attribute |
+| Workflow call | Runs an operational Workflow | Generate a return label |
+| Playbook activation | Makes a Playbook applicable for a defined scope or lifetime | Apply "Abandoned Cart Return Visit" on the next website visit |
+| Agent handoff | Starts or routes into an Agent when interaction is needed | Shopping assistance |
+| Conversion or completion | The goal event occurred | Purchase |
+| Delivery limits and suppression | Caps on how often the Campaign contacts a shopper, and when it stays quiet | No more than one message per day |
+| On audience exit | What happens when an enrolled shopper leaves the segment | Exit Campaign, or Continue Campaign |
+
+## Entry triggers
+
+A Campaign starts a shopper's sequence in one of three ways.
+
+- **Segment entry.** The shopper's profile enters the Campaign's audience segment. This is the usual trigger for lifecycle Campaigns.
+- **Event.** A named event fires for the shopper, such as `cart_abandoned` or `order_delivered`.
+- **Schedule.** The Campaign runs at a set time for everyone currently in the audience. This is how you send a one-time announcement.
+
+The enrollment rule and re-entry policy still apply whichever trigger you use.
+
+## Sequence step types
+
+| Step type | What it does |
+| --------- | ------------ |
+| Deliver a proactive message | Sends a Campaign message to the shopper through the channel |
+| Wait | Pauses for a duration, or until an event such as a click or a purchase |
+| Branch | Chooses the next step from what the shopper did: read, clicked, replied, or ignored, where the channel reports it |
+| Make selected Playbooks available | Activates one or more Playbooks for this shopper for a defined scope or lifetime |
+| Invoke an Agent | Hands the shopper to an Agent for a live conversation |
+| Call a Workflow | Runs a Workflow and can branch on its outputs |
+| Complete or exit | Ends the sequence, as a conversion or as an exit |
+
+## Delivery limits and suppression
+
+Each Campaign sets its own limits: how many messages it can send a shopper in a period, and conditions under which it stays quiet, such as an open support conversation or a recent purchase. These limits apply on top of any restrictions on the individual messages.
+
+## When the audience changes
+
+Campaign enrollment and segment membership are not the same thing. A shopper can leave a dynamic segment while they are halfway through a sequence. Each Campaign states what happens then.
+
+| On audience exit | Behavior |
+| ---------------- | -------- |
+| Exit Campaign | The shopper leaves the sequence immediately |
+| Continue Campaign | The shopper finishes the sequence they are in |
+
+Choose **Exit Campaign** when the segment condition is the reason for the Campaign, such as an abandoned cart. Choose **Continue Campaign** when the sequence should complete regardless, such as an onboarding series.
+
+## One-step Campaigns
+
+A Campaign can be a single step. Enter segment, send message, end. You do not need a long sequence to justify a Campaign. You need state: something must remember that this shopper has been contacted, so they are not contacted again outside the re-entry policy.
+
+## How it fits
+
+A Campaign lives inside an experience and enrolls from shared segments. Read [Audiences and segments](/orchestration/audiences).
+
+A Campaign hands off in three directions. It can activate a Playbook, which then feeds the Rulebooks like any other Playbook. It can call a Workflow. It can hand the shopper to an Agent. The Campaign owns the timing and the memory. Playbooks, Workflows, and Agents own what happens at each moment.
+
+For when to use a Campaign and when a Playbook is enough, read [Playbooks vs campaigns](/orchestration/playbooks-vs-campaigns).
+
+## Related
+
+<CardGroup cols={2}>
+  <Card title="Audiences and segments" href="/orchestration/audiences" />
+  <Card title="Playbooks vs campaigns" href="/orchestration/playbooks-vs-campaigns" />
+  <Card title="Cart recovery campaign" href="/use-cases/cart-recovery-campaign" />
+</CardGroup>

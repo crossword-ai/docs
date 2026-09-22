@@ -1,0 +1,70 @@
+---
+title: "Guardrails and permissions"
+description: "What an Agent must not say and which actions it may take"
+---
+
+Guardrails define what an Agent must not say. Permissions define which actions it may take, with what limits, and whether it needs confirmation first. Together they are the boundary an Agent works within, whatever its instructions say.
+
+Guardrails are enforced, not suggested. An instruction that conflicts with a guardrail loses.
+
+## Example
+
+An order assistant may issue refunds up to a set amount without asking anyone. Above that amount, the refund needs an operator's approval. It must not comment on whether a shoe suits a medical condition, and when a shopper asks for something it cannot do, it says: "I can't do that from here, but I can pass you to the support team."
+
+The screenshot shows the **Guardrails** tab of the Order assistant. Topics to refuse lists Medical advice and Competitor pricing, and Claims it must not make lists Guaranteed delivery dates. Escalation phrasing reads "I can't do that from here, but I can pass you to the support team." Under Permissions, Look up order, Generate return label, and Issue refund are allowed, Add to cart is not, and Issue refund shows a limit of ₹5,000 with Confirmation before action switched on.
+
+<Frame caption="Order assistant guardrails and refund limit">
+  <img src="/images/placeholder.svg" alt="Order assistant guardrails and refund limit" />
+</Frame>
+
+## What it contains
+
+| Setting | What it controls | Example |
+| ------- | ---------------- | ------- |
+| Topics to refuse | Subjects the Agent declines to discuss | Medical advice, competitor pricing |
+| Claims it must not make | Statements the Agent never makes, even when asked | Guaranteed delivery dates, health benefits |
+| Escalation phrasing | How the Agent hands a shopper on when it cannot help | "I can pass you to the support team" |
+| Allowed actions | Which Workflows the Agent may call | Look up order, generate return label, issue refund |
+| Limits | Caps on an allowed action | Refunds up to a set amount |
+| Confirmation before an action | Whether the shopper confirms before the action runs | Confirm items before generating a label |
+
+## Guardrails
+
+A guardrail is a rule about speech. There are three kinds.
+
+- Topics to refuse: subjects the Agent declines politely, offering what it can help with instead.
+- Claims it must not make: statements that stay off limits even when a shopper pushes. This is about accuracy and liability, not subject matter.
+- Escalation phrasing: the words the Agent uses at the edge of what it can do, so every shopper gets the same handover.
+
+## Permissions
+
+A permission is a rule about action. An Agent acts only through [Workflows](/agents/workflows), so permissions are expressed against them.
+
+- Allowed actions: the Workflows this Agent may call. A shopping assistant may add to cart but not issue a refund.
+- Limits: a cap on an allowed action, such as a maximum refund amount. Beyond it, the action needs approval.
+- Confirmation before an action: the Agent shows the shopper what is about to happen and waits for a yes.
+
+## How permissions map to Workflow steps
+
+A Workflow has a step type for confirmation or approval, and that step is where an Agent's permissions take effect.
+
+| Permission | Workflow step | Who answers |
+| ---------- | ------------- | ----------- |
+| Confirmation before an action | Confirmation | The shopper, in the conversation |
+| Limit exceeded | Approval | An operator, outside the conversation |
+| Action not allowed | The Agent does not call the Workflow | Nobody. The Agent uses its escalation phrasing |
+
+A refund within the limit runs straight through once the shopper confirms. Above the limit, the Workflow pauses at its approval step until an operator decides, and the Agent escalates if declined.
+
+## How it fits
+
+Guardrails and permissions sit above [Instructions and model](/agents/instructions-and-model): instructions describe the job, guardrails and permissions bound it.
+
+## Related
+
+<CardGroup cols={2}>
+  <Card title="Instructions and model" href="/agents/instructions-and-model" />
+  <Card title="Workflows" href="/agents/workflows" />
+  <Card title="Knowledge and context" href="/agents/knowledge-and-context" />
+  <Card title="Order and refund card" href="/components/cards/order-refund-card" />
+</CardGroup>

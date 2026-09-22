@@ -1,0 +1,122 @@
+---
+title: "How rulebooks resolve conflicts"
+description: "Priority, single or multiple winners, limits, and fallback, with worked examples"
+---
+
+Several Playbooks can be enabled at once, and a visitor can qualify for more than one of them. Each Playbook proposes candidates for the same component types. Something has to decide what actually shows. That something is a Rulebook.
+
+## The short version
+
+Enabling a Playbook does not fire everything inside it. It makes the Playbook's rules eligible for evaluation. Each rule-based component inside the Playbook carries its own rule, and each component type has one Rulebook that evaluates every eligible rule and picks the result.
+
+Some Rulebooks pick one winner. A conversation opens with one welcome message, so its Rulebook returns one message. Other Rulebooks return several. A shopper can see three or four conversation starters, so that Rulebook returns a set, subject to a limit.
+
+## What a Rulebook defines
+
+| Setting | What it controls |
+| ------- | ---------------- |
+| Priority and tie-breaking | Which candidate wins when more than one rule matches |
+| One result or multiple results | Whether the shopper sees a single winner or a set |
+| Limits and suppression | How many results to show, and frequency caps where they apply |
+| Fallback | What to show when nothing matches. This always comes from the Default Playbook |
+
+There is one Rulebook per component type.
+
+- Welcome message selection
+- Conversation starter selection
+- Proactive message delivery
+- Agent routing
+- Dynamic landing page selection
+- Component selection by page placement
+
+The screenshot shows the Conversation starter selection Rulebook open on the **Rulebooks** screen. Result mode reads Several. Take from highest priority is 2, Then one from each is 1, and Total is 3. The preview panel uses the Instagram ad visitor from the worked example below and returns three starters: I want a discount, I want free shipping, and I want to know more about the ad. The candidates list beneath shows the four rules at priorities 10, 8, 7, and 0.
+
+<Frame caption="Conversation starter Rulebook settings and preview">
+  <img src="/images/placeholder.svg" alt="Conversation starter Rulebook settings and preview" />
+</Frame>
+
+## Worked example: welcome messages
+
+The welcome message Rulebook returns one result. It selects the first message whose rule matches, in priority order.
+
+A visitor arrives with this context.
+
+```json
+{
+  "referrer": "instagram",
+  "campaign": "ad",
+  "content": "discount",
+  "landing_page": "/product/xyz"
+}
+```
+
+Three Playbooks are enabled, and together they contribute four candidate messages.
+
+| Message | Rule | Priority | Playbook |
+| ------- | ---- | -------- | -------- |
+| Looks like you're coming from YouTube | Visitor arrives from YouTube | 10 | YouTube Playbook |
+| Would you like a discount? | Visitor comes from an ad that talks about a discount | 8 | Instagram Ad Playbook |
+| Looks like you've come from an ad! | Visitor arrives from an ad | 7 | Instagram Ad Playbook |
+| Hello! How can I help? | No rule | 0 | Default Playbook |
+
+The Rulebook walks the list from the highest priority down.
+
+1. Priority 10 does not match. The referrer is Instagram, not YouTube.
+2. Priority 8 matches. The visitor came from an ad and the content is a discount.
+3. The Rulebook stops. It has one winner.
+
+The shopper sees **Would you like a discount?**
+
+The priority 7 message also matched, but a single-result Rulebook never gets that far. The priority 0 message from the Default Playbook is the fallback. It only shows when nothing else matches.
+
+## Worked example: conversation starters
+
+The conversation starter Rulebook returns a set. Two settings shape the set.
+
+- **Take from highest priority.** How many starters to take from the highest-priority rule that matches.
+- **Then one from each.** After that, take one starter from each remaining rule that matches, in priority order.
+- **Total.** The maximum number of starters to show.
+
+Same visitor, same context. The enabled Playbooks contribute these candidates.
+
+| Conversation starters | Rule | Priority | Playbook |
+| --------------------- | ---- | -------- | -------- |
+| Learn more about unboxing videos · Learn about {"{product_name}"} features · Generated: ask about the product from {"{content}"} · Generated: ask about the price of {"{product_name}"} | Visitor arrives from YouTube | 10 | YouTube Playbook |
+| I want a discount · I want free shipping | Visitor comes from an ad that talks about a discount | 8 | Instagram Ad Playbook |
+| I want to know more about the ad · I want more ads | Visitor arrives from an ad | 7 | Ad Playbook |
+| Tell me more about your brand · Tell me about the founders | No rule | 0 | Default Playbook |
+
+The priority 10 rule does not match, so its starters are out. The matching rules, in order, are priority 8, then 7, then 0.
+
+| Setting | Result |
+| ------- | ------ |
+| Take 2 from highest, then 1 from each. Total 3 | I want a discount · I want free shipping · I want to know more about the ad |
+| Take 2 from highest, then 1 from each. Total 5 | I want a discount · I want free shipping · I want to know more about the ad · Tell me more about your brand |
+| Take 1 from highest, then 1 from each. Total 10 | I want a discount · I want to know more about the ad · Tell me more about your brand |
+| Take 10 from highest, then 1 from each. Total 3 | I want a discount · I want free shipping · I want to know more about the ad |
+
+Read the last row carefully. The highest-priority rule only has two starters, so "take 10" yields two. The Rulebook then takes one from priority 7 and hits the total of 3 before it reaches the Default Playbook.
+
+Starters can be generated as well as written. A starter wrapped in generation markers asks Crossword to write the label at display time from variables such as the product name and the ad content. Generated starters compete in the Rulebook exactly like written ones.
+
+## Proactive messages
+
+The proactive message Rulebook can behave either way, and you choose per experience.
+
+- **First by priority.** Show only the highest-priority message whose rule and timing match.
+- **Stack.** Queue every matching message and deliver them in priority order, subject to frequency caps and suppression.
+
+Delivery restrictions on each proactive message still apply. A message that hit its frequency cap is skipped even if it wins on priority.
+
+## Fallback
+
+Every Rulebook falls back to the Default Playbook. The Default Playbook's components carry no rule, or a rule that always matches, at priority 0. That guarantees the shopper always sees a welcome message and always has starters, even when no other Playbook applies.
+
+## Related
+
+<CardGroup cols={2}>
+  <Card title="Rulebooks" href="/orchestration/rulebooks" />
+  <Card title="Rules" href="/orchestration/rules" />
+  <Card title="Welcome messages" href="/components/conversation/welcome-message" />
+  <Card title="Conversation starters" href="/components/conversation/conversation-starter" />
+</CardGroup>

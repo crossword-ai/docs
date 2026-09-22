@@ -1,0 +1,52 @@
+---
+title: "Comparison section"
+description: "A comparison placed on a merchant page"
+---
+
+A comparison section places a comparison on a merchant page. Two or more products sit side by side across the attributes that matter, with the differences explained, so a shopper who is choosing between options can decide without opening the chat. It brings the comparison card out of the conversation and onto the page where the decision is being made.
+
+## Example
+
+A shopper arrives on the product page of the pair featured in a sneaker brand's unboxing video. Below the description, where the storefront's "You may also like" carousel normally sits, a comparison section has replaced it. The heading reads **How it compares**, the intro reads "The pair from the video against its two closest alternatives", and the table lists the three shoes as columns with **Cushioning**, **Weight**, and **Price** as rows, with the featured pair marked **Recommended for daily miles**. Under the table, two buttons read **Choose this pair** and **Show me a third option**, and tapping either opens the widget. Everyone else sees the carousel as it ships.
+
+<Frame caption="Comparison section replacing the related-products carousel">
+  <img src="/images/placeholder.svg" alt="Comparison section replacing the related-products carousel" />
+</Frame>
+
+## Anatomy
+
+| Property | What it holds |
+| -------- | ------------- |
+| Heading | The title above the comparison, such as **How it compares**. |
+| Introduction | Optional copy that frames the comparison, such as which products were chosen and why. Supports dynamic variables. |
+| Comparison card | The embedded [comparison card](/components/cards/comparison-card): the items, the attributes, the values with their explanations, an optional recommendation, and the selection or next-step controls. |
+
+The items can be fixed, such as the product on the page against its two nearest alternatives, or chosen at display time from what Crossword knows about the shopper. The attributes can be fixed for a category or drawn from what the shopper asked about in chat.
+
+## Where it appears
+
+- **Product page.** The product on the page against its alternatives. The most common use.
+- **Collection page.** The top picks in the collection side by side, above or below the grid.
+- **Dynamic landing page.** The featured product against alternatives, in one of the layout's placements.
+
+The section goes into a placement. It can be inserted at a location or replace an existing part of the page, such as a related-products carousel. Read [Pages and placements](/orchestration/pages-and-placements).
+
+## Rules
+
+A comparison section carries its own rule, scoped by its target page and placement. Everything in the shared rule shape applies.
+
+- **Target page, placement, and placement action.** Required.
+- **Conditions and priority.** Arrival source, session behavior such as having viewed two products in a row, and segment membership are the usual conditions. Priority ranks it against other sections for the same placement.
+- **Timing.** A delay after the page loads, or a scheduled window.
+- **Delivery limits.** Frequency cap, suppression, and repeat behavior.
+
+The rule decides whether the section shows. The controls on the embedded card act once it is on screen, and a tap on **Choose Product A** or **Show me a third option** can open the conversation. The shared rule shape is described under [Page sections](/components/page/page-sections). The full list of conditions and how they combine is in [Rules](/orchestration/rules).
+
+## Related
+
+<CardGroup cols={2}>
+  <Card title="Comparison card" href="/components/cards/comparison-card" />
+  <Card title="Page sections" href="/components/page/page-sections" />
+  <Card title="Recommendation section" href="/components/page/recommendation-section" />
+  <Card title="Rules" href="/orchestration/rules" />
+</CardGroup>

@@ -1,0 +1,54 @@
+---
+title: "Content block"
+description: "A heading, copy, media, and a call to action placed on a merchant page"
+---
+
+A content block is a heading, some copy, optional media, and a call to action placed on a merchant page. It tells a shopper something the page does not already say: why this product fits them, how it connects to where they came from, or what to do next. It is the general-purpose page section, and the one to reach for when none of the others fit.
+
+## Example
+
+A shopper arrives on a sneaker brand's product page from a link in a YouTube unboxing video. Directly above the add-to-cart button, the YouTube Unboxing Playbook inserts a content block: the heading reads **The pair from the video**, the copy reads "This is the colorway unboxed at 4:12. Same drop, same size run.", a thumbnail from the video sits beside it, and the call to action reads **Find my size**. Tapping the button opens the widget with "What size should I get in this pair?" already sent. Shoppers who arrive any other way see the page as it ships.
+
+<Frame caption="Content block above the add-to-cart button">
+  <img src="/images/placeholder.svg" alt="Content block above the add-to-cart button" />
+</Frame>
+
+## Anatomy
+
+| Property | What it holds |
+| -------- | ------------- |
+| Heading | The title of the block. |
+| Copy | The body text. Supports rich text. |
+| Media | An optional image or video. |
+| Call to action | An optional button or link, such as **Shop the collection**. It can open the conversation with a prompt already sent. |
+| Dynamic fields | Variables filled at display time, such as the shopper's name, the product on the page, or the use case they described in chat. |
+
+### Benefits or explanation
+
+A common use of a content block is a short list of reasons a product is right for this shopper, under a heading such as **Why this is right for you**. Write each reason as a line of copy and use dynamic fields to tie the reasons to what the shopper said or did. No separate section type is needed.
+
+## Where it appears
+
+A content block fits any target page: product, cart, home, collection, about, or another approved page. The most common spots are above or below the product description, near the add-to-cart button, and at the top of the cart page.
+
+The block goes into a placement. The placement action decides whether it is inserted at a location, replaces an existing part of the page, or updates one in place. Most placements accept a content block. Read [Pages and placements](/orchestration/pages-and-placements).
+
+## Rules
+
+A content block carries its own rule, scoped by its target page and placement. Everything in the shared rule shape applies.
+
+- **Target page, placement, and placement action.** Required.
+- **Conditions and priority.** Which shoppers see it, and where it ranks against other sections for the same placement.
+- **Timing.** A delay after the page loads, or a scheduled window such as the length of a sale.
+- **Delivery limits.** Frequency cap, suppression, and repeat behavior, so a returning shopper does not see the same block on every visit.
+
+The shared rule shape is described under [Page sections](/components/page/page-sections). The full list of conditions and how they combine is in [Rules](/orchestration/rules).
+
+## Related
+
+<CardGroup cols={2}>
+  <Card title="Page sections" href="/components/page/page-sections" />
+  <Card title="Pages and placements" href="/orchestration/pages-and-placements" />
+  <Card title="Primitives" href="/components/primitives" />
+  <Card title="Rules" href="/orchestration/rules" />
+</CardGroup>

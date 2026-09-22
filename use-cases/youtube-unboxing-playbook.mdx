@@ -1,0 +1,104 @@
+---
+title: "YouTube unboxing playbook"
+description: "Greet shoppers arriving from a video and sell them the pair they just watched"
+---
+
+A sneaker brand sends Product A to a creator, and the creator publishes an unboxing video with a link to the product page in the description. Shoppers who click that link are not browsing. They have watched the box open, they know the colorway, and they arrive with one question: is this the pair from the video, and does it come in my size? The merchant goal is to convert those shoppers into add-to-carts by answering that question before they have to ask it. One Playbook does this, and it changes nothing for the rest of your traffic.
+
+## What the shopper sees
+
+The screenshot below is Product A's page as the shopper sees it about 15 seconds after arriving from the video. The widget is open with the "Looking for the pair from the video?" welcome and the **Shop the pair from the video** starter above two Default starters, the "As seen in the unboxing" content block sits below the buy box, and the "Need help finding your size?" nudge has just appeared. One frame holds every component the Playbook places for an in-stock pair.
+
+<Frame caption="Product page after arriving from the unboxing video">
+  <img src="/images/placeholder.svg" alt="Product page after arriving from the unboxing video" />
+</Frame>
+
+A shopper finishes the video, clicks the link, and lands on Product A's page. The URL carries `utm_source=youtube`, `utm_campaign=unboxing-a`, and `utm_content=product-a`.
+
+1. **Welcome.** The chat widget greets them with "Looking for the pair from the video?" instead of the storefront's usual "Hello! How can I help?"
+2. **Starters.** Under the welcome sit three conversation starters. The first is **Shop the pair from the video**. The other two come from the Default Playbook, because it also matches.
+3. **Content block.** Below the buy box, a content block titled "As seen in the unboxing" shows a still from the video, the colorway the creator unboxed, and the size they wore.
+4. **Proactive nudge.** The shopper scrolls for 15 seconds without opening the widget or clicking a starter. A proactive message appears: "Need help finding your size?"
+5. **Out of stock.** If the featured SKU is sold out, the starter reads **Find something similar** instead, and a recommendation section titled "Close to the pair from the video" replaces the sold-out notice with three alternatives.
+
+Every one of these decisions is made fresh on each page load from the current session. Nothing is remembered from a previous visit and nothing waits for tomorrow. That is why this is a [Playbook and not a Campaign](/orchestration/playbooks-vs-campaigns).
+
+## Building blocks used
+
+One Playbook, YouTube Unboxing, holds six components. Each one carries its own [rule](/orchestration/rules). The Playbook has no rule of its own.
+
+| Component | Rule | Priority | What it shows |
+| --------- | ---- | -------- | ------------- |
+| [Welcome message](/components/conversation/welcome-message) | UTM source is `youtube` and UTM campaign is `unboxing-a` | 10 | Welcome text: "Looking for the pair from the video?" |
+| [Conversation starter](/components/conversation/conversation-starter) | UTM source is `youtube` and the product in `utm_content` is in stock | 10 | Starter label: **Shop the pair from the video** |
+| [Conversation starter](/components/conversation/conversation-starter) | UTM source is `youtube` and the product in `utm_content` is out of stock | 10 | Starter label: **Find something similar** |
+| [Content block](/components/page/content-block) | Page is a product page and UTM source is `youtube` | 10 | "As seen in the unboxing": a still from the video, the colorway, and the size the creator wore, below the buy box |
+| [Proactive message](/components/conversation/proactive-message) | Page is a product page, UTM source is `youtube`, and 15 seconds of inactivity have elapsed | 10 | Message text: "Need help finding your size?" |
+| [Recommendation section](/components/page/recommendation-section) | Page is a product page, UTM source is `youtube`, and the product in `utm_content` is out of stock | 10 | "Close to the pair from the video": three alternatives in place of the sold-out notice |
+
+The two starters carry opposite stock conditions, so only one of them is ever a candidate for a given shopper. The same is true of the content block and the recommendation section.
+
+Four [Rulebooks](/orchestration/rulebooks) resolve these candidates against everything else that is enabled.
+
+- **Welcome message selection** returns one winner. At priority 10, this Playbook's welcome beats the Default Playbook's priority 0 greeting whenever the UTM conditions match.
+- **Conversation starter selection** returns a set. With the Rulebook set to take 1 from the highest-priority rule and then 1 from each remaining rule, up to a total of 3, the shopper sees this Playbook's starter first and two Default starters after it.
+- **Proactive message delivery** checks the timing on each candidate. The sizing nudge only becomes a candidate once 15 seconds of inactivity have elapsed.
+- **Component selection by page placement** decides which [page section](/components/page/page-sections) goes into each placement on the product page. The content block goes below the buy box. The recommendation section replaces the sold-out notice.
+
+Two more objects take part without belonging to this Playbook. The [Shopping Agent](/agents/overview) answers whatever the shopper types after clicking a starter. The [Default Playbook](/orchestration/playbooks) supplies the fallback welcome and starters for everyone who did not arrive from the video, and supplies the remaining two starters for those who did. See [How rulebooks resolve conflicts](/orchestration/how-rulebooks-resolve) for the full walk through priority and limits.
+
+## Step by step
+
+<Steps>
+  <Step title="Create the Playbook">
+    Open your web experience and go to **Playbooks**. Click **New Playbook**. Name it `YouTube Unboxing` and give it a description such as "Shoppers arriving from creator unboxing videos". Leave it disabled while you add components. A disabled Playbook contributes nothing to any Rulebook, so you can build it without affecting live traffic.
+  </Step>
+  <Step title="Add the welcome message">
+    Click **Add component** and choose **Welcome message**. Set the rule to match **all** of these conditions: **UTM source** equals `youtube`, **UTM campaign** equals `unboxing-a`. Set **Priority** to `10`. Write "Looking for the pair from the video?" as the text. You can personalize it with a variable such as `{product_name}` so the same welcome message works for every unboxing you run.
+  </Step>
+  <Step title="Add the in-stock starter">
+    Click **Add component** and choose **Conversation starter**. Set the rule to match **all** of: **UTM source** equals `youtube`, and the product referenced by **UTM content** is **in stock**. Set **Priority** to `10`. Set the label to **Shop the pair from the video** and the prompt to "Show me the pair from the unboxing video in my size". Clicking the starter sends that prompt to the Shopping Agent.
+  </Step>
+  <Step title="Add the out-of-stock starter">
+    Add a second **Conversation starter**. Use the same conditions, but set the product referenced by **UTM content** to **out of stock**. Set **Priority** to `10`. Set the label to **Find something similar** and the prompt to "The pair from the video is sold out. Show me the closest alternatives." Because the two rules are mutually exclusive, the shopper never sees both.
+  </Step>
+  <Step title="Add the content block">
+    Click **Add component** and choose **Content block**. Set **Target page** to **Product** and **Placement** to the location below the buy box, with mode **Insert**. Set the rule to **UTM source** equals `youtube` and **Priority** to `10`. Title the block "As seen in the unboxing". Give it a media [primitive](/components/primitives) for the video still, a text primitive for the colorway and the size the creator wore, and a button primitive labelled **Add to cart** that adds the featured SKU.
+  </Step>
+  <Step title="Add the proactive sizing nudge">
+    Click **Add component** and choose **Proactive message**. Set the conditions to **Page type** is **Product** and **UTM source** equals `youtube`. Under **Timing**, choose **Inactivity** and enter `15` seconds. Inactivity means no widget open, no starter click, and no message sent. Set **Priority** to `10`. Under **Delivery restrictions**, set the frequency cap to once per session so a shopper who dismisses it does not see it again on the next product page. Write "Need help finding your size?" as the text and add a quick reply set of common sizes.
+  </Step>
+  <Step title="Add the alternatives for a sold-out SKU">
+    Click **Add component** and choose **Recommendation section**. Set **Target page** to **Product** and **Placement** to the sold-out notice, with mode **Replace**. Set the rule to **UTM source** equals `youtube` and the product referenced by **UTM content** is **out of stock**. Set **Priority** to `10`. Title the section "Close to the pair from the video". Configure its [product collection](/components/cards/product-collection) to return three products from the same category and colorway family as the featured SKU, each rendered as a [product card](/components/cards/product-card) with its own **Add to cart** button.
+  </Step>
+  <Step title="Enable the Playbook alongside the Default">
+    Return to the Playbook and switch **Enabled** on. Do not disable the Default Playbook or any other Playbook. Enabling YouTube Unboxing makes its six rules eligible. It does not switch anything on for shoppers whose session does not match. Returning Customer, VIP, and any other Playbook you run keep contributing their own candidates, and the Rulebooks resolve them together.
+  </Step>
+  <Step title="Check the result on the product page">
+    Go to **Deployment** and publish the experience to your **Test** environment. Crossword assigns the revision a number. On a storefront that runs the Test installation snippet, open Product A's page with the video's query string appended: `?utm_source=youtube&utm_campaign=unboxing-a&utm_content=product-a`. Confirm the welcome, the first starter, and the content block. Wait 15 seconds without touching the widget and confirm the sizing nudge. Then open the same page without the query string and confirm you get the Default welcome and starters, with no content block. If Product A has a sold-out variant, set `utm_content` to that variant and confirm the alternatives. When everything matches, publish to **Production**. See [Deployment](/orchestration/deployment) for environments and revisions.
+  </Step>
+</Steps>
+
+## Measuring it
+
+The goal event is `add_to_cart`. Each component the shopper sees has its own identity and emits its own impression and interaction events, so you can follow one shopper from the first thing they saw to the cart.
+
+| Signal | What you count | What it tells you |
+| ------ | -------------- | ----------------- |
+| Welcome impressions | Sessions where the welcome from YouTube Unboxing won the Rulebook | How many video arrivals the rule caught. If this is far below the click count in your video analytics, check the UTM parameters in the link. |
+| Starter clicks | Clicks on **Shop the pair from the video** and **Find something similar**, divided by welcome impressions | Whether the starter label matches what the shopper came for |
+| Proactive message engagement | Sizing nudges shown, and how many led to a reply, a quick-reply tap, or a dismiss | Whether 15 seconds is the right delay and whether sizing is the right question |
+| Add to cart | `add_to_cart` events in sessions that saw the YouTube Unboxing welcome, divided by welcome impressions | The conversion rate for video traffic |
+
+Compare the add-to-cart rate for sessions that saw this Playbook's welcome with the rate for the same UTM source before you enabled it. For a controlled read, run an [Experiment](/orchestration/experiments) between this Playbook and a copy with the proactive nudge removed. The [discovery experiment](/use-cases/discovery-experiment) walkthrough shows how.
+
+## Related
+
+<CardGroup cols={2}>
+  <Card title="Playbooks" href="/orchestration/playbooks" />
+  <Card title="Welcome messages" href="/components/conversation/welcome-message" />
+  <Card title="Conversation starters" href="/components/conversation/conversation-starter" />
+  <Card title="Proactive messages" href="/components/conversation/proactive-message" />
+  <Card title="Content block" href="/components/page/content-block" />
+  <Card title="Recommendation section" href="/components/page/recommendation-section" />
+</CardGroup>

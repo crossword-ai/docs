@@ -1,0 +1,53 @@
+---
+title: "Offer section"
+description: "An offer, who is eligible for it, an explanation, and a call to action"
+---
+
+An offer section shows a shopper an offer, tells them whether they qualify, explains it, and gives them one action to claim it. A bundle discount on the product page, or free shipping on the cart page when the total is close to the threshold. It puts the offer at the point where the shopper is deciding, instead of in a banner they scroll past.
+
+## Example
+
+A shopper with one pair of sneakers in the cart opens the cart page. Directly above the checkout button, an offer section reads **Second pair, 20% off both** with the explanation "Add any second pair and save 20% on both. Applied automatically at checkout." and a single **Add a second pair** button. Tapping it opens the widget with "Show me a second pair to go with my cart" already sent. A shopper in the VIP segment sees the VIP Playbook's offer section in the same spot instead, because its rule has a higher priority.
+
+<Frame caption="Offer section above the checkout button">
+  <img src="/images/placeholder.svg" alt="Offer section above the checkout button" />
+</Frame>
+
+## Anatomy
+
+| Property | What it holds |
+| -------- | ------------- |
+| Offer | The offer itself, such as a bundle discount, free shipping, or a gift with purchase. |
+| Eligibility | Who the offer applies to, such as a segment, a cart value, or a product in the cart. |
+| Explanation | Copy that describes the offer and any conditions. Supports dynamic variables, such as the amount left to reach free shipping. |
+| Call to action | The button or link that claims or applies the offer, such as **Apply discount**. |
+
+Eligibility is a property of the offer: who it is for and what the storefront honors. The rule on the section decides who sees the section at all. The two can match, or differ when you want a shopper to see what they could unlock, such as free shipping a little further up the cart.
+
+## Where it appears
+
+- **Cart page.** The most common spot. Above the checkout button, or next to the totals.
+- **Product page.** Near the add-to-cart button, for a bundle or a volume discount.
+- **Home and collection pages.** A campaign offer for visitors who arrived from a specific source.
+
+The section goes into a placement. Insert is the usual action, though it can replace an existing promotion block. Read [Pages and placements](/orchestration/pages-and-placements).
+
+## Rules
+
+An offer section carries its own rule, scoped by its target page and placement. Everything in the shared rule shape applies.
+
+- **Target page, placement, and placement action.** Required.
+- **Conditions and priority.** Cart contents, cart value, segment membership, and UTM parameters are the usual conditions. Priority ranks it against other sections, so a VIP offer can outrank a general one.
+- **Timing.** A scheduled window for the length of a sale, or a delay after the page loads.
+- **Delivery limits.** Frequency cap, suppression once the shopper has claimed the offer, and repeat behavior after a dismissal.
+
+The shared rule shape is described under [Page sections](/components/page/page-sections). The full list of conditions and how they combine is in [Rules](/orchestration/rules). For an offer that unfolds over time, such as a reminder after a cart is abandoned, use a [Campaign](/orchestration/campaigns) instead.
+
+## Related
+
+<CardGroup cols={2}>
+  <Card title="Page sections" href="/components/page/page-sections" />
+  <Card title="Cart and checkout card" href="/components/cards/cart-checkout-card" />
+  <Card title="Campaigns" href="/orchestration/campaigns" />
+  <Card title="Rules" href="/orchestration/rules" />
+</CardGroup>

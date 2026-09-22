@@ -1,0 +1,66 @@
+---
+title: "Proactive message"
+description: "Messages Crossword sends before the shopper asks"
+---
+
+A proactive message is one Crossword sends without waiting for the shopper to type. It appears as a nudge from the widget while the shopper is on a page: a sizing offer after fifteen seconds of silence, or "Still deciding between these?" after they open two product pages. Per experience, you choose whether only the highest-priority match shows or every match is queued in priority order.
+
+## Example
+
+A shopper from a sneaker brand's unboxing campaign has been on a product page for fifteen seconds without scrolling, tapping, or opening the widget. A bubble rises from the closed launcher in the bottom corner of the page: "Need help finding your size?" with two chips beneath it, "Yes, help me" and "No thanks", and a close control in its corner. The rest of the page is unchanged. This is First by priority mode, so only that message shows even though a lower-priority "Free shipping on orders over $100" nudge also matched. In Stack mode the shipping nudge would queue and appear once the shopper dismisses the first.
+
+<Frame caption="Sizing nudge on a product page after fifteen seconds idle">
+  <img src="/images/placeholder.svg" alt="Sizing nudge on a product page after fifteen seconds idle" />
+</Frame>
+
+A sneaker brand's YouTube Unboxing Playbook carries one proactive message. Its rule reads: the shopper is on a product page, they arrived from the unboxing campaign, fifteen seconds have elapsed, and they have not engaged. When all four hold, the widget shows "Need help finding your size?" with a frequency cap of once per session.
+
+## What it contains
+
+| Property | What it holds |
+| -------- | ------------- |
+| Content | The text and media the message carries |
+| Embedded components | Any card or interactive component from the [Component library](/components/overview), plus an optional suggestion set |
+| Presentation | How the message appears on the surface, such as a widget bubble or an expanded panel |
+| Rule | The conditions, timing, priority, and delivery restrictions that fire it from a Playbook |
+| Dismiss behavior | What happens when the shopper closes the message, and whether it can return |
+
+The text and media belong to the proactive message. The cards it embeds are plain components with no rule of their own. They show because the message that carries them was delivered.
+
+A proactive message answers one of two questions, and the answer decides where it lives. **Contextual** asks what should happen right now, given this session. On a product page, fifteen seconds idle, show sizing help. That belongs in a Playbook, as a component with a rule. **Lifecycle** asks what should happen to this person over the next hours or days. Cart abandoned, wait 30 minutes, send a message, wait 6 hours, check for purchase. That belongs in a Campaign. A Campaign step can deliver a proactive message directly. The message then carries a Campaign reference instead of a rule, and the Campaign's own delivery limits and suppression govern it. Read [Playbooks vs campaigns](/orchestration/playbooks-vs-campaigns#proactive-messages-which-one) for the full test.
+
+## Rule
+
+Because it interrupts, a proactive message carries the full rule: conditions, timing, priority, and delivery restrictions.
+
+| Rule field | What you can set |
+| ---------- | ---------------- |
+| Conditions | UTM parameters, referrer or arrival source, page or URL, segment membership, shopper attributes, session behavior (scroll depth, cart contents, previous interaction), device and browser |
+| Condition combinations | All, any, and exclusions |
+| Timing | Delay after the page loads, elapsed time on the page, inactivity, or a scheduled window |
+| Priority | Orders candidates in both delivery modes |
+| Delivery restrictions | Frequency cap, suppression after dismissal or after another message, and repeat behavior across sessions |
+
+Timing and conditions combine. A rule can require that the shopper is on a product page **and** has been idle for fifteen seconds **and** has nothing in the cart.
+
+The proactive message Rulebook resolves candidates in one of two modes.
+
+| Mode | Behavior |
+| ---- | -------- |
+| First by priority | Show only the highest-priority message whose rule and timing match |
+| Stack | Queue every matching message and deliver them in priority order |
+
+In both modes each message's own delivery restrictions still apply. A message that has hit its frequency cap is skipped even if it wins on priority.
+
+When no rule matches, the Rulebook falls back to the Default Playbook. Most storefronts leave the Default Playbook without a proactive message, so nothing is sent. Silence is a valid result for this component.
+
+The full list of conditions and how they combine is in [Rules](/orchestration/rules). Read [How rulebooks resolve conflicts](/orchestration/how-rulebooks-resolve#proactive-messages) for how the two modes interact with caps.
+
+## Related
+
+<CardGroup cols={2}>
+  <Card title="Campaigns" href="/orchestration/campaigns" />
+  <Card title="Playbooks vs campaigns" href="/orchestration/playbooks-vs-campaigns" />
+  <Card title="Rules" href="/orchestration/rules" />
+  <Card title="How rulebooks resolve conflicts" href="/orchestration/how-rulebooks-resolve" />
+</CardGroup>

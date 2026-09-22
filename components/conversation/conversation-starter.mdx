@@ -1,0 +1,71 @@
+---
+title: "Conversation starter"
+description: "Suggested prompts shown under the welcome message"
+---
+
+A conversation starter is a tappable prompt a shopper sees under the welcome message, before they type. Tapping one sends its prompt to the Agent. Several starters show at once, three to five, drawn by priority from every enabled Playbook by the conversation starter Rulebook.
+
+## Example
+
+A shopper from a sneaker brand's unboxing video has just opened the widget on the product page, and the pair from the video is in stock. Below the welcome message sit three chips in a row: "Shop the pair from the video", "Help me find a shoe", and "Track my order". None is selected yet and the composer under them is empty. Tapping the first chip sends that prompt to the Agent as if the shopper had typed it. Had the pair sold out, the first chip would read "Find something similar" instead.
+
+<Frame caption="Three conversation starters under the welcome message">
+  <img src="/images/placeholder.svg" alt="Three conversation starters under the welcome message" />
+</Frame>
+
+The brand's YouTube Unboxing Playbook carries two starters with opposite rules. If the product from the video is in stock, it shows "Shop the pair from the video". If the product is out of stock, it shows "Find something similar". The Default Playbook adds "Help me find a shoe" and "Track my order" for everyone. A visitor from the video sees one of the first two plus the defaults.
+
+## What it contains
+
+| Property | What it holds |
+| -------- | ------------- |
+| Label | The text on the starter, written by you or generated at display time |
+| Icon | An optional icon shown with the label |
+| Action | What tapping the starter does. Usually it sends a prompt to the Agent |
+| Rule | The conditions and priority that make this starter a candidate. One rule can carry several starters |
+
+A generated label is written at display time from variables such as `{product_name}` or the ad `{content}` the shopper arrived with. Generated starters compete in the Rulebook exactly like written ones.
+
+A starter holds its own label and embeds nothing from the [Component library](/components/overview). The assistant reply that follows a tap can render any card the library offers.
+
+## Rule
+
+A starter carries a rule with conditions and priority. Timing and delivery restrictions do not apply, because starters show once, together with the welcome message.
+
+| Rule field | What you can set |
+| ---------- | ---------------- |
+| Conditions | UTM parameters, referrer or arrival source, page or URL, segment membership, shopper attributes, session behavior, device and browser |
+| Condition combinations | All, any, and exclusions |
+| Priority | Orders matching rules and decides which rule the Rulebook takes the first starters from |
+
+The conversation starter Rulebook returns several results, up to a limit. It collects every matching rule from every enabled Playbook, orders them by priority, and builds the set with three settings.
+
+| Setting | What it does |
+| ------- | ------------ |
+| Take from highest priority | How many starters to take from the highest-priority rule that matches |
+| Then one from each | After that, take one starter from each remaining matching rule, in priority order |
+| Total | The maximum number of starters to show. Choose 3, 4, or 5 |
+
+The Default Playbook's starters carry a rule that always matches, at priority 0. They are always the last matching rule, so they fill whatever room remains. If no other Playbook matches, the shopper sees only the Default Playbook's starters.
+
+The full list of conditions and how they combine is in [Rules](/orchestration/rules). Read the [worked example](/orchestration/how-rulebooks-resolve#worked-example-conversation-starters) to see how the same candidates produce different sets under four different settings.
+
+## Suggestion set
+
+The starters the Rulebook returns render inside a suggestion set. The set turns the Rulebook's result into what the shopper sees. It is a setting on the starters, not a component with a rule of its own.
+
+| Setting | What it controls |
+| ------- | ---------------- |
+| Ranking | The order of the visible starters. Priority order by default |
+| Layout | How the visible starters are arranged, such as a row of chips or a stacked list |
+
+The number of visible starters is the Rulebook's Total setting. The fallback set is the Default Playbook's starters.
+
+## Related
+
+<CardGroup cols={2}>
+  <Card title="Rulebooks" href="/orchestration/rulebooks" />
+  <Card title="Welcome message" href="/components/conversation/welcome-message" />
+  <Card title="Follow-up suggestion" href="/components/conversation/follow-up-suggestion" />
+  <Card title="How rulebooks resolve conflicts" href="/orchestration/how-rulebooks-resolve" />
+</CardGroup>

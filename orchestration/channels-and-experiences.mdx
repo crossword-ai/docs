@@ -1,0 +1,55 @@
+---
+title: "Channels and experiences"
+description: "Where Crossword runs and the container everything else lives in"
+---
+
+A channel is a surface Crossword runs on, and an experience is one storefront's configuration on one channel. Together they give every Playbook, Rulebook, Campaign, and page a single home that you configure and publish as one unit.
+
+Your storefront can have one experience per channel. The web experience holds what shoppers see on your site. The Instagram experience holds what they see in direct messages. Each is configured, tested, and deployed on its own.
+
+## Example
+
+A sneaker brand runs Crossword on its website and on Instagram. The web experience has a Default Playbook, a YouTube Unboxing Playbook, a cart recovery Campaign, and a Test and a Production environment. The Instagram experience has its own Default Playbook and its own Campaigns. Both experiences pull product cards from the same Component library and enroll shoppers from the same segments.
+
+The screenshot shows the **Channels** screen. Two channels are listed, Web and Instagram, each with one experience beneath it. The Web experience is expanded and lists Playbooks Default, YouTube Unboxing, and Returning Customer, one Campaign named Cart Recovery, and environments Test and Production. The Instagram experience is collapsed and shows its Default Playbook and one Campaign. A sidebar on the right lists Component library and Audiences as shared across both.
+
+<Frame caption="Web and Instagram experiences under their channels">
+  <img src="/images/placeholder.svg" alt="Web and Instagram experiences under their channels" />
+</Frame>
+
+## What it contains
+
+| Concept | Meaning | Example |
+| ------- | ------- | ------- |
+| Channel | A surface Crossword runs on | Web, Instagram, iMessage, or another supported channel |
+| Experience | One storefront's configuration on one channel | Your storefront's web experience |
+| Playbooks | Reusable collections of contextual behavior. One is the Default | Default, YouTube Unboxing, Returning Customer |
+| Rulebooks | One per component type. Each resolves the eligible rules into what shows | Welcome message selection |
+| Campaigns | Stateful programs that enroll an audience and run a sequence over time | Cart recovery |
+| Pages and placements | Dynamic landing pages and personalization of your existing pages | A recommendation section on the cart page |
+| Experiments | Traffic splits between two or more Playbooks, measured against a goal | Quiz-led vs conversation-led discovery |
+| Deployment | Environments, published revisions, and installation | Test and Production |
+
+## What is shared across experiences
+
+Two things sit beside experiences rather than inside them.
+
+- **Component library.** Messages, suggestions, cards, interactive components, and page sections are defined once and used by any Playbook in any experience. Read [Component library](/components/overview).
+- **Audiences.** Segments are defined once. Any Campaign in any experience can enroll from them, and any rule on a component can test membership. Read [Audiences and segments](/orchestration/audiences).
+
+Changing a component or a segment changes it everywhere it is used.
+
+## How it fits
+
+Channels sit at the top. Each channel holds the experiences that run on it. Each experience holds its Playbooks, Rulebooks, Campaigns, Pages and placements, Experiments, and Deployment.
+
+Below the experience, Playbooks hold components, some of which carry a rule, and components are built from primitives. Read [Core concepts](/concepts) for the full chain.
+
+The experience is also the unit of publishing. When you publish, Crossword snapshots the whole experience as a numbered revision and pushes it to an environment. Read [Deployment](/orchestration/deployment).
+
+## Related
+
+<CardGroup cols={2}>
+  <Card title="Playbooks" href="/orchestration/playbooks" />
+  <Card title="Deployment" href="/orchestration/deployment" />
+</CardGroup>

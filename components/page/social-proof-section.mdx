@@ -1,0 +1,52 @@
+---
+title: "Social proof section"
+description: "Reviews, testimonials, or data selected for the shopper's context"
+---
+
+A social proof section shows reviews, testimonials, or data such as ratings and purchase counts, selected for the shopper's context. A marathon runner sees reviews that mention marathons. A shopper who asked about wide feet sees reviews that mention fit. It answers the question "do people like me like this?" with evidence rather than copy.
+
+## Example
+
+A shopper asks the widget "Do these run narrow?" and then scrolls down the product page. Where the storefront's reviews block normally sits, a social proof section has replaced it: the heading reads **What runners say about fit**, a rating summary reads **4.6 of 5 from 1,240 reviews**, and beneath it are three reviews that each mention width or sizing, with the matching phrase highlighted, such as "true to size, roomy toe box". A **Read all reviews** link sits under the third review. A shopper who has not asked about fit sees the storefront's own reviews block, unchanged.
+
+<Frame caption="Fit-focused social proof section replacing the reviews block">
+  <img src="/images/placeholder.svg" alt="Fit-focused social proof section replacing the reviews block" />
+</Frame>
+
+## Anatomy
+
+| Property | What it holds |
+| -------- | ------------- |
+| Heading | The title of the section, such as **What runners say**. Supports dynamic variables. |
+| Content | The reviews, testimonials, or data points the section draws from. Data points include average rating, review count, and purchase count. |
+| Selection rules | Which items to show for this shopper: reviews that mention a use case they described, a size they asked about, or a topic tied to their segment. A minimum rating or a recency limit can narrow the set further. |
+| Layout | A carousel, a list, or a single highlighted quote with a rating summary. |
+| Call to action | Optional. A button or link, such as **Read all reviews**. |
+
+## Where it appears
+
+- **Product page.** Replace the storefront's reviews block with reviews chosen for this shopper, or insert a short summary near the add-to-cart button.
+- **Collection page.** A rating summary or a highlighted testimonial above the grid.
+- **Home page and dynamic landing pages.** Testimonials that match the campaign a visitor arrived from.
+
+The section goes into a placement. Replace is the common action on product pages, since most storefronts already have a reviews block. Insert works anywhere else. Read [Pages and placements](/orchestration/pages-and-placements).
+
+## Rules
+
+A social proof section carries its own rule, scoped by its target page and placement. Everything in the shared rule shape applies.
+
+- **Target page, placement, and placement action.** Required.
+- **Conditions and priority.** Session behavior such as a topic raised in chat, segment membership, and arrival source are the usual conditions. Priority ranks it against other sections for the same placement.
+- **Timing.** A delay after the page loads, or a scheduled window.
+- **Delivery limits.** Frequency cap, suppression, and repeat behavior.
+
+Keep the two kinds of rules apart. The rule on the section decides whether this shopper sees it. The selection rules inside the section decide which reviews they see. The shared rule shape is described under [Page sections](/components/page/page-sections). The full list of conditions and how they combine is in [Rules](/orchestration/rules).
+
+## Related
+
+<CardGroup cols={2}>
+  <Card title="Page sections" href="/components/page/page-sections" />
+  <Card title="Content block" href="/components/page/content-block" />
+  <Card title="Pages and placements" href="/orchestration/pages-and-placements" />
+  <Card title="Rules" href="/orchestration/rules" />
+</CardGroup>

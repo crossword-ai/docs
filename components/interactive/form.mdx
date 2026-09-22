@@ -1,0 +1,57 @@
+---
+title: "Form"
+description: "Contact collection and other forms with fields, validation, and consent"
+---
+
+A form collects structured information from a shopper inside the conversation. The most common use is contact collection: an email for a back-in-stock alert, a phone number for a callback, a name for a personalized offer. The same component handles any other set of fields you need.
+
+## Example
+
+A shopper on a product page picks size 9 and the widget replies that it is out of stock. The assistant reply reads "Want me to let you know when size 9 is back?" and holds a form with two fields, **Email** and **Name**, a consent checkbox that reads "Send me restock alerts and occasional offers", and a **Notify me** button. The shopper submits with an incomplete email and the field shows "Enter a valid email address" in red under it. After a valid submission, the form collapses into the success message "Done. We'll email you the moment size 9 is back."
+
+<Frame caption="Back-in-stock alert form in an assistant reply">
+  <img src="/images/placeholder.svg" alt="Back-in-stock alert form in an assistant reply" />
+</Frame>
+
+## Anatomy
+
+| Property | What it holds |
+| -------- | ------------- |
+| Form type | What the form is for. Contact collection is the built-in type, and other types hold any fields you define. |
+| Fields | The inputs the shopper fills in. Each field has the properties in the table below. |
+| Consent fields | Checkboxes for marketing consent or terms, with the text the shopper agrees to. |
+| Submit control | The button that submits the form, such as **Notify me**. Built from the [button](/components/primitives#button) primitive. |
+| Success and error messages | What the shopper sees after a successful submission, and what they see when validation fails or the submission cannot complete. |
+
+Each field holds these properties.
+
+| Property | What it holds |
+| -------- | ------------- |
+| Label | The name of the field as the shopper sees it. |
+| Input type | The kind of value expected, such as text, email, phone, or number. Built from the [input](/components/primitives#input) primitive. |
+| Required | Whether the shopper must fill it in. |
+| Validation | The rules the value must meet before the form submits. |
+
+Validation is a property of the form. It governs what the shopper can submit once the form is on screen, not whether the form shows. What happens with the submitted values, such as creating a contact or triggering a back-in-stock alert, runs through a [Workflow](/agents/workflows).
+
+## Where it appears
+
+A form never shows on its own. One of these rule-based components includes it.
+
+- In a [welcome message](/components/conversation/welcome-message), for example a sign-up form for a shopper who arrives from a newsletter link.
+- In a [proactive message](/components/conversation/proactive-message), for example an offer that asks for an email in exchange for a discount.
+- In the [assistant reply](/components/conversation/assistant-reply), where the Agent chooses it. The Agent needs details to continue, such as an email to send a size guide or to set a back-in-stock alert, and asks for them with the form rather than in free text.
+- On a page, inside a [content block](/components/page/content-block), for example a sign-up block on a dynamic landing page, or inside an [offer section](/components/page/offer-section) that trades an email for a discount.
+
+## Rules
+
+A form carries no rule. It shows because a welcome message, a proactive message, or a page section with a rule included it, or because the Agent composed it into the assistant reply. The rule that decides whether and when the shopper sees it lives on that component, not on the form. Read [Rules](/orchestration/rules).
+
+## Related
+
+<CardGroup cols={2}>
+  <Card title="Primitives" href="/components/primitives" />
+  <Card title="Workflows" href="/agents/workflows" />
+  <Card title="Content block" href="/components/page/content-block" />
+  <Card title="Proactive messages" href="/components/conversation/proactive-message" />
+</CardGroup>

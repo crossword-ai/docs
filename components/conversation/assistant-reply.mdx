@@ -1,0 +1,84 @@
+---
+title: "Assistant reply"
+description: "Reply text, cards, suggestions, quick replies, and actions, each tracked as its own event"
+---
+
+The assistant reply is what a shopper sees every time an Agent answers. It appears in the conversation, one per turn, and it is the one component an [Agent](/agents/overview) composes rather than a Rulebook picks. It carries no rule. Every part of it emits its own events, which is how you follow a shopper from a reply to a purchase.
+
+## Example
+
+A shopper has typed "I need road running shoes, size 9, under 150" and answered one question about cushioning. The reply opens with the sentence "Based on what you've told me, these three are your best matches", followed by a carousel of three product cards, each with an image, a price, and a size selector preset to 9. Under the carousel sit three follow-up chips, "Compare the first two", "Show me cheaper options", and "Only show black", and beneath those a single text button, **View all results**. The shopper's own message sits above the reply so the exchange reads as one turn. All four kinds of child appear in the one reply.
+
+<Frame caption="One reply with text, a collection, follow-ups, and an action">
+  <img src="/images/placeholder.svg" alt="One reply with text, a collection, follow-ups, and an action" />
+</Frame>
+
+Under the reply text, the reply renders, in order:
+
+1. A product collection holding Product A, Product B, and Product C.
+2. Three follow-up suggestions: "Compare the first two", "Show me cheaper options", "Only show black".
+3. One action: "View all results".
+
+One reply, four kinds of child. Each is rendered and tracked separately.
+
+## What it contains
+
+| Part | What it holds |
+| ---- | ------------- |
+| Reply text | Text blocks, rich content, and citations or source references |
+| Cards and collections | Components from the [Component library](/components/overview): product cards, product collections, comparison cards, cart cards, quizzes, forms, and the rest |
+| Follow-up suggestions | Open next steps under the reply, generated or configured |
+| Quick replies | Closed one-tap answers with a fixed value, such as Yes, No, or Size 9 |
+| Actions | Buttons and links the shopper can act on, such as "View all results" or "Add to cart" |
+
+The reply text and its formatting belong to the reply. Cards and collections are plain components the Agent composes in. [Follow-up suggestions](/components/conversation/follow-up-suggestion) are a component of their own, rendered under the reply.
+
+## Quick reply
+
+A quick reply is a one-tap answer with a fixed value, such as **Yes**, **No**, or **Size 9**. Tapping it sends the value as if the shopper had typed it. It answers a question the Agent just asked. A follow-up suggestion is an open next step instead.
+
+| Property | What it holds |
+| -------- | ------------- |
+| Label and value | The text on the chip and the value it stands for. The two can differ, such as a label of **Size 9** and a value of `US9`. |
+| Payload | Extra data sent with the value, such as the product or question it answers. |
+| Action | What tapping it does. Usually it sends the value to the Agent as the shopper's answer. |
+
+Quick replies carry no rule. The Agent decides at reply time whether to offer them and which values to offer.
+
+## How it is produced
+
+No Rulebook picks a reply, and no rule gates it. There is no priority, timing, or delivery restriction on a reply. Two things upstream decide what the shopper sees.
+
+1. The agent routing Rulebook decides which Agent answers. It evaluates the routing rules of every Agent in the enabled Playbooks and falls back to the Default Playbook's Agent.
+2. That Agent's response configuration decides the shape of the reply: the text and formatting, which follow-ups and quick replies to offer, and which cards and collections to render.
+
+Configured follow-up suggestions add one more control. Each carries its own conditions and priority. Read [Agents](/agents/overview) for routing and response configuration.
+
+## The event trail
+
+Each rendered child of a reply has its own identity. It emits an impression event when it renders and an interaction event when the shopper acts on it. Because the identities are distinct, you can follow one shopper through a single reply:
+
+Reply shown → product card clicked → follow-up suggestion selected → add to cart.
+
+Every step in that trail is a separate event with a reference back to the reply it belongs to.
+
+| Child | Impression event | Interaction events |
+| ----- | ---------------- | ------------------ |
+| Reply text | Reply shown | Citation or link opened |
+| Product card | Card shown | Card clicked, variant selected, add to cart |
+| Product collection | Collection shown | A card inside it clicked |
+| Comparison card | Comparison shown | Product selected from the comparison |
+| Follow-up suggestion | Suggestion shown | Suggestion selected |
+| Quick reply | Quick reply shown | Quick reply selected |
+| Action | Action shown | Action clicked |
+
+Impressions tell you what the shopper saw. Interactions tell you what they did with it. Together they answer "which follow-up suggestion leads to the most add-to-cart events" for a single reply.
+
+## Related
+
+<CardGroup cols={2}>
+  <Card title="Agents" href="/agents/overview" />
+  <Card title="Component library" href="/components/overview" />
+  <Card title="Product card" href="/components/cards/product-card" />
+  <Card title="Follow-up suggestion" href="/components/conversation/follow-up-suggestion" />
+</CardGroup>

@@ -1,0 +1,52 @@
+---
+title: "Recommendation section"
+description: "A product collection with a contextual explanation, placed on a merchant page"
+---
+
+A recommendation section is a product collection paired with an explanation of why these products were picked, placed on a merchant page. The shopper sees several products and a sentence that ties them to what they said, did, or arrived from, such as "Picked for your trip". The explanation is what separates it from a plain list of products.
+
+## Example
+
+A shopper whose cart holds a pair of trail shoes opens the cart page. Directly below the cart items, a recommendation section reads **Complete your trail kit** above a row of three product cards, a pair of merino trail socks, a set of gaiters, and a pair of insoles, each with image, price, and an **Add to cart** button. Under the heading, the explanation reads "Chosen to go with the trail shoes in your cart." Shoppers with road shoes in the cart see a different section from another Playbook, or the cart page as it ships.
+
+<Frame caption="Recommendation section below the cart items">
+  <img src="/images/placeholder.svg" alt="Recommendation section below the cart items" />
+</Frame>
+
+## Anatomy
+
+| Property | What it holds |
+| -------- | ------------- |
+| Heading | The title above the section, such as **Picked for your trip**. Supports dynamic variables. |
+| Product collection | The embedded [product collection](/components/cards/product-collection): the product cards, their ordering, optional filters, and a carousel or grid layout. |
+| Contextual explanation | Copy that explains the selection in terms of what the shopper said, did, or arrived from. Supports dynamic variables. |
+
+The products can be a fixed set you choose, or picked at display time from what Crossword knows about the shopper and the page. Each product card keeps its own identity and events, so you can follow a shopper from the section being shown to a card being clicked to an add to cart.
+
+## Where it appears
+
+- **Product page.** Alternatives to the product on the page, or items that complete it. Below the description or near the add-to-cart button.
+- **Cart page.** Items that go with what is already in the cart.
+- **Home and collection pages.** Picks for a returning shopper, or for a visitor who arrived from a campaign.
+
+The section goes into a placement. It can be inserted at a location, or replace an existing part of the page such as a generic "You may also like" block. Read [Pages and placements](/orchestration/pages-and-placements).
+
+## Rules
+
+A recommendation section carries its own rule, scoped by its target page and placement. Everything in the shared rule shape applies.
+
+- **Target page, placement, and placement action.** Required.
+- **Conditions and priority.** Cart contents, segment membership, and arrival source are the usual conditions, since they decide what the recommendation is for. Priority ranks it against other sections for the same placement.
+- **Timing.** A delay after the page loads, or a scheduled window.
+- **Delivery limits.** Frequency cap, suppression, and repeat behavior, so a shopper who dismissed the picks does not see them on every visit.
+
+The rule decides whether the section shows. The ordering and filters on the embedded collection shape what is inside it. The shared rule shape is described under [Page sections](/components/page/page-sections). The full list of conditions and how they combine is in [Rules](/orchestration/rules).
+
+## Related
+
+<CardGroup cols={2}>
+  <Card title="Product collection" href="/components/cards/product-collection" />
+  <Card title="Product card" href="/components/cards/product-card" />
+  <Card title="Page sections" href="/components/page/page-sections" />
+  <Card title="Rules" href="/orchestration/rules" />
+</CardGroup>

@@ -1,0 +1,70 @@
+---
+title: "Component library"
+description: "Every component a shopper can see or interact with, in one list of five families"
+---
+
+The Component library is every component in a Crossword experience, in one list. A component is anything a shopper can see or interact with, from a welcome message to a section on a product page. The list splits into five families, and some components carry a rule that decides when and where they show.
+
+In the dashboard, the library is one screen. The five families run across the top as tabs, **Conversation** through **Primitives**, and the selected family opens a grid of component tiles, each with its name, a one-line description, and a **Rule** badge where the component carries one. Selecting a tile, such as **Welcome message**, opens its properties in a panel on the right.
+
+<Frame caption="Component library in the dashboard, Conversation family selected">
+  <img src="/images/placeholder.svg" alt="Component library in the dashboard, Conversation family selected" />
+</Frame>
+
+## Families
+
+| Family | What it covers | Carries a rule? |
+| ------ | -------------- | --------------- |
+| Conversation | What the shopper sees in the chat: messages, starters, suggestions, and the assistant reply. | Yes, except the assistant reply, which the Agent composes. |
+| Cards | Structured units for products, comparisons, carts, and orders. | No. Shown inside a message, a reply, or a page section. |
+| Interactive | Pieces the shopper works through step by step. | No. Shown the same way as cards. |
+| Page | Sections Crossword inserts into or replaces on a merchant page. Read [Page sections](/components/page/page-sections). | Yes. A target page, a placement, and a rule. |
+| Primitives | The button, input, selector, media, and text every other component is built from. | No. |
+
+## Every component
+
+| Component | Family | Carries a rule? | What it does |
+| --------- | ------ | --------------- | ------------ |
+| [Welcome message](/components/conversation/welcome-message) | Conversation | Yes | The first message a shopper reads when the widget opens. One shows per conversation. |
+| [Conversation starter](/components/conversation/conversation-starter) | Conversation | Yes | A tappable prompt under the welcome message. Three to five show at once. |
+| [Suggestion set](/components/conversation/conversation-starter#suggestion-set) | Conversation | No | The ranking and layout that turn a set of starters or follow-ups into what the shopper sees. |
+| [Follow-up suggestion](/components/conversation/follow-up-suggestion) | Conversation | Yes | A next-step prompt under an assistant reply. The Agent produces candidates and the suggestion set caps them. |
+| [Proactive message](/components/conversation/proactive-message) | Conversation | Yes | A message Crossword sends before the shopper asks, with timing and delivery limits. |
+| [Assistant reply](/components/conversation/assistant-reply) | Conversation | No | What the Agent composes each turn: reply text, cards, follow-ups, quick replies, and actions. |
+| [Quick reply](/components/conversation/assistant-reply#quick-reply) | Conversation | No | A one-tap answer with a fixed value, such as Yes, No, or Size 9, inside an assistant reply. |
+| [Product card](/components/cards/product-card) | Cards | No | A single product with image, price, variants, and actions. |
+| [Product collection](/components/cards/product-collection) | Cards | No | Several product cards under a heading, ranked and optionally filtered. |
+| [Comparison card](/components/cards/comparison-card) | Cards | No | Two or more products compared across attributes, with an explanation. |
+| [Cart and checkout card](/components/cards/cart-checkout-card) | Cards | No | The shopper's basket, totals, and checkout controls. |
+| [Order and refund status card](/components/cards/order-refund-card) | Cards | No | An order reference, its status, and the actions a shopper can take. |
+| [Quiz](/components/interactive/quiz) | Interactive | No | A guided set of questions that ends in a recommendation. |
+| [Bundle builder](/components/interactive/bundle-builder) | Interactive | No | Slots, eligible products, and pricing rules for building a set. |
+| [Form](/components/interactive/form) | Interactive | No | Contact collection and other forms, with fields, validation, and consent. |
+| [Game](/components/interactive/game) | Interactive | No | A rules-based interaction with an outcome or reward. |
+| [Configurator](/components/interactive/configurator) | Interactive | No | Options, constraints, a live preview, and a result the shopper can add to cart. |
+| [Content block](/components/page/content-block) | Page | Yes | A heading, copy, media, and a call to action on a merchant page. |
+| [Page suggestions](/components/page/page-suggestions) | Page | Yes | A suggestion set on a merchant page, outside the widget. |
+| [Recommendation section](/components/page/recommendation-section) | Page | Yes | A product collection with a contextual explanation on a merchant page. |
+| [Comparison section](/components/page/comparison-section) | Page | Yes | A comparison on a merchant page. |
+| [Social proof section](/components/page/social-proof-section) | Page | Yes | Reviews, testimonials, or data selected for the shopper's context. |
+| [Offer section](/components/page/offer-section) | Page | Yes | An offer, who is eligible for it, an explanation, and a call to action. |
+| [Button](/components/primitives#button) | Primitives | No | A label, an action, and a state. |
+| [Input](/components/primitives#input) | Primitives | No | A typed field with validation and a value. |
+| [Selector](/components/primitives#selector) | Primitives | No | The picker inside another component. Options and a selected value. |
+| [Media](/components/primitives#media) | Primitives | No | An image or a video. |
+| [Text](/components/primitives#text) | Primitives | No | Copy with formatting and dynamic variables. |
+
+## Rules
+
+The rule lives on the rule-based component. A welcome message, a starter, a proactive message, or a page section carries its own conditions and priority. Proactive messages and page sections add timing and delivery limits. A [Rulebook](/orchestration/rulebooks) resolves the rule-based components of one type across every enabled Playbook, with fallback from the Default Playbook.
+
+Plain components have properties and no rule. A product card shows because something placed it: a message that embeds it, a page section that holds it, or the Agent composing the assistant reply. Read [Rules](/orchestration/rules) for what a rule can contain.
+
+<CardGroup cols={2}>
+  <Card title="Rules" icon="sliders" href="/orchestration/rules">
+    Conditions, combinations, timing, priority, and delivery restrictions.
+  </Card>
+  <Card title="Rulebooks" icon="scale-balanced" href="/orchestration/rulebooks">
+    How rule-based components from several Playbooks resolve into what shows.
+  </Card>
+</CardGroup>

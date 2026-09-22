@@ -1,0 +1,63 @@
+---
+title: "Welcome message"
+description: "The first message a shopper sees when the widget opens"
+---
+
+The welcome message is the first component a shopper reads when the widget opens. It sits at the top of the conversation, above the conversation starters, before the shopper has typed anything. One welcome message shows per conversation, chosen by the welcome message Rulebook from every enabled Playbook.
+
+## Example
+
+A shopper taps the link under a sneaker brand's unboxing video and lands on the product page for the pair in the video. The widget opens and the first bubble reads "Looking for the pair from the video?" with a product card for that pair beneath it, showing the image, price, and a size selector. Under the card sit three conversation starters: "Shop the pair from the video", "Help me find a shoe", and "Track my order". The shopper has not typed anything yet, and the composer at the bottom is empty. A visitor who arrives any other way sees "Hello! How can I help?" instead.
+
+<Frame caption="Welcome message for a shopper arriving from a video">
+  <img src="/images/placeholder.svg" alt="Welcome message for a shopper arriving from a video" />
+</Frame>
+
+A sneaker brand runs a YouTube Unboxing Playbook. Its welcome message reads "Looking for the pair from the video?" and its rule matches visitors who arrive from the unboxing campaign. The Default Playbook's welcome message reads "Hello! How can I help?" and matches everyone. A visitor from the video sees the first. Everyone else sees the second.
+
+## What it contains
+
+| Property | What it holds |
+| -------- | ------------- |
+| Content | The message text, with rich text formatting where the channel supports it |
+| Media | An optional image or video shown with the message |
+| Personalization variables | Values merged in at display time, such as the product on the landing page or the arrival source |
+| Embedded components | Any card or interactive component from the [Component library](/components/overview), such as a product card or a quiz |
+| Rule | The conditions and priority that make this message a candidate |
+
+You can write a welcome message in three ways, from simplest to most specific.
+
+- **Fixed text.** One message for everyone. The Default Playbook's welcome message is usually this.
+- **Personalized text.** One message with variables filled from where the shopper came from, such as the product in the ad they clicked or the campaign that brought them.
+- **A full rule with priority.** A message that only becomes a candidate when its conditions match, ranked against candidates from other Playbooks.
+
+The text, media, and variables belong to the welcome message. The cards it embeds are plain components with no rule of their own. They show because the welcome message that carries them won.
+
+## Rule
+
+A welcome message carries a rule with conditions and priority. Timing and delivery restrictions do not apply, because the message shows once, at the moment the widget opens.
+
+| Rule field | What you can set |
+| ---------- | ---------------- |
+| Conditions | UTM parameters (`source`, `medium`, `campaign`, `content`, `term`), referrer or arrival source, page or URL, segment membership, shopper attributes, session behavior, device and browser |
+| Condition combinations | All, any, and exclusions |
+| Priority | Higher priority is evaluated first |
+
+The welcome message Rulebook returns one result.
+
+1. Every enabled Playbook contributes the welcome messages whose rules are eligible.
+2. The Rulebook walks the candidates from the highest priority down.
+3. The first message whose rule matches the shopper's context wins, and the Rulebook stops.
+
+Lower-priority messages that also match never show. When nothing matches, the Default Playbook's welcome message shows. It carries a rule that always matches, at priority 0, so it never beats another candidate.
+
+The full list of conditions and how they combine is in [Rules](/orchestration/rules). Read the [worked example](/orchestration/how-rulebooks-resolve#worked-example-welcome-messages) to see four candidates from three Playbooks resolve to one message.
+
+## Related
+
+<CardGroup cols={2}>
+  <Card title="Rulebooks" href="/orchestration/rulebooks" />
+  <Card title="Conversation starter" href="/components/conversation/conversation-starter" />
+  <Card title="How rulebooks resolve conflicts" href="/orchestration/how-rulebooks-resolve" />
+  <Card title="Rules" href="/orchestration/rules" />
+</CardGroup>
