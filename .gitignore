@@ -1,0 +1,13 @@
+# macOS
+.DS_Store
+
+# Node
+node_modules/
+package-lock.json
+
+# Editors
+.idea/
+.vscode/
+
+# Mintlify CLI local output (keep .mintlify config and skills tracked)
+.mintlify/test/
