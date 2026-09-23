@@ -5,15 +5,35 @@ description: "A guided set of questions that ends in a recommendation"
 
 A quiz walks a shopper through a few questions and ends with a recommendation. It gives shoppers who do not know what to ask a structured way in, and it gives the Agent the answers it needs to recommend well. A shoe finder that asks about use, fit, and budget and then shows three matches is a quiz.
 
-## Example
-
-A shopper opens the widget on the running shoes collection page and taps the conversation starter **Help me find a shoe**. The assistant reply holds the quiz, titled **Shoe finder**, with the intro "Three questions and we'll show you your best matches." The first question reads "What will you mostly use them for?" with four choices, **Daily runs**, **Race day**, **Trail**, and **Gym and everyday**, a progress indicator of **1 of 3**, and a **Next** button. After fit and budget, the result screen shows a product collection of three shoes under the heading **Your matches**, a line that reads "Cushioned daily trainers under ₹12,000, in your width", and two buttons: **Shop these** and **Ask a question**.
-
-<Frame caption="Shoe finder quiz: first question and its result">
-  <img src="/images/placeholder.svg" alt="Shoe finder quiz: first question and its result" />
-</Frame>
-
 ## Anatomy
+
+The diagram shows a quiz as its intro, its questions with what each one holds, its progress and submission, and the results the shopper reaches.
+
+```mermaid
+flowchart TB
+  QZ["Quiz<br/><small>no rule</small>"]
+  QZ --> INTRO["Title and intro"]
+  QZ --> QS
+  QZ --> NAV["Navigation and progress<br/><small>back, next, and 2 of 5</small>"]
+  QZ --> SUB["Submission<br/><small>where the answers go</small>"]
+  QZ --> RES
+  subgraph QS["Questions, in order"]
+    Q["Question<br/><small>text and help text</small>"]
+    Q --> IT["Input type<br/><small>single choice, multiple choice, free text, or a scale</small>"]
+    Q --> AC["Answer choices<br/><small>label, value, optional image</small>"]
+    Q --> RV["Required status and validation"]
+    Q --> BR["Visibility and branching<br/><small>which question comes next</small>"]
+  end
+  subgraph RES["Results"]
+    RC["Product collection<br/><small>recommendations</small>"]
+    RE["Explanation<br/><small>why they fit</small>"]
+    RN["Next steps<br/><small>Shop these · Ask a question</small>"]
+  end
+  PRIM["Primitives<br/><small>input and selector</small>"]
+  IT -. "built from" .-> PRIM
+  AG["Agent"]
+  SUB -. "answers go to" .-> AG
+```
 
 | Property | What it holds |
 | -------- | ------------- |
@@ -37,18 +57,26 @@ Branching is a property of the quiz. It decides which question comes next once t
 
 ## Where it appears
 
-A quiz never shows on its own. One of these rule-based components includes it.
+A quiz never shows on its own. One of these components includes it.
 
-- In a [welcome message](/components/conversation/welcome-message), for example when a shopper lands on a collection page from a broad search and has not picked anything.
+- In the [welcome message](/components/conversation/welcome-message), for example a fit finder offered to every shopper when the widget opens.
 - In a [proactive message](/components/conversation/proactive-message), for example when a shopper has scrolled a collection for a while without opening a product.
 - In the [assistant reply](/components/conversation/assistant-reply), where the Agent chooses it. A [conversation starter](/components/conversation/conversation-starter) such as **Help me find a shoe** leads straight into it, and the Agent can offer it whenever a shopper's question is too broad to answer directly.
 - On a page, inside a [content block](/components/page/content-block) on a collection page or a dynamic landing page, for example under a heading such as **Not sure where to start?**.
 
-The [discovery experiment](/use-cases/discovery-experiment) uses the same quiz in one Playbook and leaves it out of another to measure which discovery method converts better.
+The [discovery experiment](/use-cases/discovery-experiment) uses the same quiz in one Journey and leaves it out of another to measure which discovery method converts better.
 
 ## Rules
 
-A quiz carries no rule. It shows because a welcome message, a proactive message, or a page section with a rule included it, or because the Agent composed it into the assistant reply. The rule that decides whether and when the shopper sees it lives on that component, not on the quiz. Read [Rules](/orchestration/rules).
+A quiz carries no rule. It shows because the welcome message, or a proactive message or page section with a rule, included it, or because the Agent composed it into the assistant reply. The rule that decides whether and when the shopper sees it lives on that component, not on the quiz. The welcome message is the exception: it carries no rule and is global, so every shopper sees what it embeds. Read [Rules](/orchestration/rules).
+
+## Example
+
+A shopper opens the widget on the running shoes collection page and taps the conversation starter **Help me find a shoe**. The assistant reply holds the quiz, titled **Shoe finder**, with the intro "Three questions and we'll show you your best matches." The first question reads "What will you mostly use them for?" with four choices, **Daily runs**, **Race day**, **Trail**, and **Gym and everyday**, a progress indicator of **1 of 3**, and a **Next** button. After fit and budget, the result screen shows a product collection of three shoes under the heading **Your matches**, a line that reads "Cushioned daily trainers under $150, in your width", and two buttons: **Shop these** and **Ask a question**.
+
+<Frame caption="Shoe finder quiz: first question and its result">
+  <img src="/images/placeholder.svg" alt="Shoe finder quiz: first question and its result" />
+</Frame>
 
 ## Related
 

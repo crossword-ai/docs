@@ -7,17 +7,31 @@ Pages and placements are how Crossword changes what a shopper sees on a page, no
 
 This applies to channels that support page experiences, such as Web. Conversation-only channels such as Instagram and iMessage do not have pages or placements.
 
-## Example
-
-A sneaker brand runs an unboxing campaign on YouTube. Visitors from the video land on a dynamic landing page: the brand's own header and footer, with a Crossword-controlled body that shows the pair from the video, a comparison with two alternatives, and reviews that mention fit. On the product page for that pair, page personalization inserts a "Why this is right for you" content block above the existing reviews section.
-
-The screenshot shows the **Pages and placements** screen of the Web experience. The Dynamic landing pages tab has Unboxing landing page open, with its rule reading `utm_campaign` equals `unboxing-a` and a body of three sections: the featured product, a comparison section with two alternatives, and a social proof section filtered to reviews that mention fit. The Placements tab beside it lists the product page template with a placement named Above reviews, filled by the content block "Why this is right for you".
-
-<Frame caption="Unboxing landing page and a product page placement">
-  <img src="/images/placeholder.svg" alt="Unboxing landing page and a product page placement" />
-</Frame>
-
 ## What it contains
+
+The diagram shows the two ways Crossword reaches a page, what a dynamic landing page is made of, what page personalization is made of, and where the page sections that fill both come from.
+
+```mermaid
+flowchart TB
+  PPL["Pages and placements<br/><small>on channels that support page experiences</small>"]
+  PPL --> DLP
+  PPL --> PERS
+  subgraph DLP["Dynamic landing page, one configuration per Journey with a rule"]
+    SHELL["Merchant shell<br/><small>your header and footer, unchanged</small>"]
+    BODY["Page body<br/><small>the area Crossword fills</small>"]
+    BODY --> LAY["Layout"]
+    LAY --> PL1["Placements"]
+  end
+  subgraph PERS["Page personalization, on a page you already have"]
+    TP["Target page<br/><small>product, cart, home, collection, about</small>"]
+    TP --> PL2["Placement<br/><small>a location, or an existing part of the page</small>"]
+    PL2 --> ACT["Placement action<br/><small>insert · replace · update</small>"]
+    PL2 --> ELIG["Eligible page sections"]
+  end
+  SECT["Page sections<br/><small>shared Component library, each with a rule</small>"]
+  PL1 -. "hold" .-> SECT
+  ELIG -. "hold" .-> SECT
+```
 
 | Concept | Meaning | Example |
 | ------- | ------- | ------- |
@@ -35,7 +49,7 @@ The screenshot shows the **Pages and placements** screen of the Web experience. 
 
 A dynamic landing page keeps your storefront's header and footer and hands the body to Crossword. You define the layout and its placements, and each placement holds a page section from the [Component library](/components/overview).
 
-Each landing page configuration lives inside a Playbook with its own rule. When a visitor arrives, the dynamic landing page selection Rulebook picks one configuration. The page section in each placement is then chosen by the component selection by page placement Rulebook. Read [Rulebooks](/orchestration/rulebooks).
+Each landing page configuration lives inside a Journey with its own rule. When a visitor arrives, the dynamic landing page selection Rulebook picks one configuration. The page section in each placement is then chosen by the component selection by page placement Rulebook. Read [Rulebooks](/orchestration/rulebooks).
 
 ## Page personalization
 
@@ -47,13 +61,23 @@ Page personalization works on pages you already have. You pick a target page, a 
 
 Each placement lists the page sections it can hold. A placement that replaces the merchant reviews block accepts a social proof section. A placement above the add-to-cart button accepts a content block or a recommendation section.
 
-Page sections fill placements: content blocks, page suggestions, recommendation sections, comparison sections, social proof sections, and offer sections. Read [Page sections](/components/page/page-sections) and [Page suggestions](/components/page/page-suggestions).
+Page sections fill placements: content blocks, page suggestions, recommendation sections, comparison sections, and social proof sections. Read [Page sections](/components/page/page-sections) and [Page suggestions](/components/page/page-suggestions).
 
 ## How it fits
 
-Pages and placements live inside an experience. The page sections themselves live inside Playbooks, each with a rule, a target page, and a placement. Two Rulebooks resolve them: dynamic landing page selection returns one page configuration, and component selection by page placement returns one page section per placement. Every page section comes from the shared Component library.
+Pages and placements live inside an experience. The page sections themselves live inside Journeys, each with a rule, a target page, and a placement. Two Rulebooks resolve them: dynamic landing page selection returns one page configuration, and component selection by page placement returns one page section per placement. Every page section comes from the shared Component library.
 
 Page sections carry the same rules as conversation components, plus timing and delivery restrictions. A page section can react to UTM parameters, segment membership, and cart contents like any other rule-based component. Read [Rules](/orchestration/rules).
+
+## Example
+
+A sneaker brand runs an unboxing campaign on YouTube. Visitors from the video land on a dynamic landing page: the brand's own header and footer, with a Crossword-controlled body that shows the pair from the video, a comparison with two alternatives, and reviews that mention fit. On the product page for that pair, page personalization inserts a "Why this is right for you" content block above the existing reviews section.
+
+The screenshot shows the **Pages and placements** screen of the Web experience. The Dynamic landing pages tab has Unboxing landing page open, with its rule reading `utm_campaign` equals `unboxing-a` and a body of three sections: the featured product, a comparison section with two alternatives, and a social proof section filtered to reviews that mention fit. The Placements tab beside it lists the product page template with a placement named Above reviews, filled by the content block "Why this is right for you".
+
+<Frame caption="Unboxing landing page and a product page placement">
+  <img src="/images/placeholder.svg" alt="Unboxing landing page and a product page placement" />
+</Frame>
 
 ## Related
 

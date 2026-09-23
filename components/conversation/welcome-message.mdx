@@ -3,72 +3,7 @@ title: "Welcome message"
 description: "The first message a shopper sees when the widget opens"
 ---
 
-The welcome message is the first component a shopper reads when the widget opens. It sits at the top of the conversation, above the conversation starters, before the shopper has typed anything. One welcome message shows per conversation, chosen by the welcome message Rulebook from every enabled Playbook.
-
-## Examples
-
-The same widget, opened by five different shoppers on a sneaker storefront, shows how one rule at a time changes the first thing they read.
-
-### Out of the box
-
-A shopper opens the widget on any page and no rule from any other Playbook matches. The Default Playbook's welcome message reads "Hello! How can I help?" at the top of an empty conversation, with the Default Playbook's starters beneath it and an empty composer at the bottom. This is what every shopper sees when nothing else matches, because the Default Playbook's message always matches at priority 0.
-
-<Frame caption="Default welcome message when no rule matches">
-  <img src="/images/placeholder.svg" alt="Default welcome message when no rule matches" />
-</Frame>
-
-### With a rule: arrival from a video
-
-> Rule: UTM source is youtube and UTM campaign is unboxing-a. Priority 10.
-
-A shopper taps the link under the brand's unboxing video and lands on the product page for the pair in the video. The first bubble now reads "Looking for the pair from the video?" with a product card for that pair beneath it, showing the image, price, and a size selector. The greeting names why they came, and the card gives them the product before they ask. Everything else about the widget is the same as out of the box.
-
-<Frame caption="Welcome message for a shopper arriving from a video">
-  <img src="/images/placeholder.svg" alt="Welcome message for a shopper arriving from a video" />
-</Frame>
-
-### With a rule: returning customer
-
-> Rule: shopper is a member of the "Returning customers" segment. Priority 20.
-
-A shopper who has ordered before opens the widget. The message reads "Welcome back, `{first_name}`. Want to reorder your last pair or see what's new?" with the variable filled from their profile and a product card for the pair they bought last. Nothing about the arrival URL matters here. Because this rule sits at priority 20, a returning customer who also arrives from the video sees this message, not the video one.
-
-<Frame caption="Welcome message for a returning customer">
-  <img src="/images/placeholder.svg" alt="Welcome message for a returning customer" />
-</Frame>
-
-### With a rule: cart over a value
-
-> Rule: cart contains at least one item and cart value is over ₹8,000. Priority 15.
-
-A shopper with two pairs in the cart opens the widget from the collection page. The message reads "Your order qualifies for free shipping. Ready to check out?" with a cart and checkout card beneath it listing both pairs and a checkout button. The greeting speaks to what is in the cart rather than to the page or the arrival source, and the embedded card moves the shopper straight to the next step.
-
-<Frame caption="Welcome message when the cart is over a value">
-  <img src="/images/placeholder.svg" alt="Welcome message when the cart is over a value" />
-</Frame>
-
-### With a rule: mobile device
-
-> Rule: device is mobile. Exclusion: member of the "Returning customers" segment. Priority 5.
-
-A first-time shopper opens the widget on a phone. The message is a single short line, "Hi! Ask me about sizing, shipping, or returns.", with no media and no embedded card, so the starters and composer stay above the fold on a small screen. The exclusion keeps this from replacing the returning-customer message, and the low priority means any campaign-specific message wins over it.
-
-<Frame caption="Short welcome message on a mobile device">
-  <img src="/images/placeholder.svg" alt="Short welcome message on a mobile device" />
-</Frame>
-
-### What else a rule can do
-
-- Greet by referrer when no UTM parameters are present, such as a visitor from a social network.
-- Speak to the page, such as naming the collection the shopper opened the widget from.
-- Use a shopper attribute, such as a known preferred size, to fill a personalization variable.
-- Match any of several campaigns with one rule, so three ad variants share a message.
-- Exclude a segment, such as skipping a promotional greeting for shoppers who opted out.
-- Respond to previous interaction, such as "Picking up where we left off?" for a shopper who opened chat earlier this session.
-- Embed a quiz or a form for shoppers who arrive from a "find your fit" campaign.
-- Swap media by viewport, showing a video on desktop and none on a narrow screen.
-
-Every condition and how they combine is in [Rules](/orchestration/rules).
+The welcome message is the first component a shopper reads when the widget opens. It sits at the top of the conversation, above the conversation starters, before the shopper has typed anything. It is a Conversation component that carries no rule. There is one welcome message per experience, and every shopper sees the same one on every page.
 
 ## What it contains
 
@@ -76,43 +11,63 @@ Every condition and how they combine is in [Rules](/orchestration/rules).
 | -------- | ------------- |
 | Content | The message text, with rich text formatting where the channel supports it |
 | Media | An optional image or video shown with the message |
-| Personalization variables | Values merged in at display time, such as the product on the landing page or the arrival source |
 | Embedded components | Any card or interactive component from the [Component library](/components/overview), such as a product card or a quiz |
-| Rule | The conditions and priority that make this message a candidate |
 
-You can write a welcome message in three ways, from simplest to most specific.
+The text, media, and embedded components belong to the welcome message. The cards it embeds are plain components with no rule of their own. They show because the welcome message shows, and the welcome message shows every time the widget opens.
 
-- **Fixed text.** One message for everyone. The Default Playbook's welcome message is usually this.
-- **Personalized text.** One message with variables filled from where the shopper came from, such as the product in the ad they clicked or the campaign that brought them.
-- **A full rule with priority.** A message that only becomes a candidate when its conditions match, ranked against candidates from other Playbooks.
+## Where it is set
 
-The text, media, and variables belong to the welcome message. The cards it embeds are plain components with no rule of their own. They show because the welcome message that carries them won.
+The welcome message has no rule, no priority, and no Rulebook. You set it once, in the [Default Journey](/orchestration/journeys#the-default-journey).
 
-## Rule
+- **One per experience.** Each experience has exactly one welcome message.
+- **Set in the Default Journey.** Other Journeys do not add welcome messages.
+- **The same for everyone.** Every shopper sees it on every page, whatever the arrival source, segment, device, or cart.
 
-A welcome message carries a rule with conditions and priority. Timing and delivery restrictions do not apply, because the message shows once, at the moment the widget opens.
+To change what a shopper reads first, edit the welcome message in the Default Journey. The change applies to every conversation in that experience.
 
-| Rule field | What you can set |
-| ---------- | ---------------- |
-| Conditions | UTM parameters (`source`, `medium`, `campaign`, `content`, `term`), referrer or arrival source, page or URL, segment membership, shopper attributes, session behavior, device and browser |
-| Condition combinations | All, any, and exclusions |
-| Priority | Higher priority is evaluated first |
+## Greetings that depend on context
 
-The welcome message Rulebook returns one result.
+A greeting that depends on where the shopper came from or who they are, such as an arrival from a video or an ad, or membership in a segment, belongs in a [proactive message](/components/conversation/proactive-message). A proactive message can appear on arrival, such as "Looking for the pair from the video?" It carries conditions, timing, and priority, and its own [Rulebook](/orchestration/rulebooks) resolves it.
 
-1. Every enabled Playbook contributes the welcome messages whose rules are eligible.
-2. The Rulebook walks the candidates from the highest priority down.
-3. The first message whose rule matches the shopper's context wins, and the Rulebook stops.
+To offer different prompts on different pages, use [conversation starters](/components/conversation/conversation-starter). Starters sit under the welcome message and are set per page. They do not change with the arrival source or segment.
 
-Lower-priority messages that also match never show. The Default Playbook's message, at priority 0, is the last candidate considered.
+## Examples
 
-Read the [worked example](/orchestration/how-rulebooks-resolve#worked-example-welcome-messages) to see four candidates from three Playbooks resolve to one message.
+Two ways to configure the one welcome message. Whichever you choose, every shopper sees it.
+
+### Text only
+
+A single line in the store's voice, with starters beneath it.
+
+```yaml
+Content: One-line greeting that says what the assistant can help with
+Media: none
+Embedded component: none
+```
+
+<Frame caption="A text-only welcome message with starters beneath it">
+  <img src="/images/conversation/welcome-message.png" alt="A text-only welcome message with starters beneath it" />
+</Frame>
+
+### Text with product cards
+
+A personal greeting with a fanned row of picks the shopper can swipe through.
+
+```yaml
+Content: Greeting with the shopper's name, a short heading, and a closing line that invites them to explore
+Media: none
+Embedded component: Product collection, shown as a fanned carousel
+```
+
+<Frame caption="Welcome message with a carousel of picks">
+  <img src="/images/conversation/welcome-message-product-card.gif" alt="Welcome message with a carousel of picks" />
+</Frame>
 
 ## Related
 
 <CardGroup cols={2}>
-  <Card title="Rulebooks" href="/orchestration/rulebooks" />
   <Card title="Conversation starter" href="/components/conversation/conversation-starter" />
-  <Card title="How rulebooks resolve conflicts" href="/orchestration/how-rulebooks-resolve" />
-  <Card title="Rules" href="/orchestration/rules" />
+  <Card title="Proactive message" href="/components/conversation/proactive-message" />
+  <Card title="Journeys" href="/orchestration/journeys" />
+  <Card title="Rulebooks" href="/orchestration/rulebooks" />
 </CardGroup>

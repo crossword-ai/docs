@@ -7,17 +7,32 @@ A Workflow is a set of steps that an Agent or a Campaign can run to complete an 
 
 Use a Workflow whenever the outcome has to be the same every time. An Agent decides when to call it. The Workflow decides what happens once called.
 
-## Example
-
-A Workflow called Generate return label takes an order number and the items to return. It checks eligibility, asks the shopper to confirm the items, creates the label, and returns a link. If the order is outside the return window, it branches to a response that explains why and hands the conversation back to the Agent.
-
-The screenshot shows the **Workflows** screen with Generate return label open in the step editor. Inputs are `order_number` and `items`, and Outputs are `label_url` and `eligibility`. The canvas runs Look up order, then a branch named Within return window?, then Confirm items, Create label, and a response step reading "Your label is ready". The No path from the branch goes to a response that explains the window and then a Hand off to Order assistant step. The settings panel shows Error handling as Retry once, then respond, and Timeout as 30 seconds, then hand off.
-
-<Frame caption="Generate return label Workflow in the step editor">
-  <img src="/images/placeholder.svg" alt="Generate return label Workflow in the step editor" />
-</Frame>
-
 ## What it contains
+
+The diagram shows a Workflow, what it is built from, and who calls it.
+
+```mermaid
+flowchart TB
+  W["Workflow<br/><small>a callable unit · no rule</small>"]
+  W --> IN["Inputs<br/><small>values it needs before it runs</small>"]
+  W --> OUT["Outputs<br/><small>values it returns to the caller</small>"]
+  W --> STEPS
+  W --> EH["Error handling<br/><small>retry, branch, respond, or hand off</small>"]
+  W --> TH["Timeout handling<br/><small>retry, branch, respond, or hand off</small>"]
+  subgraph STEPS["Steps, ordered, of five types"]
+    S1["Deterministic operation"]
+    S2["Agent invocation"]
+    S3["Condition or branch"]
+    S4["Confirmation or approval"]
+    S5["Response or handoff"]
+  end
+  AG["Agent"]
+  CS["Campaign step"]
+  AG -. "calls" .-> W
+  CS -. "calls" .-> W
+  S2 -. "invokes" .-> AG
+  S5 -. "hands off to" .-> AG
+```
 
 | Concept | Meaning | Example |
 | ------- | ------- | ------- |
@@ -49,6 +64,16 @@ Each Workflow defines what happens when a step fails and when a step exceeds its
 ## How it fits
 
 A Workflow sits beside Agents and Campaigns as a callable unit. It does not carry a rule, and it is not resolved by a Rulebook. Something else decides to run it. Once running, it can invoke an Agent for a single step and hand off to an Agent at the end.
+
+## Example
+
+A Workflow called Generate return label takes an order number and the items to return. It checks eligibility, asks the shopper to confirm the items, creates the label, and returns a link. If the order is outside the return window, it branches to a response that explains why and hands the conversation back to the Agent.
+
+The screenshot shows the **Workflows** screen with Generate return label open in the step editor. Inputs are `order_number` and `items`, and Outputs are `label_url` and `eligibility`. The canvas runs Look up order, then a branch named Within return window?, then Confirm items, Create label, and a response step reading "Your label is ready". The No path from the branch goes to a response that explains the window and then a Hand off to Order assistant step. The settings panel shows Error handling as Retry once, then respond, and Timeout as 30 seconds, then hand off.
+
+<Frame caption="Generate return label Workflow in the step editor">
+  <img src="/images/placeholder.svg" alt="Generate return label Workflow in the step editor" />
+</Frame>
 
 ## Related
 

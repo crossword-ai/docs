@@ -7,23 +7,34 @@ An audience is who something applies to, and you express it as a segment: a reus
 
 Segments are shared. They sit beside experiences, not inside them, so the same segment serves your web experience and your Instagram experience.
 
-## Example
-
-A segment called High-value abandoned-cart shoppers is dynamic. Its rule is cart value over ₹2,000 and inactive for 30 minutes. A cart recovery Campaign enrolls from it. A proactive message rule in the Returning Customer Playbook tests membership in it to offer help with checkout. When a shopper purchases, they stop qualifying and exit the segment.
-
-The screenshot shows the **Audiences** screen. The segment list has High-value abandoned-cart shoppers as Dynamic with 312 members, Loyalty members as Static with 4,820 members, and Returning customers as Dynamic. High-value abandoned-cart shoppers is open on the right with its rule reading Cart value over ₹2,000 and Inactive for 30 minutes. The Used by panel lists the Cart Recovery Campaign and one proactive message in the Returning Customer Playbook.
-
-<Frame caption="A dynamic segment and where it is used">
-  <img src="/images/placeholder.svg" alt="A dynamic segment and where it is used" />
-</Frame>
-
 ## What it contains
+
+The diagram shows how Audiences break down into segments, the two kinds of segment, what membership means, and who uses segments.
+
+```mermaid
+flowchart TB
+  AUD["Audiences<br/><small>shared, beside experiences</small>"]
+  AUD --> SEG["Segment<br/><small>a reusable definition of a customer group</small>"]
+  SEG --> ST["Static segment<br/><small>membership assigned or imported</small>"]
+  SEG --> DYN["Dynamic segment<br/><small>membership recalculated from conditions</small>"]
+  DYN --> SR["Segment rule"]
+  SEG --> MEM
+  subgraph MEM["Membership, whether a profile currently belongs"]
+    ENTRY["Entry<br/><small>a profile becomes a member</small>"]
+    EXIT["Exit<br/><small>a profile stops qualifying</small>"]
+  end
+  subgraph USERS["Who uses segments"]
+    CAMP["Campaigns<br/><small>enroll from a segment</small>"]
+    RULE["Rules on components<br/><small>test membership</small>"]
+  end
+  SEG -. "used by" .-> USERS
+```
 
 | Concept | Meaning | Example |
 | ------- | ------- | ------- |
 | Segment | A reusable definition of a customer group | High-value customers |
 | Static segment | Membership is explicitly assigned or imported, and does not change until you update it | A list of loyalty members uploaded from your CRM |
-| Dynamic segment | Membership is continuously recalculated from conditions | Shoppers with a cart over ₹2,000 and inactive for 30 minutes |
+| Dynamic segment | Membership is continuously recalculated from conditions | Shoppers with a cart over $50 and inactive for 30 minutes |
 | Segment rule | The conditions that define dynamic membership | Lifetime orders over 3 |
 | Membership | Whether a profile currently belongs to the segment | Yes |
 | Entry | A profile becomes a member | A shopper places their fourth order |
@@ -35,7 +46,7 @@ A Campaign names a segment as its audience. Cart Recovery says "Audience: High-v
 
 ## How rules use segments
 
-Segment membership is a condition on any rule. A welcome message can require membership in "Returning customers". A page section can exclude "Already purchased Product A". This lets a Playbook react to who the shopper is, not only to where they came from. Read [Rules](/orchestration/rules).
+Segment membership is a condition on the rules of proactive messages, page sections, and Agent routing. A proactive message can require membership in "Returning customers". A page section can exclude "Already purchased Product A". This lets a Journey react to who the shopper is, not only to where they came from. Read [Rules](/orchestration/rules).
 
 ## Enrollment is not membership
 
@@ -44,11 +55,21 @@ Segment membership and Campaign enrollment are two different states.
 - **Membership** is whether the profile currently matches the segment. For a dynamic segment it can change at any moment.
 - **Enrollment** is whether the shopper is currently inside a Campaign's sequence. It starts at the entry trigger and ends at exit or completion.
 
-A shopper can be enrolled in a Campaign and no longer be a member of its segment. Each Campaign states what happens then: **Exit Campaign** or **Continue Campaign**. Read [Playbooks vs campaigns](/orchestration/playbooks-vs-campaigns) for the choice.
+A shopper can be enrolled in a Campaign and no longer be a member of its segment. Each Campaign states what happens then: **Exit Campaign** or **Continue Campaign**. Read [Journeys vs campaigns](/orchestration/journeys-vs-campaigns) for the choice.
 
 ## How it fits
 
 Segments sit beside experiences, alongside the Component library. Above them are the shopper profiles and events that feed their rules. Below them are the two consumers: Campaigns, which enroll from them, and rules on components, which test against them.
+
+## Example
+
+A segment called High-value abandoned-cart shoppers is dynamic. Its rule is cart value over $50 and inactive for 30 minutes. A cart recovery Campaign enrolls from it. A proactive message rule in the Returning Customer Journey tests membership in it to offer help with checkout. When a shopper purchases, they stop qualifying and exit the segment.
+
+The screenshot shows the **Audiences** screen. The segment list has High-value abandoned-cart shoppers as Dynamic with 312 members, Loyalty members as Static with 4,820 members, and Returning customers as Dynamic. High-value abandoned-cart shoppers is open on the right with its rule reading Cart value over $50 and Inactive for 30 minutes. The Used by panel lists the Cart Recovery Campaign and one proactive message in the Returning Customer Journey.
+
+<Frame caption="A dynamic segment and where it is used">
+  <img src="/images/placeholder.svg" alt="A dynamic segment and where it is used" />
+</Frame>
 
 ## Related
 

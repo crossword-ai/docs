@@ -5,14 +5,6 @@ description: "A rules-based interaction with an outcome or reward"
 
 A game is a short, rules-based interaction that ends in an outcome or a reward. A spin to reveal a discount, a scratch card, a pick-one-of-three reveal. It earns a moment of attention and gives the shopper a reason to keep going.
 
-## Example
-
-A first-time visitor lands on the home page and the widget opens with a welcome message that reads "Welcome. Spin for a first-order discount." Under it sits a spin-to-win wheel with six segments, labelled **5% off**, **10% off**, **Free shipping**, **15% off**, **Free socks**, and **Try again**, and a single **Spin** button. After one spin, the wheel stops on **10% off** and the outcome reads "You won 10% off your first order. Code SPIN10 is applied at checkout." with a **Start shopping** button beneath it.
-
-<Frame caption="Spin-to-win game in a welcome message">
-  <img src="/images/placeholder.svg" alt="Spin-to-win game in a welcome message" />
-</Frame>
-
 ## Anatomy
 
 | Property | What it holds |
@@ -26,22 +18,30 @@ The rules of play are a property of the game. They decide the outcome once the s
 
 ## Where it appears
 
-A game never shows on its own. One of these rule-based components includes it.
+A game never shows on its own. One of these components includes it.
 
-- In a [welcome message](/components/conversation/welcome-message), for example a spin-to-win for a first-time visitor.
+- In the [welcome message](/components/conversation/welcome-message), for example a spin-to-win offered to every shopper when the widget opens. To show a game only to first-time visitors, put it in a proactive message with a rule.
 - In a [proactive message](/components/conversation/proactive-message), for example to re-engage a shopper who has been idle on a page for a set time. The message's timing and frequency cap keep the game from showing on every visit.
 - In the [assistant reply](/components/conversation/assistant-reply), where the Agent chooses it. The Agent offers it as a next step, for example when a shopper asks whether there is a discount.
-- On a page, inside an [offer section](/components/page/offer-section), for example on a landing page where the reward is the offer, or inside a [content block](/components/page/content-block) on a collection page.
+- On a page, inside a [content block](/components/page/content-block), for example on a landing page where the reward is a discount, or on a collection page.
 
 ## Rules
 
-A game carries no rule. It shows because a welcome message, a proactive message, or a page section with a rule included it, or because the Agent composed it into the assistant reply. The rule that decides whether and when the shopper sees it, and how often, lives on that component, not on the game. Read [Rules](/orchestration/rules).
+A game carries no rule. It shows because the welcome message, or a proactive message or page section with a rule, included it, or because the Agent composed it into the assistant reply. The rule that decides whether and when the shopper sees it, and how often, lives on that component, not on the game. The welcome message is the exception: it carries no rule and is global, so every shopper sees what it embeds. Read [Rules](/orchestration/rules).
+
+## Example
+
+A shopper lands on the home page and opens the widget. The welcome message, the same one every shopper sees, reads "Welcome. Spin for a first-order discount." Under it sits a spin-to-win wheel with six segments, labelled **5% off**, **10% off**, **Free shipping**, **15% off**, **Free socks**, and **Try again**, and a single **Spin** button. After one spin, the wheel stops on **10% off** and the outcome reads "You won 10% off your first order. Code SPIN10 is applied at checkout." with a **Start shopping** button beneath it.
+
+<Frame caption="Spin-to-win game in a welcome message">
+  <img src="/images/placeholder.svg" alt="Spin-to-win game in a welcome message" />
+</Frame>
 
 ## Related
 
 <CardGroup cols={2}>
   <Card title="Proactive messages" href="/components/conversation/proactive-message" />
   <Card title="Rules" href="/orchestration/rules" />
-  <Card title="Offer section" href="/components/page/offer-section" />
+  <Card title="Content block" href="/components/page/content-block" />
   <Card title="Form" href="/components/interactive/form" />
 </CardGroup>

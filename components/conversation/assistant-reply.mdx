@@ -5,33 +5,40 @@ description: "Reply text, cards, suggestions, quick replies, and actions, each t
 
 The assistant reply is what a shopper sees every time an Agent answers. It appears in the conversation, one per turn, and it is the one component an [Agent](/agents/overview) composes rather than a Rulebook picks. It carries no rule. Every part of it emits its own events, which is how you follow a shopper from a reply to a purchase.
 
-## Example
-
-A shopper has typed "I need road running shoes, size 9, under 150" and answered one question about cushioning. The reply opens with the sentence "Based on what you've told me, these three are your best matches", followed by a carousel of three product cards, each with an image, a price, and a size selector preset to 9. Under the carousel sit three follow-up chips, "Compare the first two", "Show me cheaper options", and "Only show black", and beneath those a single text button, **View all results**. The shopper's own message sits above the reply so the exchange reads as one turn. All four kinds of child appear in the one reply.
-
-<Frame caption="One reply with text, a collection, follow-ups, and an action">
-  <img src="/images/placeholder.svg" alt="One reply with text, a collection, follow-ups, and an action" />
-</Frame>
-
-Under the reply text, the reply renders, in order:
-
-1. A product collection holding Product A, Product B, and Product C.
-2. Three follow-up suggestions: "Compare the first two", "Show me cheaper options", "Only show black".
-3. One action: "View all results".
-
-One reply, four kinds of child. Each is rendered and tracked separately.
-
 ## What it contains
+
+The diagram shows the Agent composing the assistant reply and the five kinds of part the reply holds.
+
+```mermaid
+flowchart TB
+  AGENT["Agent<br/><small>chosen by the agent routing Rulebook</small>"]
+  AGENT -. "composes" .-> AR
+  AR["Assistant reply<br/><small>one per turn · no rule</small>"]
+  AR --> RT["Reply text<br/><small>text blocks, rich content, citations</small>"]
+  AR --> CARDS
+  AR --> FU["Follow-up suggestions<br/><small>written per reply · no rule</small>"]
+  AR --> QR["Quick replies<br/><small>closed one-tap answers with a fixed value</small>"]
+  AR --> AC["Actions<br/><small>buttons and links</small>"]
+  subgraph CARDS["Cards and collections"]
+    PC["Product cards"]
+    PCOL["Product collections"]
+    CC["Comparison cards"]
+    CART["Cart cards"]
+    REST["Quizzes, forms, and the rest"]
+  end
+  LIB["Component library<br/><small>plain components, no rule</small>"]
+  CARDS -. "drawn from" .-> LIB
+```
 
 | Part | What it holds |
 | ---- | ------------- |
 | Reply text | Text blocks, rich content, and citations or source references |
 | Cards and collections | Components from the [Component library](/components/overview): product cards, product collections, comparison cards, cart cards, quizzes, forms, and the rest |
-| Follow-up suggestions | Open next steps under the reply, generated or configured |
+| Follow-up suggestions | Open next steps under the reply, written by the Agent for each reply |
 | Quick replies | Closed one-tap answers with a fixed value, such as Yes, No, or Size 9 |
 | Actions | Buttons and links the shopper can act on, such as "View all results" or "Add to cart" |
 
-The reply text and its formatting belong to the reply. Cards and collections are plain components the Agent composes in. [Follow-up suggestions](/components/conversation/follow-up-suggestion) are a component of their own, rendered under the reply.
+The reply text and its formatting belong to the reply. Cards and collections are plain components the Agent composes in. [Follow-up suggestions](/components/conversation/follow-up-suggestion) are a component of their own, rendered under the reply. The Agent writes them for each reply from its instructions.
 
 ## Quick reply
 
@@ -49,10 +56,10 @@ Quick replies carry no rule. The Agent decides at reply time whether to offer th
 
 No Rulebook picks a reply, and no rule gates it. There is no priority, timing, or delivery restriction on a reply. Two things upstream decide what the shopper sees.
 
-1. The agent routing Rulebook decides which Agent answers. It evaluates the routing rules of every Agent in the enabled Playbooks and falls back to the Default Playbook's Agent.
+1. The agent routing Rulebook decides which Agent answers. It evaluates the routing rules of every Agent in the enabled Journeys and falls back to the Default Journey's Agent.
 2. That Agent's response configuration decides the shape of the reply: the text and formatting, which follow-ups and quick replies to offer, and which cards and collections to render.
 
-Configured follow-up suggestions add one more control. Each carries its own conditions and priority. Read [Agents](/agents/overview) for routing and response configuration.
+Follow-up suggestions follow the same path. They carry no rule, conditions, or priority. The Agent writes them for each reply, from the guidance in its [instructions](/agents/instructions-and-model), the reply it just gave, and the enabled Journeys. Read [Agents](/agents/overview) for routing and response configuration.
 
 ## The event trail
 
@@ -73,6 +80,22 @@ Every step in that trail is a separate event with a reference back to the reply 
 | Action | Action shown | Action clicked |
 
 Impressions tell you what the shopper saw. Interactions tell you what they did with it. Together they answer "which follow-up suggestion leads to the most add-to-cart events" for a single reply.
+
+## Example
+
+A shopper has typed "I need road running shoes, size 9, under $150" and answered one question about cushioning. The reply opens with the sentence "Based on what you've told me, these three are your best matches", followed by a carousel of three product cards, each with an image, a price, and a size selector preset to 9. Under the carousel sit three follow-up chips, "Compare the first two", "Show me cheaper options", and "Only show black", and beneath those a single text button, **View all results**. The shopper's own message sits above the reply so the exchange reads as one turn. All four kinds of child appear in the one reply.
+
+<Frame caption="One reply with text, a collection, follow-ups, and an action">
+  <img src="/images/placeholder.svg" alt="One reply with text, a collection, follow-ups, and an action" />
+</Frame>
+
+Under the reply text, the reply renders, in order:
+
+1. A product collection holding Product A, Product B, and Product C.
+2. Three follow-up suggestions: "Compare the first two", "Show me cheaper options", "Only show black".
+3. One action: "View all results".
+
+One reply, four kinds of child. Each is rendered and tracked separately.
 
 ## Related
 

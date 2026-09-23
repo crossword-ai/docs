@@ -5,15 +5,35 @@ description: "Contact collection and other forms with fields, validation, and co
 
 A form collects structured information from a shopper inside the conversation. The most common use is contact collection: an email for a back-in-stock alert, a phone number for a callback, a name for a personalized offer. The same component handles any other set of fields you need.
 
-## Example
-
-A shopper asks how to reach the team about a bulk order and the Agent replies with a contact form. The card is headed **Get in touch** with the subtitle "Send us a message and we'll reply soon." Three fields follow, labelled **NAME**, **WORK EMAIL**, and **MESSAGE**, each with placeholder text that shows the expected value, such as "you@company.com" for the email. The **Send message** button stays disabled until every field is filled and the email is valid. After a valid submission, the values run through a Workflow and the form collapses into a success message.
-
-<Frame caption="Contact form with three fields and a disabled submit">
-  <img src="/images/interactive/form.png" alt="Contact form with three fields and a disabled submit" />
-</Frame>
-
 ## Anatomy
+
+The diagram shows a form as its type, its fields with what each one holds, its consent and submit controls, its messages, and the Workflow that runs on submit.
+
+```mermaid
+flowchart TB
+  FM["Form<br/><small>no rule</small>"]
+  FM --> TYPE["Form type<br/><small>contact collection, or any fields you define</small>"]
+  FM --> FIELDS
+  FM --> CONSENT["Consent fields<br/><small>marketing consent or terms</small>"]
+  FM --> SUBMIT["Submit control<br/><small>such as Notify me</small>"]
+  FM --> MSG
+  subgraph FIELDS["Fields"]
+    F["Field"]
+    F --> LB["Label"]
+    F --> IT["Input type<br/><small>text, email, phone, or number</small>"]
+    F --> RQ["Required"]
+    F --> VA["Validation"]
+  end
+  subgraph MSG["Success and error messages"]
+    OK["Success message"]
+    ERR["Error message<br/><small>validation fails or submission cannot complete</small>"]
+  end
+  PRIM["Primitives<br/><small>input and button</small>"]
+  IT -. "built from the input" .-> PRIM
+  SUBMIT -. "built from the button" .-> PRIM
+  WF["Workflow<br/><small>what happens with the submitted values</small>"]
+  SUBMIT -. "on submit" .-> WF
+```
 
 | Property | What it holds |
 | -------- | ------------- |
@@ -36,16 +56,24 @@ Validation is a property of the form. It governs what the shopper can submit onc
 
 ## Where it appears
 
-A form never shows on its own. One of these rule-based components includes it.
+A form never shows on its own. One of these components includes it.
 
-- In a [welcome message](/components/conversation/welcome-message), for example a sign-up form for a shopper who arrives from a newsletter link.
+- In the [welcome message](/components/conversation/welcome-message), for example a newsletter sign-up offered to every shopper when the widget opens.
 - In a [proactive message](/components/conversation/proactive-message), for example an offer that asks for an email in exchange for a discount.
 - In the [assistant reply](/components/conversation/assistant-reply), where the Agent chooses it. The Agent needs details to continue, such as an email to send a size guide or to set a back-in-stock alert, and asks for them with the form rather than in free text.
-- On a page, inside a [content block](/components/page/content-block), for example a sign-up block on a dynamic landing page, or inside an [offer section](/components/page/offer-section) that trades an email for a discount.
+- On a page, inside a [content block](/components/page/content-block), for example a sign-up block on a dynamic landing page, or one that trades an email for a discount.
 
 ## Rules
 
-A form carries no rule. It shows because a welcome message, a proactive message, or a page section with a rule included it, or because the Agent composed it into the assistant reply. The rule that decides whether and when the shopper sees it lives on that component, not on the form. Read [Rules](/orchestration/rules).
+A form carries no rule. It shows because the welcome message, or a proactive message or page section with a rule, included it, or because the Agent composed it into the assistant reply. The rule that decides whether and when the shopper sees it lives on that component, not on the form. The welcome message is the exception: it carries no rule and is global, so every shopper sees what it embeds. Read [Rules](/orchestration/rules).
+
+## Example
+
+A shopper asks how to reach the team about a bulk order and the Agent replies with a contact form. The card is headed **Get in touch** with the subtitle "Send us a message and we'll reply soon." Three fields follow, labelled **NAME**, **WORK EMAIL**, and **MESSAGE**, each with placeholder text that shows the expected value, such as "you@company.com" for the email. The **Send message** button stays disabled until every field is filled and the email is valid. After a valid submission, the values run through a Workflow and the form collapses into a success message.
+
+<Frame caption="Contact form with three fields and a disabled submit">
+  <img src="/images/interactive/form.png" alt="Contact form with three fields and a disabled submit" />
+</Frame>
 
 ## Related
 

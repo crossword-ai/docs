@@ -3,13 +3,41 @@ title: "Rules"
 description: "Conditions, timing, priority, and delivery restrictions on rule-based components"
 ---
 
-A rule is the set of conditions, timing, priority, and delivery restrictions attached to one rule-based component. Rules live on the component, not on the Playbook. A Playbook has no master condition. Enabling a Playbook makes the rules on its components eligible for evaluation, and the Rulebook for each component type decides what wins.
+A rule is the set of conditions, timing, priority, and delivery restrictions attached to one rule-based component. Rules live on the component, not on the Journey. A Journey has no master condition. Enabling a Journey makes the rules on its components eligible for evaluation, and the Rulebook for each component type decides what wins.
 
-Not every component carries a rule. Welcome messages, conversation starters, follow-up suggestions, proactive messages, and every page section do. Agent routing and dynamic landing page selection follow the same model. Cards, interactive components, primitives, and the assistant reply carry no rule. They show because a rule-based component or an Agent placed them. Read [Core concepts](/concepts#which-components-carry-rules) for the full table.
+Not every component carries a rule. Conversation starters, proactive messages, and every page section do. Agent routing and dynamic landing page selection follow the same model. A conversation starter's rule is the narrowest: its only condition is the page it shows on. Cards, interactive components, primitives, and the assistant reply carry no rule. They show because a rule-based component or an Agent placed them. The welcome message carries no rule either. It is global: one per experience, set in the Default Journey, and every shopper sees it. [Follow-up suggestions](/components/conversation/follow-up-suggestion) carry no rule: they are configured in the Agent's [instructions](/agents/instructions-and-model), and the Agent writes them for each reply. Read [Core concepts](/concepts#which-components-carry-rules) for the full table.
 
 This page is the reference for what a rule can contain. For how competing rules are resolved, read [How rulebooks resolve conflicts](/orchestration/how-rulebooks-resolve).
 
 A rule has up to four parts.
+
+The diagram shows the four parts a rule is built from and the component types that carry one.
+
+```mermaid
+flowchart TB
+  R["Rule<br/><small>on one rule-based component</small>"]
+  R --> COND
+  R --> TIME["Timing<br/><small>delay · elapsed time · inactivity · scheduled window</small>"]
+  R --> PRI["Priority<br/><small>a number, Default Journey at 0</small>"]
+  R --> DR["Delivery restrictions<br/><small>frequency cap · suppression · repeat behavior</small>"]
+  subgraph COND["Conditions, combined as All, Any, or Exclusions"]
+    UTM["UTM source, medium, campaign, content, term"]
+    REF["Referrer or arrival source"]
+    PAGE["Page or URL"]
+    SEG["Segment membership"]
+    ATTR["Shopper attributes"]
+    BEH["Session behavior"]
+    DEV["Device and browser telemetry"]
+  end
+  subgraph CARRIERS["Component types that carry a rule"]
+    CS["Conversation starter<br/><small>page condition only, priority</small>"]
+    PM["Proactive message<br/><small>timing and delivery restrictions</small>"]
+    PS["Page sections<br/><small>timing and delivery restrictions</small>"]
+    AR["Agent routing"]
+    DL["Dynamic landing page"]
+  end
+  R -. "lives on" .-> CARRIERS
+```
 
 | Part | What it answers |
 | ---- | --------------- |
@@ -20,7 +48,7 @@ A rule has up to four parts.
 
 ## Conditions
 
-Conditions test the current session. A component becomes a candidate when its conditions match.
+Conditions test the current session. A component becomes a candidate when its conditions match. Conversation starters use only the page or URL condition. The other rule-based components can use every condition in this table.
 
 | Condition | What it tests | Example |
 | --------- | ------------- | ------- |
@@ -61,7 +89,7 @@ Timing controls when a candidate component appears once its conditions match. Ti
 
 Priority is a number on each rule. When more than one candidate matches, the Rulebook considers them from the highest priority down. A single-result Rulebook takes the first match. A multiple-result Rulebook takes from the highest first and then works down, subject to its limits.
 
-Components in the Default Playbook sit at priority 0. That makes them the fallback: they win only when nothing else matches. Read [Rulebooks](/orchestration/rulebooks) for how ties are broken.
+Components in the Default Journey sit at priority 0. That makes them the fallback: they win only when nothing else matches. Read [Rulebooks](/orchestration/rulebooks) for how ties are broken.
 
 ## Delivery restrictions
 
@@ -77,23 +105,21 @@ A candidate that has hit its frequency cap is skipped by the Rulebook, even if i
 
 ## Which components carry a rule
 
-Every rule-based component supports conditions, combinations, and priority. Timing and delivery restrictions apply only where the component's behavior calls for them. Nothing outside this table carries a rule.
+Every rule-based component supports conditions and priority. Conversation starters take one condition, the page. The others support every condition and combination. Timing and delivery restrictions apply only where the component's behavior calls for them. Nothing outside this table carries a rule.
 
-| Rule-based component | Conditions and priority | Timing | Delivery restrictions |
-| -------------------- | ----------------------- | ------ | --------------------- |
-| [Welcome message](/components/conversation/welcome-message) | Yes | No | No |
-| [Conversation starter](/components/conversation/conversation-starter) | Yes | No | No |
-| [Follow-up suggestion](/components/conversation/follow-up-suggestion) | Yes | No | No |
-| [Proactive message](/components/conversation/proactive-message) | Yes | Delay, elapsed time, inactivity, scheduled window | Frequency cap, suppression, repeat behavior |
-| [Page sections](/components/page/page-sections) | Yes | Delay, scheduled window | Frequency cap, suppression, repeat behavior |
-| [Agent routing](/agents/routing) | Yes | No | No |
-| [Dynamic landing page](/orchestration/pages-and-placements#dynamic-landing-pages) | Yes | No | No |
+| Rule-based component | Conditions | Priority | Timing | Delivery restrictions |
+| -------------------- | ---------- | -------- | ------ | --------------------- |
+| [Conversation starter](/components/conversation/conversation-starter) | Page only | Yes | No | No |
+| [Proactive message](/components/conversation/proactive-message) | Every condition | Yes | Delay, elapsed time, inactivity, scheduled window | Frequency cap, suppression, repeat behavior |
+| [Page sections](/components/page/page-sections) | Every condition | Yes | Delay, scheduled window | Frequency cap, suppression, repeat behavior |
+| [Agent routing](/agents/routing) | Every condition | Yes | No | No |
+| [Dynamic landing page](/orchestration/pages-and-placements#dynamic-landing-pages) | Every condition | Yes | No | No |
 
-Page sections are the content block, page suggestions, recommendation section, comparison section, social proof section, and offer section. Each one carries the same rule shape.
+Page sections are the content block, page suggestions, recommendation section, comparison section, and social proof section. Each one carries the same rule shape.
 
 ## Example
 
-A proactive message in the YouTube Unboxing Playbook, written out in plain language.
+A proactive message in the YouTube Unboxing Journey, written out in plain language.
 
 > **Conditions (all):** `utm_campaign` equals `unboxing-a`, and the page type is product.
 > **Exclusion:** the shopper is a member of "Opened chat this session".
@@ -102,9 +128,9 @@ A proactive message in the YouTube Unboxing Playbook, written out in plain langu
 > **Delivery restrictions:** once per session. If dismissed, do not show again for 7 days.
 > **Content:** "Need help finding your size?"
 
-When a visitor lands on a product page from the unboxing video and does nothing for 15 seconds, this message becomes a candidate. The proactive message Rulebook then compares it with any other matching proactive messages from other enabled Playbooks and delivers the winner.
+When a visitor lands on a product page from the unboxing video and does nothing for 15 seconds, this message becomes a candidate. The proactive message Rulebook then compares it with any other matching proactive messages from other enabled Journeys and delivers the winner.
 
-The screenshot shows the rule editor for this proactive message inside the YouTube Unboxing Playbook. Conditions lists `utm_campaign` equals `unboxing-a` and Page type is product, combined with All, and the exclusion reads Member of "Opened chat this session". Timing is set to Inactivity, 15 seconds. Priority is 10. Delivery restrictions shows a frequency cap of Once per session and repeat behavior of Do not show again for 7 days, and the content field reads "Need help finding your size?".
+The screenshot shows the rule editor for this proactive message inside the YouTube Unboxing Journey. Conditions lists `utm_campaign` equals `unboxing-a` and Page type is product, combined with All, and the exclusion reads Member of "Opened chat this session". Timing is set to Inactivity, 15 seconds. Priority is 10. Delivery restrictions shows a frequency cap of Once per session and repeat behavior of Do not show again for 7 days, and the content field reads "Need help finding your size?".
 
 <Frame caption="Rule editor for a proactive message, priority 10">
   <img src="/images/placeholder.svg" alt="Rule editor for a proactive message, priority 10" />
