@@ -5,15 +5,29 @@ description: "Several product cards under a heading, ranked and optionally filte
 
 A product collection shows several [product cards](/components/cards/product-card) together under one heading, such as **Best matches for you**. It gives the shopper a set to choose from instead of one product at a time. It is how the Agent answers a question that has more than one good answer, and how a page shows a group of products picked for the visitor.
 
-## Example
-
-A shopper asks "Which of your low-tops work for everyday wear?" and the Agent has several good answers, so the reply shows a product collection as a horizontal carousel. Two cards are fully visible, a third peeks in at the right edge, and a round right arrow sits over the second card, which is how the shopper knows there is more to scroll. Each card keeps the product card layout in a compact form: the photo with image dots, the title, the rating and review count, the price, and a round cart icon button that adds the product straight from the collection. The first card is Speedcat OG at ₹9,999 with a 4.6 rating, and the second is Court Classic at ₹6,799 with a 4.4 rating. The same collection inside a page recommendation section renders as a grid with every card visible at once.
-
-<Frame caption="Product collection as a carousel with two cards visible">
-  <img src="/images/cards/product-collection.png" alt="Product collection as a carousel with two cards visible" />
-</Frame>
-
 ## Anatomy
+
+The diagram shows a product collection, the properties that shape it, the product cards inside it, and the primitives those cards are built from.
+
+```mermaid
+flowchart TB
+  COL["Product collection<br/><small>no rule</small>"]
+  COL --> HD["Heading<br/><small>supports dynamic variables</small>"]
+  COL --> ORD["Ordering and ranking<br/><small>best match first, or a fixed order</small>"]
+  COL --> FIL["Filters<br/><small>optional: size, color, price range</small>"]
+  COL --> LAY["Layout<br/><small>carousel or grid</small>"]
+  COL --> CARDS
+  subgraph CARDS["Product cards, each with its own identity and events"]
+    PC["Product card"]
+    PC --> IMG["Image"]
+    PC --> PR["Price"]
+    PC --> VAR["Variant selection"]
+    PC --> BTN["Buttons"]
+  end
+  PRIM["Primitives<br/><small>selector, media, text, button</small>"]
+  FIL -. "built from the selector" .-> PRIM
+  CARDS -. "built from" .-> PRIM
+```
 
 | Property | What it holds |
 | -------- | ------------- |
@@ -27,9 +41,9 @@ Each product card inside the collection keeps its own identity and emits its own
 
 ## Where it appears
 
-A product collection never shows on its own. One of these rule-based components includes it.
+A product collection never shows on its own. One of these components includes it.
 
-- In a [welcome message](/components/conversation/welcome-message), for example the products featured in the campaign a shopper arrived from.
+- In the [welcome message](/components/conversation/welcome-message), for example the season's featured products, shown to every shopper when the widget opens.
 - In a [proactive message](/components/conversation/proactive-message), for example alternatives sent when the product a shopper came to see is out of stock, or a set of picks for a shopper who has stalled on a collection page.
 - In the [assistant reply](/components/conversation/assistant-reply), where the Agent chooses it. When a question has several matches, the Agent writes a sentence such as **These three are your best matches**, follows it with a product collection, and adds follow-up suggestions such as **Compare the first two** or **Only show black**.
 - On a page, inside a [recommendation section](/components/page/recommendation-section). The section pairs the collection with an explanation of why these products were picked, and its rule decides which page and which visitor see it.
@@ -38,7 +52,15 @@ A collection on its own has no explanation. When you want copy that ties the pic
 
 ## Rules
 
-A product collection carries no rule. It shows because a welcome message, a proactive message, or a recommendation section with a rule included it, or because the Agent composed it into the assistant reply. Ordering and filters shape what the shopper sees once the collection is on screen. They do not decide whether it shows. That decision lives on the component that included it. Read [Rules](/orchestration/rules).
+A product collection carries no rule. It shows because the welcome message, or a proactive message or recommendation section with a rule, included it, or because the Agent composed it into the assistant reply. Ordering and filters shape what the shopper sees once the collection is on screen. They do not decide whether it shows. That decision lives on the component that included it. The welcome message is the exception: it carries no rule and is global, so every shopper sees what it embeds. Read [Rules](/orchestration/rules).
+
+## Example
+
+A shopper asks "Which of your low-tops work for everyday wear?" and the Agent has several good answers, so the reply shows a product collection as a horizontal carousel. Two cards are fully visible, a third peeks in at the right edge, and a round right arrow sits over the second card, which is how the shopper knows there is more to scroll. Each card keeps the product card layout in a compact form: the photo with image dots, the title, the rating and review count, the price, and a round cart icon button that adds the product straight from the collection. The first card is Speedcat OG at $120 with a 4.6 rating, and the second is Court Classic at $85 with a 4.4 rating. The same collection inside a page recommendation section renders as a grid with every card visible at once.
+
+<Frame caption="Product collection as a carousel with two cards visible">
+  <img src="/images/cards/product-collection.png" alt="Product collection as a carousel with two cards visible" />
+</Frame>
 
 ## Related
 

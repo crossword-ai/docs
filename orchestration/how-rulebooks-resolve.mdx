@@ -3,13 +3,13 @@ title: "How rulebooks resolve conflicts"
 description: "Priority, single or multiple winners, limits, and fallback, with worked examples"
 ---
 
-Several Playbooks can be enabled at once, and a visitor can qualify for more than one of them. Each Playbook proposes candidates for the same component types. Something has to decide what actually shows. That something is a Rulebook.
+Several Journeys can be enabled at once, and a visitor can qualify for more than one of them. Each Journey proposes candidates for the same component types. Something has to decide what actually shows. That something is a Rulebook.
 
 ## The short version
 
-Enabling a Playbook does not fire everything inside it. It makes the Playbook's rules eligible for evaluation. Each rule-based component inside the Playbook carries its own rule, and each component type has one Rulebook that evaluates every eligible rule and picks the result.
+Enabling a Journey does not fire everything inside it. It makes the Journey's rules eligible for evaluation. Each rule-based component inside the Journey carries its own rule, and each component type has one Rulebook that evaluates every eligible rule and picks the result.
 
-Some Rulebooks pick one winner. A conversation opens with one welcome message, so its Rulebook returns one message. Other Rulebooks return several. A shopper can see three or four conversation starters, so that Rulebook returns a set, subject to a limit.
+Some Rulebooks pick one winner. A placement on a product page holds one page section, so the component selection by page placement Rulebook returns one section for it. Other Rulebooks return several. A shopper can see three or four conversation starters, so that Rulebook returns a set, subject to a limit.
 
 ## What a Rulebook defines
 
@@ -18,26 +18,25 @@ Some Rulebooks pick one winner. A conversation opens with one welcome message, s
 | Priority and tie-breaking | Which candidate wins when more than one rule matches |
 | One result or multiple results | Whether the shopper sees a single winner or a set |
 | Limits and suppression | How many results to show, and frequency caps where they apply |
-| Fallback | What to show when nothing matches. This always comes from the Default Playbook |
+| Fallback | What to show when nothing matches. This always comes from the Default Journey |
 
-There is one Rulebook per component type.
+There is one Rulebook per rule-carrying component type, five in all. The welcome message carries no rule, so it has no Rulebook.
 
-- Welcome message selection
 - Conversation starter selection
 - Proactive message delivery
 - Agent routing
 - Dynamic landing page selection
 - Component selection by page placement
 
-The screenshot shows the Conversation starter selection Rulebook open on the **Rulebooks** screen. Result mode reads Several. Take from highest priority is 2, Then one from each is 1, and Total is 3. The preview panel uses the Instagram ad visitor from the worked example below and returns three starters: I want a discount, I want free shipping, and I want to know more about the ad. The candidates list beneath shows the four rules at priorities 10, 8, 7, and 0.
+The screenshot shows the Conversation starter selection Rulebook open on the **Rulebooks** screen. Result mode reads Several. Take from highest priority is 2, Then one from each is 1, and Total is 3. The preview panel uses the product page visitor from the worked example below and returns three starters: Show me the pair from the unboxing, Learn about {"{product_name}"} features, and Help me find my size. The candidates list beneath shows the four page rules at priorities 10, 8, 7, and 0.
 
 <Frame caption="Conversation starter Rulebook settings and preview">
   <img src="/images/placeholder.svg" alt="Conversation starter Rulebook settings and preview" />
 </Frame>
 
-## Worked example: welcome messages
+## Worked example: page placements
 
-The welcome message Rulebook returns one result. It selects the first message whose rule matches, in priority order.
+The component selection by page placement Rulebook returns one result for each placement. It selects the first page section whose rule matches, in priority order.
 
 A visitor arrives with this context.
 
@@ -50,54 +49,58 @@ A visitor arrives with this context.
 }
 ```
 
-Three Playbooks are enabled, and together they contribute four candidate messages.
+The product page has a placement after the product description that inserts one page section. Three Journeys are enabled, and together they contribute four candidate sections for that placement.
 
-| Message | Rule | Priority | Playbook |
-| ------- | ---- | -------- | -------- |
-| Looks like you're coming from YouTube | Visitor arrives from YouTube | 10 | YouTube Playbook |
-| Would you like a discount? | Visitor comes from an ad that talks about a discount | 8 | Instagram Ad Playbook |
-| Looks like you've come from an ad! | Visitor arrives from an ad | 7 | Instagram Ad Playbook |
-| Hello! How can I help? | No rule | 0 | Default Playbook |
+| Page section | Rule | Priority | Journey |
+| ------------ | ---- | -------- | -------- |
+| Content block: As seen in the unboxing | Visitor arrives from YouTube | 10 | YouTube Journey |
+| Recommendation section: Deals under $50 | Visitor comes from an ad that talks about a discount | 8 | Instagram Ad Journey |
+| Recommendation section: Featured in our ads | Visitor arrives from an ad | 7 | Instagram Ad Journey |
+| Recommendation section: You might also like | No rule | 0 | Default Journey |
 
 The Rulebook walks the list from the highest priority down.
 
 1. Priority 10 does not match. The referrer is Instagram, not YouTube.
 2. Priority 8 matches. The visitor came from an ad and the content is a discount.
-3. The Rulebook stops. It has one winner.
+3. The Rulebook stops. It has one winner for this placement.
 
-The shopper sees **Would you like a discount?**
+The shopper sees **Deals under $50** after the product description.
 
-The priority 7 message also matched, but a single-result Rulebook never gets that far. The priority 0 message from the Default Playbook is the fallback. It only shows when nothing else matches.
+The priority 7 section also matched, but a single-result Rulebook never gets that far. The priority 0 section from the Default Journey is the fallback. It only shows when nothing else matches, so a visitor who arrives with no referrer or campaign sees **You might also like** in the same placement.
+
+Each placement on the page resolves on its own. A second placement on the same product page, such as one above the reviews section, runs the same walk against its own candidates and can return a section from a different Journey.
 
 ## Worked example: conversation starters
 
-The conversation starter Rulebook returns a set. Two settings shape the set.
+The conversation starter Rulebook returns a set. Three settings shape the set.
 
-- **Take from highest priority.** How many starters to take from the highest-priority rule that matches.
-- **Then one from each.** After that, take one starter from each remaining rule that matches, in priority order.
+- **Take from highest priority.** How many starters to take from the highest-priority rule that matches the page.
+- **Then one from each.** After that, take one starter from each remaining rule that matches the page, in priority order.
 - **Total.** The maximum number of starters to show.
 
-Same visitor, same context. The enabled Playbooks contribute these candidates.
+Same visitor, on the same product page, `/product/xyz`. A starter's rule tests only the page, so the referrer, campaign, and content in the context play no part here. The enabled Journeys contribute these candidates.
 
-| Conversation starters | Rule | Priority | Playbook |
+| Conversation starters | Rule | Priority | Journey |
 | --------------------- | ---- | -------- | -------- |
-| Learn more about unboxing videos · Learn about {"{product_name}"} features · Generated: ask about the product from {"{content}"} · Generated: ask about the price of {"{product_name}"} | Visitor arrives from YouTube | 10 | YouTube Playbook |
-| I want a discount · I want free shipping | Visitor comes from an ad that talks about a discount | 8 | Instagram Ad Playbook |
-| I want to know more about the ad · I want more ads | Visitor arrives from an ad | 7 | Ad Playbook |
-| Tell me more about your brand · Tell me about the founders | No rule | 0 | Default Playbook |
+| Estimate my shipping · Apply a discount code | Page type is cart | 10 | Checkout Journey |
+| Show me the pair from the unboxing · Learn about {"{product_name}"} features | Page is `/product/xyz` | 8 | YouTube Unboxing Journey |
+| Help me find my size · Generated: ask about the price of {"{product_name}"} | Page type is product | 7 | Product Discovery Journey |
+| Tell me more about your brand · Tell me about the founders | Every page | 0 | Default Journey |
 
-The priority 10 rule does not match, so its starters are out. The matching rules, in order, are priority 8, then 7, then 0.
+The priority 10 rule does not match, because the visitor is on a product page, not the cart. Its starters are out. The matching rules, in order, are priority 8, then 7, then 0.
 
 | Setting | Result |
 | ------- | ------ |
-| Take 2 from highest, then 1 from each. Total 3 | I want a discount · I want free shipping · I want to know more about the ad |
-| Take 2 from highest, then 1 from each. Total 5 | I want a discount · I want free shipping · I want to know more about the ad · Tell me more about your brand |
-| Take 1 from highest, then 1 from each. Total 10 | I want a discount · I want to know more about the ad · Tell me more about your brand |
-| Take 10 from highest, then 1 from each. Total 3 | I want a discount · I want free shipping · I want to know more about the ad |
+| Take 2 from highest, then 1 from each. Total 3 | Show me the pair from the unboxing · Learn about {"{product_name}"} features · Help me find my size |
+| Take 2 from highest, then 1 from each. Total 5 | Show me the pair from the unboxing · Learn about {"{product_name}"} features · Help me find my size · Tell me more about your brand |
+| Take 1 from highest, then 1 from each. Total 10 | Show me the pair from the unboxing · Help me find my size · Tell me more about your brand |
+| Take 10 from highest, then 1 from each. Total 3 | Show me the pair from the unboxing · Learn about {"{product_name}"} features · Help me find my size |
 
-Read the last row carefully. The highest-priority rule only has two starters, so "take 10" yields two. The Rulebook then takes one from priority 7 and hits the total of 3 before it reaches the Default Playbook.
+Read the second and last rows carefully. In the second row, the Rulebook runs out of matching rules after one starter from each, so it shows four, not five. In the last row, the highest-priority rule only has two starters, so "take 10" yields two. The Rulebook then takes one from priority 7 and hits the total of 3 before it reaches the Default Journey.
 
-Starters can be generated as well as written. A starter wrapped in generation markers asks Crossword to write the label at display time from variables such as the product name and the ad content. Generated starters compete in the Rulebook exactly like written ones.
+On a page with no starters of its own, such as an About page, only the Default Journey's rule matches, and the shopper sees its starters.
+
+Starters can be generated as well as written. A starter wrapped in generation markers asks Crossword to write the label at display time from variables on the page, such as the product name. Generated starters compete in the Rulebook exactly like written ones.
 
 ## Proactive messages
 
@@ -110,13 +113,13 @@ Delivery restrictions on each proactive message still apply. A message that hit 
 
 ## Fallback
 
-Every Rulebook falls back to the Default Playbook. The Default Playbook's components carry no rule, or a rule that always matches, at priority 0. That guarantees the shopper always sees a welcome message and always has starters, even when no other Playbook applies.
+Every Rulebook falls back to the Default Journey. The Default Journey's components carry no rule, or a rule that always matches, at priority 0. That guarantees the shopper always has starters, always reaches an Agent, and always sees a section in each placement the Default Journey fills, even when no other Journey applies. The welcome message needs no fallback. It has no rule and is set once in the Default Journey, so every shopper sees it.
 
 ## Related
 
 <CardGroup cols={2}>
   <Card title="Rulebooks" href="/orchestration/rulebooks" />
   <Card title="Rules" href="/orchestration/rules" />
-  <Card title="Welcome messages" href="/components/conversation/welcome-message" />
+  <Card title="Pages and placements" href="/orchestration/pages-and-placements" />
   <Card title="Conversation starters" href="/components/conversation/conversation-starter" />
 </CardGroup>

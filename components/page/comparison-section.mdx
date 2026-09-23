@@ -5,13 +5,37 @@ description: "A comparison placed on a merchant page"
 
 A comparison section places a comparison on a merchant page. Two or more products sit side by side across the attributes that matter, with the differences explained, so a shopper who is choosing between options can decide without opening the chat. It brings the comparison card out of the conversation and onto the page where the decision is being made.
 
+## Anatomy
+
+| Property | What it holds |
+| -------- | ------------- |
+| Heading | The title above the comparison, such as **How it compares**. |
+| Introduction | Optional copy that frames the comparison, such as which products were chosen and why. Supports dynamic variables. |
+| Comparison card | The embedded [comparison card](/components/cards/comparison-card): the items, the attributes, the values with their explanations, an optional recommendation, and the selection or next-step controls. |
+
+The items can be fixed, such as the product on the page against its two nearest alternatives, or chosen at display time from what Crossword knows about the shopper. The attributes can be fixed for a category or drawn from what the shopper asked about in chat.
+
+## Where it appears
+
+- **Product page.** The product on the page against its alternatives. The most common use.
+- **Collection page.** The top picks in the collection side by side, above or below the grid.
+- **Dynamic landing page.** The featured product against alternatives, in one of the layout's placements.
+
+The section goes into a placement. It can be inserted at a location or replace an existing part of the page, such as a related-products carousel. Read [Pages and placements](/orchestration/pages-and-placements).
+
+## Rules
+
+A comparison section carries its own rule, scoped by its target page and placement. Target page, placement, and placement action are required. Conditions, priority, timing, and delivery limits are optional.
+
+The rule decides whether the section shows. The controls on the embedded card act once it is on screen, and a tap on **Choose Product A** or **Show me a third option** can open the conversation.
+
 ## Examples
 
 Every scene below is a comparison section on a sneaker brand's product page, first with no rule and then with a different rule each time.
 
 ### Out of the box
 
-The Default Playbook's section sits on the product page, inserted below the description, for every shopper. The heading reads **How it compares**, and the table shows the pair on the page against its two nearest alternatives as columns, with **Cushioning**, **Weight**, and **Price** as rows. No product is marked as recommended. Under the table, a single button reads **Help me choose**, and tapping it opens the widget. No conditions, priority 0.
+The Default Journey's section sits on the product page, inserted below the description, for every shopper. The heading reads **How it compares**, and the table shows the pair on the page against its two nearest alternatives as columns, with **Cushioning**, **Weight**, and **Price** as rows. No product is marked as recommended. Under the table, a single button reads **Help me choose**, and tapping it opens the widget. No conditions, priority 0.
 
 <Frame caption="Default comparison section below the description">
   <img src="/images/placeholder.svg" alt="Default comparison section below the description" />
@@ -69,30 +93,6 @@ On a sold-out pair, a comparison appears under the storefront's "Sold out" notic
 - Match any of several referrers with one rule.
 
 Every condition, combination, timing option, and delivery limit is listed in [Rules](/orchestration/rules). The shared rule shape is under [Page sections](/components/page/page-sections).
-
-## Anatomy
-
-| Property | What it holds |
-| -------- | ------------- |
-| Heading | The title above the comparison, such as **How it compares**. |
-| Introduction | Optional copy that frames the comparison, such as which products were chosen and why. Supports dynamic variables. |
-| Comparison card | The embedded [comparison card](/components/cards/comparison-card): the items, the attributes, the values with their explanations, an optional recommendation, and the selection or next-step controls. |
-
-The items can be fixed, such as the product on the page against its two nearest alternatives, or chosen at display time from what Crossword knows about the shopper. The attributes can be fixed for a category or drawn from what the shopper asked about in chat.
-
-## Where it appears
-
-- **Product page.** The product on the page against its alternatives. The most common use.
-- **Collection page.** The top picks in the collection side by side, above or below the grid.
-- **Dynamic landing page.** The featured product against alternatives, in one of the layout's placements.
-
-The section goes into a placement. It can be inserted at a location or replace an existing part of the page, such as a related-products carousel. Read [Pages and placements](/orchestration/pages-and-placements).
-
-## Rules
-
-A comparison section carries its own rule, scoped by its target page and placement. Target page, placement, and placement action are required. Conditions, priority, timing, and delivery limits are optional.
-
-The rule decides whether the section shows. The controls on the embedded card act once it is on screen, and a tap on **Choose Product A** or **Show me a third option** can open the conversation.
 
 ## Related
 

@@ -7,17 +7,32 @@ Knowledge and context access defines what an Agent can read when it composes a r
 
 An Agent reads. It does not write. Anything it needs to change goes through a Workflow.
 
-## Example
-
-A shopper asks "will these fit if I'm usually a 9?". The shopping assistant reads the product's size guide from the catalog, the fit notes from a sizing guide in the knowledge sources, and the shopper's preferred size from shopper context. It replies with a recommendation and a product card for the right variant.
-
-The screenshot shows the **Knowledge** screen, where knowledge sources are managed before an Agent is given access to them. Filter tabs across the top read **All**, **Synced**, **Syncing**, **Failed**, and **Not started**, beside a search box and a **New knowledge base** button. The table lists each knowledge base with its name, embedding model, source count, chunk count, status, and when it was last updated. Help Center has 142 sources and 3,820 chunks and is Synced, as is Product Docs with 217 sources and 9,140 chunks. Billing Policies is still Syncing, Legal & Terms has Failed, and Onboarding Guides has Not started, so only the synced ones can be cited in a reply right now.
-
-<Frame caption="The Knowledge screen listing five knowledge bases">
-  <img src="/images/agents/knowledge-and-context.png" alt="The Knowledge screen listing five knowledge bases" />
-</Frame>
-
 ## What it contains
+
+The diagram shows the three sources an Agent can read, what each holds, and where changes go instead.
+
+```mermaid
+flowchart TB
+  KC["Knowledge and context access<br/><small>set per Agent · read only</small>"]
+  KC --> CAT
+  KC --> KS
+  KC --> SC
+  subgraph CAT["Catalog"]
+    C1["Products and variants"]
+    C2["Stock and price"]
+  end
+  subgraph KS["Knowledge sources"]
+    K1["Policies and guides"]
+    K2["FAQs and reference content"]
+  end
+  subgraph SC["Shopper context"]
+    S1["Current page and cart"]
+    S2["Segment membership"]
+    S3["Previous interactions in this session"]
+  end
+  WF["Workflow<br/><small>every change goes through one</small>"]
+  KC -. "changes go through" .-> WF
+```
 
 | Setting | What it controls | Example |
 | ------- | ---------------- | ------- |
@@ -55,7 +70,17 @@ Every change goes through a [Workflow](/agents/workflows). The Agent calls the W
 
 ## How it fits
 
-Knowledge and context access is set per Agent, so two Agents in the same Playbook can see different things. What the Agent reads shapes the reply text and the cards it composes. What it may put in the reply is decided by [Response configuration](/agents/response-configuration).
+Knowledge and context access is set per Agent, so two Agents in the same Journey can see different things. What the Agent reads shapes the reply text and the cards it composes. What it may put in the reply is decided by [Response configuration](/agents/response-configuration).
+
+## Example
+
+A shopper asks "will these fit if I'm usually a 9?". The shopping assistant reads the product's size guide from the catalog, the fit notes from a sizing guide in the knowledge sources, and the shopper's preferred size from shopper context. It replies with a recommendation and a product card for the right variant.
+
+The screenshot shows the **Knowledge** screen, where knowledge sources are managed before an Agent is given access to them. Filter tabs across the top read **All**, **Synced**, **Syncing**, **Failed**, and **Not started**, beside a search box and a **New knowledge base** button. The table lists each knowledge base with its name, embedding model, source count, chunk count, status, and when it was last updated. Help Center has 142 sources and 3,820 chunks and is Synced, as is Product Docs with 217 sources and 9,140 chunks. Billing Policies is still Syncing, Legal & Terms has Failed, and Onboarding Guides has Not started, so only the synced ones can be cited in a reply right now.
+
+<Frame caption="The Knowledge screen listing five knowledge bases">
+  <img src="/images/agents/knowledge-and-context.png" alt="The Knowledge screen listing five knowledge bases" />
+</Frame>
 
 ## Related
 

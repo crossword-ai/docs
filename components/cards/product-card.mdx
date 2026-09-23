@@ -5,14 +5,6 @@ description: "A single product with image, price, variants, and actions"
 
 A product card shows one product and lets the shopper act on it without leaving the conversation. It is the most common card in Crossword, and every product collection is built from it. Its job is to turn a mention of a product into something the shopper can see, pick a variant of, and add to the cart in one step.
 
-## Example
-
-A shopper on a sneaker storefront asks the widget for a low-profile racing flat and there is one clear match, so the reply carries a single product card. The left half is the product photo, with three carousel dots for the other images and an expand icon in the corner. The right half stacks the title, a 4.6 rating from 1,284 reviews, a one-line description that truncates, and the price of ₹9,999 with ₹12,999 struck through and a green "23% off" badge. Below that sits a **Size** row of round chips from 6 to 11 and a quantity stepper set to 1. The **Select a size** button stays disabled until the shopper picks a size, and then it adds that variant to the storefront cart without leaving the chat.
-
-<Frame caption="Product card with size chips and a disabled add button">
-  <img src="/images/cards/product-card.png" alt="Product card with size chips and a disabled add button" />
-</Frame>
-
 ## Anatomy
 
 | Property | What it holds |
@@ -28,9 +20,9 @@ Product data comes from your catalog. The card renders whichever product the Age
 
 ## Where it appears
 
-A product card never shows on its own. One of these rule-based components includes it, and that component's rule decides when the shopper sees it.
+A product card never shows on its own. One of these components includes it. Where that component carries a rule, the rule decides when the shopper sees it.
 
-- In a [welcome message](/components/conversation/welcome-message), for example the product a shopper arrived to see from a video or an ad.
+- In the [welcome message](/components/conversation/welcome-message), for example a new arrival every shopper sees when the widget opens. For the product a shopper arrived to see from a video or an ad, use a proactive message, because the welcome message is the same for everyone and conversation starters are set by page only.
 - In a [proactive message](/components/conversation/proactive-message), for example a nudge on a product page that shows the item with its size selector ready.
 - In the [assistant reply](/components/conversation/assistant-reply), where the Agent chooses it. The Agent shows one card when there is a single clear match and a [product collection](/components/cards/product-collection) when there are several.
 - On a page, inside a [recommendation section](/components/page/recommendation-section), for example three add-ons on the cart page. On a page the card usually arrives as part of a collection rather than alone.
@@ -39,7 +31,15 @@ The card is also the building block of other components. A [product collection](
 
 ## Rules
 
-A product card carries no rule. It shows because a welcome message, a proactive message, or a page section with a rule included it, or because the Agent composed it into the assistant reply. The rule that decides whether and when the shopper sees it lives on that component, not on the card. Read [Rules](/orchestration/rules).
+A product card carries no rule. It shows because the welcome message, or a proactive message or page section with a rule, included it, or because the Agent composed it into the assistant reply. The rule that decides whether and when the shopper sees it lives on that component, not on the card. The welcome message is the exception: it carries no rule and is global, so every shopper sees what it embeds. Read [Rules](/orchestration/rules).
+
+## Example
+
+A shopper on a sneaker storefront asks the widget for a low-profile racing flat and there is one clear match, so the reply carries a single product card. The left half is the product photo, with three carousel dots for the other images and an expand icon in the corner. The right half stacks the title, a 4.6 rating from 1,284 reviews, a one-line description that truncates, and the price of $120 with $160 struck through and a green "23% off" badge. Below that sits a **Size** row of round chips from 6 to 11 and a quantity stepper set to 1. The **Select a size** button stays disabled until the shopper picks a size, and then it adds that variant to the storefront cart without leaving the chat.
+
+<Frame caption="Product card with size chips and a disabled add button">
+  <img src="/images/cards/product-card.png" alt="Product card with size chips and a disabled add button" />
+</Frame>
 
 ## Related
 

@@ -5,15 +5,38 @@ description: "The shopper's basket, totals, and checkout controls"
 
 The cart and checkout card shows the shopper what is in their basket and lets them change it or check out from inside the conversation. As a cart card it focuses on items and quantities. As a checkout card it focuses on the summary and the controls that lead to payment. Either way, the shopper finishes without leaving the chat.
 
-## Example
-
-A shopper taps the cart button on a product card and the reply confirms it with the cart card. The header carries a green check and reads "Added Speedcat OG to your cart", so the shopper knows the tap worked. Below it, three line items each show a thumbnail, the title, and the line price on the right: Speedcat OG at ₹9,999, Court Classic at ₹6,799, and Trail Knit Low at ₹5,499. A **Total (3)** row sums them to ₹22,297, and a full-width **Go to checkout** button closes the card. The card reads the live storefront cart, so the cart page shows the same three items on refresh.
-
-<Frame caption="Cart card confirming an add with three items and checkout">
-  <img src="/images/cards/cart-checkout-card.png" alt="Cart card confirming an add with three items and checkout" />
-</Frame>
-
 ## Anatomy
+
+The diagram shows the cart and checkout card as its items, totals, modifications, recommendations, and controls, and the two modes it can take.
+
+```mermaid
+flowchart TB
+  CARD["Cart and checkout card<br/><small>no rule</small>"]
+  CARD --> MODE
+  CARD --> ITEMS
+  CARD --> TOT
+  CARD --> MOD["Modifications<br/><small>change a quantity or remove an item</small>"]
+  CARD --> RECS["Recommendations<br/><small>optional add-ons</small>"]
+  CARD --> CTRL["Cart or checkout controls<br/><small>only what your storefront permits, such as Proceed to checkout</small>"]
+  subgraph MODE["Mode"]
+    CM["Cart card<br/><small>items and quantities</small>"]
+    CK["Checkout card<br/><small>summary and the controls that lead to payment</small>"]
+  end
+  subgraph ITEMS["Items and quantities"]
+    IT["Item<br/><small>product, variant, image</small>"]
+    IT --> QTY["Quantity"]
+    IT --> LP["Line price"]
+  end
+  subgraph TOT["Pricing and totals"]
+    SUB["Subtotal"]
+    DISC["Discounts"]
+    TOTAL["Total"]
+  end
+  STORE["Storefront cart<br/><small>live</small>"]
+  CARD -. "reads and updates" .-> STORE
+  PC["Product cards"]
+  RECS -. "shown as" .-> PC
+```
 
 | Property | What it holds |
 | -------- | ------------- |
@@ -27,22 +50,29 @@ The card reads the live cart from your storefront. When the shopper changes a qu
 
 ## Where it appears
 
-A cart and checkout card never shows on its own. One of these rule-based components includes it.
+A cart and checkout card never shows on its own. One of these components includes it.
 
-- In a [welcome message](/components/conversation/welcome-message), for example when a returning shopper opens the widget with items still in their cart.
+- In the [welcome message](/components/conversation/welcome-message), which is global. Every shopper sees the same one on every page, including shoppers with an empty cart, so for a returning shopper with items still in their cart, use a proactive message instead.
 - In a [proactive message](/components/conversation/proactive-message), for example a cart recovery message that shows the items left behind. The [cart recovery Campaign](/use-cases/cart-recovery-campaign) sends one at each step of its sequence.
 - In the [assistant reply](/components/conversation/assistant-reply), where the Agent chooses it. The shopper asks what is in their cart, asks to remove something, or asks to check out, and the Agent answers with the card.
-- On a page, inside a [page section](/components/page/page-sections) on the cart page, for example an [offer section](/components/page/offer-section) that shows the basket beside the discount that applies to it.
+- On a page, inside a [page section](/components/page/page-sections) on the cart page, for example a [content block](/components/page/content-block) that shows the basket beside the discount that applies to it.
 
 ## Rules
 
-A cart and checkout card carries no rule. It shows because a welcome message, a proactive message, or a page section with a rule included it, or because the Agent composed it into the assistant reply. The rule that decides whether and when the shopper sees it lives on that component, not on the card. Read [Rules](/orchestration/rules).
+A cart and checkout card carries no rule. It shows because the welcome message, or a proactive message or page section with a rule, included it, or because the Agent composed it into the assistant reply. The rule that decides whether and when the shopper sees it lives on that component, not on the card. The welcome message is the exception: it carries no rule and is global, so every shopper sees what it embeds. Read [Rules](/orchestration/rules).
+
+## Example
+
+A shopper taps the cart button on a product card and the reply confirms it with the cart card. The header carries a green check and reads "Added Speedcat OG to your cart", so the shopper knows the tap worked. Below it, three line items each show a thumbnail, the title, and the line price on the right: Speedcat OG at $120, Court Classic at $85, and Trail Knit Low at $70. A **Total (3)** row sums them to $275, and a full-width **Go to checkout** button closes the card. The card reads the live storefront cart, so the cart page shows the same three items on refresh.
+
+<Frame caption="Cart card confirming an add with three items and checkout">
+  <img src="/images/cards/cart-checkout-card.png" alt="Cart card confirming an add with three items and checkout" />
+</Frame>
 
 ## Related
 
 <CardGroup cols={2}>
   <Card title="Product card" href="/components/cards/product-card" />
   <Card title="Cart recovery Campaign" href="/use-cases/cart-recovery-campaign" />
-  <Card title="Offer section" href="/components/page/offer-section" />
   <Card title="Order and refund status card" href="/components/cards/order-refund-card" />
 </CardGroup>

@@ -5,15 +5,7 @@ description: "Components Crossword places on a merchant page, each with a target
 
 A page section is a component Crossword places on a merchant page rather than in the chat widget. Your storefront keeps its header, footer, and layout. Crossword inserts a section, replaces one, or updates one in place: a "Why this is right for you" block under the product title, or a "Picked for your trip" recommendation section on the cart page. Every page section carries a rule, so each one decides for itself when it shows and for whom.
 
-## Example
-
-A sneaker brand's product page for a trail shoe, with two placements highlighted. Directly above the add-to-cart button, an inserted content block reads **The pair from the video** with a line of copy and a **Find my size** button, placed there by the [YouTube Unboxing Playbook](/use-cases/youtube-unboxing-playbook) for shoppers who arrived from the unboxing video. Further down, where the storefront's "You may also like" carousel normally sits, a recommendation section has replaced it with the heading **Complete your trail kit** and three product cards. The header, gallery, description, and footer are the storefront's own.
-
-<Frame caption="Product page with two highlighted placements">
-  <img src="/images/placeholder.svg" alt="Product page with two highlighted placements" />
-</Frame>
-
-## The six section types
+## The five section types
 
 | Section | What it does |
 | ------- | ------------ |
@@ -22,11 +14,37 @@ A sneaker brand's product page for a trail shoe, with two placements highlighted
 | [Recommendation section](/components/page/recommendation-section) | A product collection with an explanation of why these products were picked. |
 | [Comparison section](/components/page/comparison-section) | A comparison card placed on the page. |
 | [Social proof section](/components/page/social-proof-section) | Reviews, testimonials, or data selected for the shopper's context. |
-| [Offer section](/components/page/offer-section) | An offer, who qualifies, an explanation, and a call to action. |
 
 ## The shared rule shape
 
-Each type holds its own content. All six carry the same rule, which says where the section goes and when it is a candidate.
+The diagram shows a page section as its content, one of the five section types, plus the rule that every type carries.
+
+```mermaid
+flowchart TB
+  PSEC["Page section<br/><small>placed on a merchant page</small>"]
+  PSEC --> CONTENT
+  PSEC --> RULE
+  subgraph CONTENT["Content, one of the five section types"]
+    CB["Content block"]
+    PS["Page suggestions"]
+    RS["Recommendation section"]
+    CMP["Comparison section"]
+    SP["Social proof section"]
+  end
+  subgraph RULE["Rule, the same shape for all five"]
+    TP["Target page<br/><small>required</small>"]
+    PL["Placement<br/><small>required</small>"]
+    PA["Placement action<br/><small>insert, replace, or update in place</small>"]
+    CO["Conditions<br/><small>combined with all, any, and exclusions</small>"]
+    PR["Priority"]
+    TI["Timing<br/><small>optional</small>"]
+    DL["Delivery limits<br/><small>optional</small>"]
+  end
+  RB["Rulebook<br/><small>component selection by page placement</small>"]
+  RULE -. "resolved by" .-> RB
+```
+
+Each type holds its own content. All five carry the same rule, which says where the section goes and when it is a candidate.
 
 | Field | What you set |
 | ----- | ------------ |
@@ -44,15 +62,23 @@ Sections that render with the page, such as page suggestions, rarely need timing
 
 The component selection by page placement [Rulebook](/orchestration/rulebooks) resolves page sections. Each placement resolves on its own and returns one result.
 
-1. Every enabled Playbook contributes the sections whose target page and placement match the current page.
+1. Every enabled Journey contributes the sections whose target page and placement match the current page.
 2. The Rulebook walks those candidates from the highest priority down.
 3. The first section whose rule matches, and that has not hit its delivery limits, wins for that placement.
 
-A page can have several placements, and each shows its own winner, so sections from different Playbooks can sit on the same page. When no rule matches, the Default Playbook's section for that placement shows. If it has none, the storefront's own content stays as it is. Read [How rulebooks resolve conflicts](/orchestration/how-rulebooks-resolve).
+A page can have several placements, and each shows its own winner, so sections from different Journeys can sit on the same page. When no rule matches, the Default Journey's section for that placement shows. If it has none, the storefront's own content stays as it is. Read [How rulebooks resolve conflicts](/orchestration/how-rulebooks-resolve).
 
 ## Dynamic landing pages
 
 When Crossword controls the whole page body inside your header and footer, that is a dynamic landing page. Its placements resolve the same way; the page configuration itself is chosen by the dynamic landing page selection Rulebook. Read [Pages and placements](/orchestration/pages-and-placements#dynamic-landing-pages).
+
+## Example
+
+A sneaker brand's product page for a trail shoe, with two placements highlighted. Directly above the add-to-cart button, an inserted content block reads **The pair from the video** with a line of copy and a **Find my size** button, placed there by the [YouTube Unboxing Journey](/use-cases/youtube-unboxing-journey) for shoppers who arrived from the unboxing video. Further down, where the storefront's "You may also like" carousel normally sits, a recommendation section has replaced it with the heading **Complete your trail kit** and three product cards. The header, gallery, description, and footer are the storefront's own.
+
+<Frame caption="Product page with two highlighted placements">
+  <img src="/images/placeholder.svg" alt="Product page with two highlighted placements" />
+</Frame>
 
 ## Related
 

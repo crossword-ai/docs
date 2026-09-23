@@ -11,6 +11,7 @@
 ## Terminology
 
 - The product is **Crossword**. Never "CometChat AI", never "the platform".
+- A reusable collection of contextual behaviors is a **Journey**. Never "Playbook".
 - {/* TODO: add product-specific terms and preferred usage as they settle */}
 
 ## Style preferences
@@ -21,6 +22,7 @@
 - Bold for UI elements: Click **Settings**.
 - Code formatting for file names, commands, paths, and code references.
 - No em dashes.
+- Prices and amounts in US dollars ($), never rupees or other currencies.
 
 ## Content boundaries
 

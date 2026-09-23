@@ -1,107 +1,65 @@
 ---
 title: "Conversation starter"
-description: "Suggested prompts shown under the welcome message"
+description: "Suggested prompts shown under the welcome message, set per page"
 ---
 
-A conversation starter is a tappable prompt a shopper sees under the welcome message, before they type. Tapping one sends its prompt to the Agent. Several starters show at once, three to five, drawn by priority from every enabled Playbook by the conversation starter Rulebook.
-
-## Examples
-
-The same three-chip row on a sneaker storefront, first with nothing matching and then with one rule at a time adding its starters to the set.
-
-### Out of the box
-
-A shopper lands on any page and no rule from any other Playbook matches. Before the widget even opens, three chips from the Default Playbook stack above the launcher button in the corner of the page: "Help me brainstorm", "Explain a concept", and "What can you do?". Tapping one opens the widget with that prompt already sent. The same three chips sit under the welcome message once the widget is open. This is what every shopper sees when nothing else matches, because the Default Playbook's starters always match at priority 0 and fill whatever room is left.
-
-<Frame caption="Default conversation starters stacked above the launcher">
-  <img src="/images/conversation/conversation-starter.png" alt="Default conversation starters stacked above the launcher" />
-</Frame>
-
-### With a rule: arrival from a video
-
-> Rule: UTM source is youtube and UTM campaign is unboxing-a, and the product on the page is in stock. Priority 10.
-
-A shopper from the brand's unboxing video opens the widget on the product page for the pair in the video. The first chip now reads "Shop the pair from the video", followed by "Help me find a shoe" and "Track my order" from the Default Playbook. One starter from the higher-priority rule took the first slot, and the defaults filled the rest. Tapping the first chip sends that prompt to the Agent as if the shopper had typed it.
-
-<Frame caption="Starters for a shopper arriving from a video">
-  <img src="/images/placeholder.svg" alt="Starters for a shopper arriving from a video" />
-</Frame>
-
-### With a rule: on a collection page
-
-> Rule: path starts with /collections/running. Priority 8.
-
-A shopper opens the widget while browsing the running collection. The row reads "Which of these is best for long runs?", "Show only my size", and "Track my order". The first two come from the collection rule, because the Rulebook is set to take two from the highest-priority match, and the last is a default. The chips now ask about the products on screen instead of the storefront in general.
-
-<Frame caption="Starters on a collection page">
-  <img src="/images/placeholder.svg" alt="Starters on a collection page" />
-</Frame>
-
-### With a rule: product out of stock
-
-> Rule: page type is product and the product on the page is out of stock. Priority 12.
-
-A shopper opens the widget on a product page for a pair that has sold out. The first chip reads "Find something similar" and the second "Tell me when it's back", followed by "Help me find a shoe". The first label is generated at display time with `{product_name}` filled in, so it names the sold-out pair. Compare this with the video example: the same product page, a different stock state, a different first chip.
-
-<Frame caption="Starters when the product is out of stock">
-  <img src="/images/placeholder.svg" alt="Starters when the product is out of stock" />
-</Frame>
-
-### With a rule: VIP segment
-
-> Rule: shopper is a member of the "VIP customers" segment. Priority 20.
-
-A VIP shopper opens the widget on the home page. Four chips show: "See early access drops", "Use my member discount", "Help me find a shoe", and "Track my order". The VIP rule outranks every other rule, so its two starters lead the row, and the Total setting of 4 leaves room for two defaults. A VIP shopper arriving from the video would see the VIP starters first and the video starter after them.
-
-<Frame caption="Starters for a VIP segment member">
-  <img src="/images/placeholder.svg" alt="Starters for a VIP segment member" />
-</Frame>
-
-### What else a rule can do
-
-- Match any of several referrers, so visitors from any social network share one set of starters.
-- Use a shopper attribute, such as offering "Show size 9 only" when the preferred size is known.
-- React to cart contents, such as leading with "Finish my checkout" when the cart has items.
-- Respond to previous interaction, such as "Continue where I left off" for a shopper who chatted earlier this session.
-- Exclude a segment, such as hiding order-tracking starters from shoppers who are not signed in.
-- Carry fewer, shorter starters for mobile devices so the row fits on one line.
-- Fill a generated label from the ad `{content}` the shopper arrived with.
-- Combine page and campaign, so a starter shows only on product pages reached from one campaign.
-
-Every condition and how they combine is in [Rules](/orchestration/rules).
+A conversation starter is a tappable prompt a shopper sees under the welcome message, before they type. Tapping one sends its prompt to the Agent. You set starters per page, so the home page, a product page, and the cart can each offer their own. Several starters show at once, three to five, drawn by priority from every enabled Journey by the conversation starter Rulebook.
 
 ## What it contains
+
+The diagram shows the suggestion set the shopper sees, the settings that shape it, and the starters inside it with what each one holds.
+
+```mermaid
+flowchart TB
+  SET["Suggestion set<br/><small>what the shopper sees under the welcome message</small>"]
+  SET --> CAND["Candidates<br/><small>starters for this page from every enabled Journey</small>"]
+  SET --> MAX["Maximum visible<br/><small>the Rulebook's Total setting: 3, 4, or 5</small>"]
+  SET --> RANK["Ranking<br/><small>priority order by default</small>"]
+  SET --> LAY["Layout<br/><small>row of chips or stacked list</small>"]
+  SET --> FB["Fallback set<br/><small>the Default Journey's starters</small>"]
+  CAND --> ST
+  subgraph ST["Conversation starters, each with a page rule"]
+    S1["Starter"]
+    S1 --> LB["Label<br/><small>written or generated at display time</small>"]
+    S1 --> IC["Icon<br/><small>optional</small>"]
+    S1 --> AC["Action<br/><small>sends a prompt to the Agent</small>"]
+    S1 --> RU["Page rule<br/><small>which page · priority</small>"]
+  end
+  RB["Conversation starter Rulebook<br/><small>Take from highest priority · Then one from each · Total</small>"]
+  RB -. "returns" .-> CAND
+```
 
 | Property | What it holds |
 | -------- | ------------- |
 | Label | The text on the starter, written by you or generated at display time |
 | Icon | An optional icon shown with the label |
 | Action | What tapping the starter does. Usually it sends a prompt to the Agent |
-| Rule | The conditions and priority that make this starter a candidate. One rule can carry several starters |
+| Rule | The page the starter shows on, and its priority. One rule can carry several starters |
 
-A generated label is written at display time from variables such as `{product_name}` or the ad `{content}` the shopper arrived with. Generated starters compete in the Rulebook exactly like written ones.
+A generated label is written at display time from variables on the page, such as `{product_name}` on a product page. Generated starters compete in the Rulebook exactly like written ones.
 
 A starter holds its own label and embeds nothing from the [Component library](/components/overview). The assistant reply that follows a tap can render any card the library offers.
 
 ## Rule
 
-A starter carries a rule with conditions and priority. Timing and delivery restrictions do not apply, because starters show once, together with the welcome message.
+A starter's rule has one condition: the page it shows on. Timing and delivery restrictions do not apply, because starters show once, together with the welcome message.
 
 | Rule field | What you can set |
 | ---------- | ---------------- |
-| Conditions | UTM parameters, referrer or arrival source, page or URL, segment membership, shopper attributes, session behavior, device and browser |
-| Condition combinations | All, any, and exclusions |
-| Priority | Orders matching rules and decides which rule the Rulebook takes the first starters from |
+| Page | A page type, such as home, product, collection, or cart, or a specific page or URL |
+| Priority | Orders the rules that match the same page and decides which rule the Rulebook takes the first starters from |
 
-The conversation starter Rulebook returns several results, up to a limit. It collects every matching rule from every enabled Playbook, orders them by priority, and builds the set with three settings.
+Starters do not test where the shopper came from, who they are, or what is in their cart. A prompt that depends on the arrival source, a segment, or the cart belongs in a [proactive message](/components/conversation/proactive-message).
+
+Several Journeys can propose starters for the same page. The conversation starter Rulebook collects every rule that matches the current page from every enabled Journey, orders them by priority, and builds the set with three settings.
 
 | Setting | What it does |
 | ------- | ------------ |
-| Take from highest priority | How many starters to take from the highest-priority rule that matches |
+| Take from highest priority | How many starters to take from the highest-priority rule that matches the page |
 | Then one from each | After that, take one starter from each remaining matching rule, in priority order |
 | Total | The maximum number of starters to show. Choose 3, 4, or 5 |
 
-The Default Playbook's starters, at priority 0, are always the last matching rule.
+The Default Journey's starters, at priority 0, match every page and are always the last matching rule. A page with no starters configured shows the Default Journey's starters.
 
 Read the [worked example](/orchestration/how-rulebooks-resolve#worked-example-conversation-starters) to see how the same candidates produce different sets under four different settings.
 
@@ -114,13 +72,45 @@ The starters the Rulebook returns render inside a suggestion set. The set turns 
 | Ranking | The order of the visible starters. Priority order by default |
 | Layout | How the visible starters are arranged, such as a row of chips or a stacked list |
 
-The number of visible starters is the Rulebook's Total setting. The fallback set is the Default Playbook's starters.
+The number of visible starters is the Rulebook's Total setting. The fallback set is the Default Journey's starters.
+
+## Examples
+
+Two ways to set starters. Each one describes the configuration, not the exact copy.
+
+### Generic
+
+The same fixed prompts on every page, stacked above the launcher before the widget opens.
+
+```yaml
+Page: Every page
+Starters: Three fixed prompts about choosing a product, building a routine, and the brand
+Priority: 0 (Default Journey)
+```
+
+<Frame caption="Generic starters stacked above the launcher">
+  <img src="/images/conversation/conversation-starter.png" alt="Generic starters stacked above the launcher" />
+</Frame>
+
+### Personalized per page
+
+Prompts written for one page, here the collection page where the shopper browses the whole range.
+
+```yaml
+Page: Collection page (Shop All)
+Starters: Three prompts for choosing from the range: by need, by routine, and by bestseller
+Priority: 10
+```
+
+<Frame caption="Starters written for the collection page">
+  <img src="/images/conversation/conversation-starter-per-page.png" alt="Starters written for the collection page" />
+</Frame>
 
 ## Related
 
 <CardGroup cols={2}>
   <Card title="Rulebooks" href="/orchestration/rulebooks" />
   <Card title="Welcome message" href="/components/conversation/welcome-message" />
-  <Card title="Follow-up suggestion" href="/components/conversation/follow-up-suggestion" />
+  <Card title="Proactive message" href="/components/conversation/proactive-message" />
   <Card title="How rulebooks resolve conflicts" href="/orchestration/how-rulebooks-resolve" />
 </CardGroup>

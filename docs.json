@@ -15,7 +15,6 @@
         "group": "Getting started",
         "pages": [
           "index",
-          "quickstart",
           "concepts"
         ]
       },
@@ -61,8 +60,7 @@
               "components/page/page-suggestions",
               "components/page/recommendation-section",
               "components/page/comparison-section",
-              "components/page/social-proof-section",
-              "components/page/offer-section"
+              "components/page/social-proof-section"
             ]
           },
           "components/primitives"
@@ -85,12 +83,12 @@
         "pages": [
           "orchestration/overview",
           "orchestration/channels-and-experiences",
-          "orchestration/playbooks",
+          "orchestration/journeys",
           "orchestration/rules",
           "orchestration/rulebooks",
           "orchestration/how-rulebooks-resolve",
           "orchestration/campaigns",
-          "orchestration/playbooks-vs-campaigns",
+          "orchestration/journeys-vs-campaigns",
           "orchestration/audiences",
           "orchestration/pages-and-placements",
           "orchestration/experiments",
@@ -101,7 +99,7 @@
         "group": "Use cases",
         "pages": [
           "use-cases/overview",
-          "use-cases/youtube-unboxing-playbook",
+          "use-cases/youtube-unboxing-journey",
           "use-cases/cart-recovery-campaign",
           "use-cases/discovery-experiment"
         ]

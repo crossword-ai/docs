@@ -5,19 +5,31 @@ description: "Environments, publishing, revisions, and installation"
 
 Deployment is how a configured experience reaches shoppers. It gives you separate environments to test in and to serve from, a numbered revision every time you publish, and the installation code or channel connection each environment needs.
 
-Deployment acts on the whole experience. A revision is a snapshot of every Playbook, Rulebook, Campaign, page, and Experiment at the moment you publish.
-
-## Example
-
-Your storefront's web experience has two environments. Test runs on your staging site and serves revision 14. Production runs on your live site and serves revision 12. You publish revision 15 to Test, check it, then publish it to Production at 10% of traffic. When the numbers look right you raise the rollout to 100%.
-
-The screenshot shows the **Deployment** screen of the Web experience with two environment cards. Test serves revision 15 to All visitors at 100%. Production serves revision 15 at a 10% rollout, with revision 12 for everyone else. Each card has an installation snippet, a script tag with a **Copy** button, and a **Publish** button. The revision history beneath lists revisions 15, 14, 13, and 12 with their publish dates.
-
-<Frame caption="Test and Production environments with revisions">
-  <img src="/images/placeholder.svg" alt="Test and Production environments with revisions" />
-</Frame>
+Deployment acts on the whole experience. A revision is a snapshot of every Journey, Rulebook, Campaign, page, and Experiment at the moment you publish.
 
 ## What it contains
+
+The diagram shows an experience, its environments and what each one holds, and how publishing creates the revision an environment serves.
+
+```mermaid
+flowchart TB
+  EXP["Experience<br/><small>the unit of publishing</small>"]
+  EXP --> PUB["Publish<br/><small>choose environment, eligible audience, rollout percentage</small>"]
+  PUB --> REV["Revision<br/><small>automatically numbered snapshot of the whole experience</small>"]
+  EXP --> TEST
+  EXP --> PROD
+  EXP --> MORE["More environments<br/><small>as many as you need, such as one per regional site</small>"]
+  subgraph TEST["Test"]
+    TR["Published revision<br/><small>with eligible audience and rollout percentage</small>"]
+    TI["Installation snippet"]
+  end
+  subgraph PROD["Production"]
+    PR["Published revision<br/><small>with eligible audience and rollout percentage</small>"]
+    PI["Installation snippet or channel connection"]
+  end
+  REV -. "pushed to" .-> TR
+  REV -. "pushed to" .-> PR
+```
 
 | Concept | Meaning | Example |
 | ------- | ------- | ------- |
@@ -49,7 +61,7 @@ The rollout percentage lets you introduce a revision gradually. Visitors outside
 
 ## Installation
 
-For a website, copy the environment's **installation snippet** into your site. For a conversational channel such as Instagram or iMessage, connect the channel account to the environment instead. Read [Quickstart](/quickstart) for the first installation.
+For a website, copy the environment's **installation snippet** into your site. For a conversational channel such as Instagram or iMessage, connect the channel account to the environment instead.
 
 ## How it fits
 
@@ -57,9 +69,18 @@ Deployment sits at the end of the chain. Channels hold experiences, experiences 
 
 Experiments and Campaigns are part of what gets published. A running Experiment continues to split traffic in the environment it is published to, and Campaigns continue their sequences across revisions.
 
+## Example
+
+Your storefront's web experience has two environments. Test runs on your staging site and serves revision 14. Production runs on your live site and serves revision 12. You publish revision 15 to Test, check it, then publish it to Production at 10% of traffic. When the numbers look right you raise the rollout to 100%.
+
+The screenshot shows the **Deployment** screen of the Web experience with two environment cards. Test serves revision 15 to All visitors at 100%. Production serves revision 15 at a 10% rollout, with revision 12 for everyone else. Each card has an installation snippet, a script tag with a **Copy** button, and a **Publish** button. The revision history beneath lists revisions 15, 14, 13, and 12 with their publish dates.
+
+<Frame caption="Test and Production environments with revisions">
+  <img src="/images/placeholder.svg" alt="Test and Production environments with revisions" />
+</Frame>
+
 ## Related
 
 <CardGroup cols={2}>
   <Card title="Channels and experiences" href="/orchestration/channels-and-experiences" />
-  <Card title="Quickstart" href="/quickstart" />
 </CardGroup>

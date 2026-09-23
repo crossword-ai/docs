@@ -5,17 +5,51 @@ description: "Every component a shopper can see or interact with, in one list of
 
 The Component library is every component in a Crossword experience, in one list. A component is anything a shopper can see or interact with, from a welcome message to a section on a product page. The list splits into five families, and some components carry a rule that decides when and where they show.
 
-In the dashboard, the library is one screen. The five families run across the top as tabs, **Conversation** through **Primitives**, and the selected family opens a grid of component tiles, each with its name, a one-line description, and a **Rule** badge where the component carries one. Selecting a tile, such as **Welcome message**, opens its properties in a panel on the right.
-
-<Frame caption="Component library in the dashboard, Conversation family selected">
-  <img src="/images/placeholder.svg" alt="Component library in the dashboard, Conversation family selected" />
-</Frame>
-
 ## Families
+
+The diagram shows the Component library, its five families, and the components in each family, with the families that carry a rule named as such.
+
+```mermaid
+flowchart TB
+  LIB["Component library<br/><small>every component in one list</small>"]
+  LIB --> CONV
+  LIB --> CARDS
+  LIB --> INT
+  LIB --> PAGE
+  LIB --> PRIM["Primitives<br/><small>button, input, selector, media, and text · no rule</small>"]
+  subgraph CONV["Conversation · starters and proactive carry rules"]
+    WM["Welcome message<br/><small>global · no rule</small>"]
+    CS["Conversation starter<br/><small>page rule</small>"]
+    FU["Follow-up suggestion<br/><small>set in the Agent · no rule</small>"]
+    PM["Proactive message"]
+    AR["Assistant reply<br/><small>composed by the Agent</small>"]
+  end
+  subgraph CARDS["Cards, no rule"]
+    PC["Product card"]
+    PCOL["Product collection"]
+    CC["Comparison card"]
+    CART["Cart and checkout card"]
+    ORD["Order and refund status card"]
+  end
+  subgraph INT["Interactive, no rule"]
+    QZ["Quiz"]
+    BB["Bundle builder"]
+    FM["Form"]
+    GM["Game"]
+    CF["Configurator"]
+  end
+  subgraph PAGE["Page, each with a rule, a target page, and a placement"]
+    CB["Content block"]
+    PS["Page suggestions"]
+    RS["Recommendation section"]
+    CMP["Comparison section"]
+    SP["Social proof section"]
+  end
+```
 
 | Family | What it covers | Carries a rule? |
 | ------ | -------------- | --------------- |
-| Conversation | What the shopper sees in the chat: messages, starters, suggestions, and the assistant reply. | Yes, except the assistant reply, which the Agent composes. |
+| Conversation | What the shopper sees in the chat: messages, starters, suggestions, and the assistant reply. | Starters carry a page rule: the page they show on, and priority. Proactive messages carry a full rule. Follow-up suggestions do not, because the Agent writes them for each reply from its instructions. The welcome message does not, because it is global and set once in the Default Journey. The assistant reply does not, because the Agent composes it. |
 | Cards | Structured units for products, comparisons, carts, and orders. | No. Shown inside a message, a reply, or a page section. |
 | Interactive | Pieces the shopper works through step by step. | No. Shown the same way as cards. |
 | Page | Sections Crossword inserts into or replaces on a merchant page. Read [Page sections](/components/page/page-sections). | Yes. A target page, a placement, and a rule. |
@@ -25,10 +59,10 @@ In the dashboard, the library is one screen. The five families run across the to
 
 | Component | Family | Carries a rule? | What it does |
 | --------- | ------ | --------------- | ------------ |
-| [Welcome message](/components/conversation/welcome-message) | Conversation | Yes | The first message a shopper reads when the widget opens. One shows per conversation. |
-| [Conversation starter](/components/conversation/conversation-starter) | Conversation | Yes | A tappable prompt under the welcome message. Three to five show at once. |
-| [Suggestion set](/components/conversation/conversation-starter#suggestion-set) | Conversation | No | The ranking and layout that turn a set of starters or follow-ups into what the shopper sees. |
-| [Follow-up suggestion](/components/conversation/follow-up-suggestion) | Conversation | Yes | A next-step prompt under an assistant reply. The Agent produces candidates and the suggestion set caps them. |
+| [Welcome message](/components/conversation/welcome-message) | Conversation | No (global) | The first message a shopper reads when the widget opens. One per experience, set in the Default Journey, the same for every shopper. |
+| [Conversation starter](/components/conversation/conversation-starter) | Conversation | Yes (page rule) | A tappable prompt under the welcome message, set per page. Three to five show at once. |
+| [Suggestion set](/components/conversation/conversation-starter#suggestion-set) | Conversation | No | The cap and layout that turn starters or follow-ups into what the shopper sees. Starters are also ranked by priority. |
+| [Follow-up suggestion](/components/conversation/follow-up-suggestion) | Conversation | No. Set in the Agent | A next-step prompt under an assistant reply. The Agent writes them for each reply from its instructions, and the suggestion set caps them. |
 | [Proactive message](/components/conversation/proactive-message) | Conversation | Yes | A message Crossword sends before the shopper asks, with timing and delivery limits. |
 | [Assistant reply](/components/conversation/assistant-reply) | Conversation | No | What the Agent composes each turn: reply text, cards, follow-ups, quick replies, and actions. |
 | [Quick reply](/components/conversation/assistant-reply#quick-reply) | Conversation | No | A one-tap answer with a fixed value, such as Yes, No, or Size 9, inside an assistant reply. |
@@ -47,7 +81,6 @@ In the dashboard, the library is one screen. The five families run across the to
 | [Recommendation section](/components/page/recommendation-section) | Page | Yes | A product collection with a contextual explanation on a merchant page. |
 | [Comparison section](/components/page/comparison-section) | Page | Yes | A comparison on a merchant page. |
 | [Social proof section](/components/page/social-proof-section) | Page | Yes | Reviews, testimonials, or data selected for the shopper's context. |
-| [Offer section](/components/page/offer-section) | Page | Yes | An offer, who is eligible for it, an explanation, and a call to action. |
 | [Button](/components/primitives#button) | Primitives | No | A label, an action, and a state. |
 | [Input](/components/primitives#input) | Primitives | No | A typed field with validation and a value. |
 | [Selector](/components/primitives#selector) | Primitives | No | The picker inside another component. Options and a selected value. |
@@ -56,7 +89,7 @@ In the dashboard, the library is one screen. The five families run across the to
 
 ## Rules
 
-The rule lives on the rule-based component. A welcome message, a starter, a proactive message, or a page section carries its own conditions and priority. Proactive messages and page sections add timing and delivery limits. A [Rulebook](/orchestration/rulebooks) resolves the rule-based components of one type across every enabled Playbook, with fallback from the Default Playbook.
+The rule lives on the rule-based component. A starter carries a page rule: the page it shows on, and priority. A proactive message or a page section carries its own conditions and priority. A follow-up suggestion carries no rule: the Agent writes it for each reply, from its instructions. Proactive messages and page sections add timing and delivery limits. A [Rulebook](/orchestration/rulebooks) resolves the rule-based components of one type across every enabled Journey, with fallback from the Default Journey. The welcome message carries no rule and has no Rulebook. It is set once in the Default Journey and every shopper sees it.
 
 Plain components have properties and no rule. A product card shows because something placed it: a message that embeds it, a page section that holds it, or the Agent composing the assistant reply. Read [Rules](/orchestration/rules) for what a rule can contain.
 
@@ -65,6 +98,14 @@ Plain components have properties and no rule. A product card shows because somet
     Conditions, combinations, timing, priority, and delivery restrictions.
   </Card>
   <Card title="Rulebooks" icon="scale-balanced" href="/orchestration/rulebooks">
-    How rule-based components from several Playbooks resolve into what shows.
+    How rule-based components from several Journeys resolve into what shows.
   </Card>
 </CardGroup>
+
+## Example
+
+In the dashboard, the library is one screen. The five families run across the top as tabs, **Conversation** through **Primitives**, and the selected family opens a grid of component tiles, each with its name, a one-line description, and a **Rule** badge where the component carries one. Selecting a tile, such as **Welcome message**, opens its properties in a panel on the right.
+
+<Frame caption="Component library in the dashboard, Conversation family selected">
+  <img src="/images/placeholder.svg" alt="Component library in the dashboard, Conversation family selected" />
+</Frame>

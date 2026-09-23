@@ -7,17 +7,33 @@ Guardrails define what an Agent must not say. Permissions define which actions i
 
 Guardrails are enforced, not suggested. An instruction that conflicts with a guardrail loses.
 
-## Example
-
-An order assistant may issue refunds up to a set amount without asking anyone. Above that amount, the refund needs an operator's approval. It must not comment on whether a shoe suits a medical condition, and when a shopper asks for something it cannot do, it says: "I can't do that from here, but I can pass you to the support team."
-
-The screenshot shows the **Guardrails** tab of the Order assistant. Topics to refuse lists Medical advice and Competitor pricing, and Claims it must not make lists Guaranteed delivery dates. Escalation phrasing reads "I can't do that from here, but I can pass you to the support team." Under Permissions, Look up order, Generate return label, and Issue refund are allowed, Add to cart is not, and Issue refund shows a limit of ₹5,000 with Confirmation before action switched on.
-
-<Frame caption="Order assistant guardrails and refund limit">
-  <img src="/images/placeholder.svg" alt="Order assistant guardrails and refund limit" />
-</Frame>
-
 ## What it contains
+
+The diagram shows the two halves of the boundary, the kinds inside each, and where permissions take effect in a Workflow.
+
+```mermaid
+flowchart TB
+  GP["Guardrails and permissions<br/><small>the boundary an Agent works within</small>"]
+  GP --> G
+  GP --> P
+  subgraph G["Guardrails, rules about speech"]
+    G1["Topics to refuse"]
+    G2["Claims it must not make"]
+    G3["Escalation phrasing"]
+  end
+  subgraph P["Permissions, rules about action"]
+    P1["Allowed actions<br/><small>the Workflows it may call</small>"]
+    P2["Limits<br/><small>caps on an allowed action</small>"]
+    P3["Confirmation before an action"]
+  end
+  subgraph WF["Workflow"]
+    CONF["Confirmation step<br/><small>the shopper answers</small>"]
+    APPR["Approval step<br/><small>an operator answers</small>"]
+  end
+  P1 -. "may call" .-> WF
+  P3 -. "pauses at" .-> CONF
+  P2 -. "when exceeded, pauses at" .-> APPR
+```
 
 | Setting | What it controls | Example |
 | ------- | ---------------- | ------- |
@@ -59,6 +75,16 @@ A refund within the limit runs straight through once the shopper confirms. Above
 ## How it fits
 
 Guardrails and permissions sit above [Instructions and model](/agents/instructions-and-model): instructions describe the job, guardrails and permissions bound it.
+
+## Example
+
+An order assistant may issue refunds up to a set amount without asking anyone. Above that amount, the refund needs an operator's approval. It must not comment on whether a shoe suits a medical condition, and when a shopper asks for something it cannot do, it says: "I can't do that from here, but I can pass you to the support team."
+
+The screenshot shows the **Guardrails** tab of the Order assistant. Topics to refuse lists Medical advice and Competitor pricing, and Claims it must not make lists Guaranteed delivery dates. Escalation phrasing reads "I can't do that from here, but I can pass you to the support team." Under Permissions, Look up order, Generate return label, and Issue refund are allowed, Add to cart is not, and Issue refund shows a limit of $250 with Confirmation before action switched on.
+
+<Frame caption="Order assistant guardrails and refund limit">
+  <img src="/images/placeholder.svg" alt="Order assistant guardrails and refund limit" />
+</Frame>
 
 ## Related
 

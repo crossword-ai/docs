@@ -5,13 +5,37 @@ description: "Reviews, testimonials, or data selected for the shopper's context"
 
 A social proof section shows reviews, testimonials, or data such as ratings and purchase counts, selected for the shopper's context. A marathon runner sees reviews that mention marathons. A shopper who asked about wide feet sees reviews that mention fit. It answers the question "do people like me like this?" with evidence rather than copy.
 
+## Anatomy
+
+| Property | What it holds |
+| -------- | ------------- |
+| Heading | The title of the section, such as **What runners say**. Supports dynamic variables. |
+| Content | The reviews, testimonials, or data points the section draws from. Data points include average rating, review count, and purchase count. |
+| Selection rules | Which items to show for this shopper: reviews that mention a use case they described, a size they asked about, or a topic tied to their segment. A minimum rating or a recency limit can narrow the set further. |
+| Layout | A carousel, a list, or a single highlighted quote with a rating summary. |
+| Call to action | Optional. A button or link, such as **Read all reviews**. |
+
+## Where it appears
+
+- **Product page.** Replace the storefront's reviews block with reviews chosen for this shopper, or insert a short summary near the add-to-cart button.
+- **Collection page.** A rating summary or a highlighted testimonial above the grid.
+- **Home page and dynamic landing pages.** Testimonials that match the campaign a visitor arrived from.
+
+The section goes into a placement. Replace is the common action on product pages, since most storefronts already have a reviews block. Insert works anywhere else. Read [Pages and placements](/orchestration/pages-and-placements).
+
+## Rules
+
+A social proof section carries its own rule, scoped by its target page and placement. Target page, placement, and placement action are required. Conditions, priority, timing, and delivery limits are optional.
+
+Keep the two kinds of rules apart. The rule on the section decides whether this shopper sees it. The selection rules inside the section decide which reviews they see.
+
 ## Examples
 
 Every scene below is a social proof section on a sneaker brand's storefront. The rule on the section decides who sees it and where; the selection rules inside it decide which reviews they see.
 
 ### Out of the box
 
-The Default Playbook's section sits on the product page and replaces the storefront's reviews block, for every shopper. The heading reads **What runners say**, a rating summary reads **4.6 of 5 from 1,240 reviews**, and beneath it are the three most recent reviews rated four stars or higher, in a list. A **Read all reviews** link sits under the third. No conditions, priority 0.
+The Default Journey's section sits on the product page and replaces the storefront's reviews block, for every shopper. The heading reads **What runners say**, a rating summary reads **4.6 of 5 from 1,240 reviews**, and beneath it are the three most recent reviews rated four stars or higher, in a list. A **Read all reviews** link sits under the third. No conditions, priority 0.
 
 <Frame caption="Default social proof section replacing the reviews block">
   <img src="/images/placeholder.svg" alt="Default social proof section replacing the reviews block" />
@@ -49,9 +73,9 @@ A visitor who arrives from a review site lands on the home page and sees a secti
 
 ### With a rule: high-value cart
 
-> Rule: cart page, above the checkout button, insert. Cart value is over 150. Priority 20.
+> Rule: cart page, above the checkout button, insert. Cart value is over $150. Priority 20.
 
-A shopper whose cart totals more than 150 sees a compact section above the checkout button: a rating summary reading **4.7 average across the items in your cart** and one short quote about durability. It is there to steady a larger purchase at the last step. A cart under 150 does not match, and the checkout button stands alone.
+A shopper whose cart totals more than 150 sees a compact section above the checkout button: a rating summary reading **4.7 average across the items in your cart** and one short quote about durability. It is there to steady a larger purchase at the last step. A cart under $150 does not match, and the checkout button stands alone.
 
 <Frame caption="Cart reassurance above the checkout button">
   <img src="/images/placeholder.svg" alt="Cart reassurance above the checkout button" />
@@ -69,30 +93,6 @@ A shopper whose cart totals more than 150 sees a compact section above the check
 - Target every page under `/collections/` with a rating summary above the grid.
 
 Every condition, combination, timing option, and delivery limit is listed in [Rules](/orchestration/rules). The shared rule shape is under [Page sections](/components/page/page-sections).
-
-## Anatomy
-
-| Property | What it holds |
-| -------- | ------------- |
-| Heading | The title of the section, such as **What runners say**. Supports dynamic variables. |
-| Content | The reviews, testimonials, or data points the section draws from. Data points include average rating, review count, and purchase count. |
-| Selection rules | Which items to show for this shopper: reviews that mention a use case they described, a size they asked about, or a topic tied to their segment. A minimum rating or a recency limit can narrow the set further. |
-| Layout | A carousel, a list, or a single highlighted quote with a rating summary. |
-| Call to action | Optional. A button or link, such as **Read all reviews**. |
-
-## Where it appears
-
-- **Product page.** Replace the storefront's reviews block with reviews chosen for this shopper, or insert a short summary near the add-to-cart button.
-- **Collection page.** A rating summary or a highlighted testimonial above the grid.
-- **Home page and dynamic landing pages.** Testimonials that match the campaign a visitor arrived from.
-
-The section goes into a placement. Replace is the common action on product pages, since most storefronts already have a reviews block. Insert works anywhere else. Read [Pages and placements](/orchestration/pages-and-placements).
-
-## Rules
-
-A social proof section carries its own rule, scoped by its target page and placement. Target page, placement, and placement action are required. Conditions, priority, timing, and delivery limits are optional.
-
-Keep the two kinds of rules apart. The rule on the section decides whether this shopper sees it. The selection rules inside the section decide which reviews they see.
 
 ## Related
 

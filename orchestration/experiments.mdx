@@ -1,48 +1,66 @@
 ---
 title: "Experiments"
-description: "Split traffic between Playbooks and measure a goal event"
+description: "Split traffic between Journeys and measure a goal event"
 ---
 
-An Experiment splits traffic between two or more Playbooks and measures which one drives a goal event. It answers "which approach works better?" with data instead of a guess.
+An Experiment splits traffic between two or more Journeys and measures which one drives a goal event. It answers "which approach works better?" with data instead of a guess.
 
-Experiments act on Playbooks, not on the whole experience. Everything outside the Playbooks under test stays the same for every visitor.
-
-## Example
-
-An Experiment called Product Discovery Method tests whether a quiz or a conversation drives more add-to-carts. Playbook A is conversation-led discovery: the shopping Agent without a quiz. Playbook B is quiz-led discovery: the same Agent with a quiz. Traffic splits 50/50. The goal event is `add_to_cart`. Read the build in [Quiz-led vs conversation-led discovery](/use-cases/discovery-experiment).
-
-The screenshot shows Product Discovery Method open on the **Experiments** screen with its status set to Running. Eligible audience reads New visitors and Participation is 40%. The Playbooks table lists Conversation-led discovery at 50% and Quiz-led discovery at 50%. Goal reads Add to cart with the event `add_to_cart`, and the results panel shows participants and goal rate for each Playbook.
-
-<Frame caption="Product Discovery Method Experiment with a 50/50 split">
-  <img src="/images/placeholder.svg" alt="Product Discovery Method Experiment with a 50/50 split" />
-</Frame>
+Experiments act on Journeys, not on the whole experience. Everything outside the Journeys under test stays the same for every visitor.
 
 ## What it contains
+
+The diagram shows an Experiment, the parts that decide who takes part and how, and the Journeys it acts on.
+
+```mermaid
+flowchart TB
+  E["Experiment<br/><small>name</small>"]
+  E --> AUDT["Eligible audience or traffic<br/><small>a segment, or all traffic</small>"]
+  E --> PCT["Participation percentage<br/><small>the rest see the experience unchanged</small>"]
+  E --> SPLIT
+  E --> ASSIGN["Visitor assignment<br/><small>consistent on every return visit</small>"]
+  E --> GOAL["Goal<br/><small>name and event</small>"]
+  subgraph SPLIT["Journeys and traffic split, two or more"]
+    JA["Journey A<br/><small>share of participants</small>"]
+    JB["Journey B<br/><small>share of participants</small>"]
+  end
+  AUDT -. "a shared segment" .-> SEG["Segment"]
+  SPLIT -. "act on" .-> JNY["Journeys in the experience<br/><small>behave like any other enabled Journey</small>"]
+```
 
 | Concept | Meaning | Example |
 | ------- | ------- | ------- |
 | Name | What the Experiment is called | Product Discovery Method |
 | Eligible audience or traffic | Who can be entered into the Experiment: a segment, or all traffic | New visitors |
 | Participation percentage | What share of the eligible audience is entered. The rest see the experience without the Experiment | 40% |
-| Playbooks and traffic split | The Playbooks under test and the share of participants each receives. Two or more are supported | A 50% / B 50%, or A 40% / B 30% / C 30% |
-| Visitor assignment | Each participant is assigned once and sees the same Playbook on every return visit | Consistent |
+| Journeys and traffic split | The Journeys under test and the share of participants each receives. Two or more are supported | A 50% / B 50%, or A 40% / B 30% / C 30% |
+| Visitor assignment | Each participant is assigned once and sees the same Journey on every return visit | Consistent |
 | Goal | The name of the outcome and the event that records it | Add to cart, `add_to_cart` |
 
 ## How assignment works
 
-A visitor who is eligible and inside the participation percentage is assigned to one Playbook. The assignment is consistent: the same visitor sees the same Playbook every time they return while the Experiment runs. That keeps the comparison clean. A visitor who is not eligible, or who falls outside the participation percentage, sees the experience as if the Experiment did not exist.
+A visitor who is eligible and inside the participation percentage is assigned to one Journey. The assignment is consistent: the same visitor sees the same Journey every time they return while the Experiment runs. That keeps the comparison clean. A visitor who is not eligible, or who falls outside the participation percentage, sees the experience as if the Experiment did not exist.
 
-An assigned Playbook behaves like any other enabled Playbook. Its rules become eligible, and the Rulebooks resolve them alongside every other enabled Playbook. The Playbooks under test can differ in one component or in many.
+An assigned Journey behaves like any other enabled Journey. Its rules become eligible, and the Rulebooks resolve them alongside every other enabled Journey. The Journeys under test can differ in one component or in many.
 
 ## How it fits
 
-An Experiment lives inside an experience and acts on Playbooks. It does not change Rulebooks, Campaigns, or the Default Playbook.
+An Experiment lives inside an experience and acts on Journeys. It does not change Rulebooks, Campaigns, or the Default Journey.
 
 Publishing and Experiments are separate. Deployment publishes the whole experience, including any running Experiment. Read [Deployment](/orchestration/deployment).
+
+## Example
+
+An Experiment called Product Discovery Method tests whether a quiz or a conversation drives more add-to-carts. Journey A is conversation-led discovery: the shopping Agent without a quiz. Journey B is quiz-led discovery: the same Agent with a quiz. Traffic splits 50/50. The goal event is `add_to_cart`. Read the build in [Quiz-led vs conversation-led discovery](/use-cases/discovery-experiment).
+
+The screenshot shows Product Discovery Method open on the **Experiments** screen with its status set to Running. Eligible audience reads New visitors and Participation is 40%. The Journeys table lists Conversation-led discovery at 50% and Quiz-led discovery at 50%. Goal reads Add to cart with the event `add_to_cart`, and the results panel shows participants and goal rate for each Journey.
+
+<Frame caption="Product Discovery Method Experiment with a 50/50 split">
+  <img src="/images/placeholder.svg" alt="Product Discovery Method Experiment with a 50/50 split" />
+</Frame>
 
 ## Related
 
 <CardGroup cols={2}>
-  <Card title="Playbooks" href="/orchestration/playbooks" />
+  <Card title="Journeys" href="/orchestration/journeys" />
   <Card title="Quiz-led vs conversation-led discovery" href="/use-cases/discovery-experiment" />
 </CardGroup>

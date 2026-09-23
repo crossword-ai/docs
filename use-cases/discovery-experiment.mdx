@@ -3,7 +3,7 @@ title: "Quiz-led vs conversation-led discovery"
 description: "Test whether a quiz or a conversation drives more add-to-carts"
 ---
 
-Your storefront sells a few hundred pairs of shoes, and most shoppers do not know which one they want. Crossword offers two ways to help them decide. The Shopping Agent can ask a few questions in conversation and recommend a shortlist. Or a quiz can walk them through the same questions as a guided card and end in the same shortlist. Both feel reasonable, and the team disagrees about which one sells more. The merchant goal is to find out, with real traffic, which approach drives more add-to-carts. An [Experiment](/orchestration/experiments) splits visitors between two Playbooks and measures one goal event.
+Your storefront sells a few hundred pairs of shoes, and most shoppers do not know which one they want. Crossword offers two ways to help them decide. The Shopping Agent can ask a few questions in conversation and recommend a shortlist. Or a quiz can walk them through the same questions as a guided card and end in the same shortlist. Both feel reasonable, and the team disagrees about which one sells more. The merchant goal is to find out, with real traffic, which approach drives more add-to-carts. An [Experiment](/orchestration/experiments) splits visitors between two Journeys and measures one goal event.
 
 ## What the shopper sees
 
@@ -13,47 +13,47 @@ The screenshot below shows the two arms side by side, as two browser windows on 
   <img src="/images/placeholder.svg" alt="Conversation-led and quiz-led results side by side" />
 </Frame>
 
-Two shoppers land on the running shoes collection page on the same afternoon. Crossword assigns each one to a Playbook at random, and they see different things.
+Two shoppers land on the running shoes collection page on the same afternoon. Crossword assigns each one to a Journey at random, and they see different things.
 
-**Shopper 1, assigned to Playbook A (conversation-led).** The widget opens with "What are you shopping for today?" and a starter that reads **Help me find a running shoe**. They click it. The Shopping Agent asks where they run, how far, and what their budget is. Three questions later the [assistant reply](/components/conversation/assistant-reply) reads "Based on what you've told me, these three are your best matches." above a [product collection](/components/cards/product-collection) of Product A, Product B, and Product C, followed by follow-up suggestions **Compare the first two** and **Show me cheaper options**. The shopper taps **Add to cart** on Product B.
+**Shopper 1, assigned to Journey A (conversation-led).** The widget opens with "What are you shopping for today?" and a starter that reads **Help me find a running shoe**. They click it. The Shopping Agent asks where they run, how far, and what their budget is. Three questions later the [assistant reply](/components/conversation/assistant-reply) reads "Based on what you've told me, these three are your best matches." above a [product collection](/components/cards/product-collection) of Product A, Product B, and Product C, followed by follow-up suggestions **Compare the first two** and **Show me cheaper options**. The shopper taps **Add to cart** on Product B.
 
-**Shopper 2, assigned to Playbook B (quiz-led).** The widget opens with the same welcome, but the first starter reads **Take the 60-second shoe finder**. They click it and the quiz opens: four questions with a progress bar, about terrain, distance, fit, and budget. The results screen shows the same three products with a one-line explanation of why each was picked and an **Add to cart** button on every card. The shopper adds Product A. The Shopping Agent is still there if they have a question the quiz did not cover.
+**Shopper 2, assigned to Journey B (quiz-led).** The widget opens with the same welcome, but the first starter reads **Take the 60-second shoe finder**. They click it and the quiz opens: four questions with a progress bar, about terrain, distance, fit, and budget. The results screen shows the same three products with a one-line explanation of why each was picked and an **Add to cart** button on every card. The shopper adds Product A. The Shopping Agent is still there if they have a question the quiz did not cover.
 
-**Both shoppers come back the next day.** Each one sees the same Playbook as before. Assignment is per visitor and stays consistent for the life of the Experiment, so nobody sees the quiz on Monday and the conversation on Tuesday.
+**Both shoppers come back the next day.** Each one sees the same Journey as before. Assignment is per visitor and stays consistent for the life of the Experiment, so nobody sees the quiz on Monday and the conversation on Tuesday.
 
 ## Building blocks used
 
-- **Playbook A: Conversation-led Discovery.** The [Playbook](/orchestration/playbooks) you already run for product discovery. It holds a [welcome message](/components/conversation/welcome-message), [conversation starters](/components/conversation/conversation-starter), [follow-up suggestions](/components/conversation/follow-up-suggestion), and the Shopping [Agent](/agents/overview) with its routing and response configuration. The Agent composes the [assistant reply](/components/conversation/assistant-reply), which carries no rule of its own. There is no Quiz anywhere in it.
-- **Playbook B: Quiz-led Discovery.** A duplicate of A with one difference. The [Quiz](/components/interactive/quiz) component is added in two places: a conversation starter that opens it, and the Shopping Agent's response configuration, so the Agent can include the quiz in its assistant reply when a shopper asks for help choosing.
+- **Journey A: Conversation-led Discovery.** The [Journey](/orchestration/journeys) you already run for product discovery. It holds [conversation starters](/components/conversation/conversation-starter) and the Shopping [Agent](/agents/overview) with its routing, instructions, and response configuration. The Agent composes the [assistant reply](/components/conversation/assistant-reply), which carries no rule of its own, and writes the [follow-up suggestions](/components/conversation/follow-up-suggestion) under it from its instructions. There is no Quiz anywhere in it.
+- **Journey B: Quiz-led Discovery.** A duplicate of A with one difference. The [Quiz](/components/interactive/quiz) component is added in two places: a conversation starter that opens it, and the Shopping Agent's response configuration, so the Agent can include the quiz in its assistant reply when a shopper asks for help choosing.
 - **Quiz component.** Built once in the Component library. Four questions, each with answer choices, a progress indicator, and a results configuration that maps answers to a product collection with an explanation.
-- **Experiment: Product Discovery Method.** Eligible audience is all web visitors. Participation is 100%. Traffic split is Playbook A 50% and Playbook B 50%. Consistent visitor assignment is on. The goal is named "Add to cart" and measures the `add_to_cart` event.
-- **Default Playbook.** Stays enabled throughout. It contributes fallback welcomes and starters to both arms through the [Rulebooks](/orchestration/rulebooks) exactly as it does today.
+- **Experiment: Product Discovery Method.** Eligible audience is all web visitors. Participation is 100%. Traffic split is Journey A 50% and Journey B 50%. Consistent visitor assignment is on. The goal is named "Add to cart" and measures the `add_to_cart` event.
+- **Default Journey.** Stays enabled throughout. It holds the experience's one [welcome message](/components/conversation/welcome-message), "What are you shopping for today?", which carries no rule, so both arms open with it. It also contributes fallback starters to both arms through the [Rulebooks](/orchestration/rulebooks) exactly as it does today.
 
-Within each arm, the rule-based components in the assigned Playbook enter the Rulebooks alongside the Default and any other enabled Playbooks. The Experiment only decides which of A or B a visitor is eligible for. Everything after that is normal [rule resolution](/orchestration/how-rulebooks-resolve).
+Within each arm, the rule-based components in the assigned Journey enter the Rulebooks alongside the Default and any other enabled Journeys. The Experiment only decides which of A or B a visitor is eligible for. Everything after that is normal [rule resolution](/orchestration/how-rulebooks-resolve).
 
 ## Step by step
 
 <Steps>
-  <Step title="Confirm Playbook A">
-    Go to **Playbooks** and open the Playbook that currently handles product discovery. Rename it `Conversation-led Discovery` so the Experiment results are easy to read. Check that it contains the Shopping Agent and that nothing in it places the Quiz component. This Playbook is your control. Do not change anything else in it.
+  <Step title="Confirm Journey A">
+    Go to **Journeys** and open the Journey that currently handles product discovery. Rename it `Conversation-led Discovery` so the Experiment results are easy to read. Check that it contains the Shopping Agent and that nothing in it places the Quiz component. This Journey is your control. Do not change anything else in it.
   </Step>
-  <Step title="Duplicate it to create Playbook B">
+  <Step title="Duplicate it to create Journey B">
     On `Conversation-led Discovery`, click **Duplicate**. Name the copy `Quiz-led Discovery`. The copy starts with identical components, rules, priorities, and Agent settings. That is the point. When the Experiment ends, the only explanation for a difference in add-to-cart rate should be the quiz.
   </Step>
   <Step title="Build the Quiz">
-    Go to the **Component library**, open **Interactive**, and click **New Quiz**. Name it `Shoe finder`. Add four questions: terrain (road, trail, track), weekly distance (under 20 km, 20 to 50 km, over 50 km), fit (neutral, stability), and budget (under ₹5,000, ₹5,000 to ₹10,000, over ₹10,000). Mark all four required. Turn on the progress indicator. Under **Results**, map each answer combination to a product collection of three items and write a short explanation template such as "Picked for road running under ₹10,000". Add an **Add to cart** button to each result card.
+    Go to the **Component library**, open **Interactive**, and click **New Quiz**. Name it `Shoe finder`. Add four questions: terrain (road, trail, track), weekly distance (under 20 km, 20 to 50 km, over 50 km), fit (neutral, stability), and budget (under $60, $60 to $125, over $125). Mark all four required. Turn on the progress indicator. Under **Results**, map each answer combination to a product collection of three items and write a short explanation template such as "Picked for road running under $125". Add an **Add to cart** button to each result card.
   </Step>
-  <Step title="Add the Quiz to Playbook B">
-    Open `Quiz-led Discovery`. Click **Add component** and choose **Conversation starter**. Set **Priority** to `20`, higher than the existing starters, so it appears first. Set the label to **Take the 60-second shoe finder** and the action to open the `Shoe finder` quiz. Then open the Shopping Agent inside this Playbook, go to **Response configuration**, and add the `Shoe finder` quiz to the components the Agent may include in its assistant reply when a shopper asks for help choosing. Save. Make no other changes to B.
+  <Step title="Add the Quiz to Journey B">
+    Open `Quiz-led Discovery`. Click **Add component** and choose **Conversation starter**. Set the rule's **Page** to the running shoes collection page. Set **Priority** to `20`, higher than the existing starters, so it appears first. Set the label to **Take the 60-second shoe finder** and the action to open the `Shoe finder` quiz. Then open the Shopping Agent inside this Journey, go to **Response configuration**, and add the `Shoe finder` quiz to the components the Agent may include in its assistant reply when a shopper asks for help choosing. Save. Make no other changes to B.
   </Step>
   <Step title="Create the Experiment">
-    Go to **Experiments** and click **New Experiment**. Name it `Product Discovery Method`. An Experiment holds an audience, a participation percentage, a list of Playbooks with a traffic split, an assignment setting, and a goal. You set each in the next steps.
+    Go to **Experiments** and click **New Experiment**. Name it `Product Discovery Method`. An Experiment holds an audience, a participation percentage, a list of Journeys with a traffic split, an assignment setting, and a goal. You set each in the next steps.
   </Step>
   <Step title="Choose the audience and participation">
     Under **Eligible audience**, choose **All visitors**. To restrict the test to a segment, such as first-time visitors, pick that segment instead. Under **Participation**, enter `100`. Every eligible visitor takes part. If you enter a lower number, the remaining visitors see the experience as it is today, with `Conversation-led Discovery` enabled and no quiz, and they are left out of the results.
   </Step>
-  <Step title="Add the Playbooks and set the split">
-    Under **Playbooks**, add `Conversation-led Discovery` and `Quiz-led Discovery`. Set the split to `50` and `50`. Turn on **Consistent visitor assignment**. A visitor is assigned once and keeps the same Playbook across sessions until the Experiment ends. While the Experiment runs, it controls which of the two Playbooks applies to each participant, so you do not enable or disable them by hand.
+  <Step title="Add the Journeys and set the split">
+    Under **Journeys**, add `Conversation-led Discovery` and `Quiz-led Discovery`. Set the split to `50` and `50`. Turn on **Consistent visitor assignment**. A visitor is assigned once and keeps the same Journey across sessions until the Experiment ends. While the Experiment runs, it controls which of the two Journeys applies to each participant, so you do not enable or disable them by hand.
   </Step>
   <Step title="Set the goal">
     Under **Goal**, enter the name `Add to cart` and choose the `add_to_cart` event. The Experiment counts a visitor as converted the first time that event fires after assignment. One visitor who adds three products counts once. That keeps a single enthusiastic shopper from swinging the result.
@@ -62,18 +62,18 @@ Within each arm, the rule-based components in the assigned Playbook enter the Ru
     Go to **Deployment** and publish the experience to **Test**. On a storefront running the Test snippet, open the collection page in two separate browsers and confirm that one shows the **Take the 60-second shoe finder** starter and the other does not. Reload each browser and confirm the assignment holds. Then publish to **Production**. Crossword records the revision number, and the Experiment starts assigning real visitors from that moment. See [Deployment](/orchestration/deployment).
   </Step>
   <Step title="Read the results">
-    Open the Experiment. For each Playbook, Crossword shows visitors assigned, visitors who fired the goal event, and the goal rate. Leave it running until both arms have enough visitors for the difference to be stable across several days, and resist reading it after the first afternoon. Do not edit either Playbook while the Experiment runs. A change to one arm mid-flight means the result describes two different versions of that arm.
+    Open the Experiment. For each Journey, Crossword shows visitors assigned, visitors who fired the goal event, and the goal rate. Leave it running until both arms have enough visitors for the difference to be stable across several days, and resist reading it after the first afternoon. Do not edit either Journey while the Experiment runs. A change to one arm mid-flight means the result describes two different versions of that arm.
   </Step>
   <Step title="Promote the winner">
-    Suppose `Quiz-led Discovery` wins. Click **End Experiment**. Then go to **Playbooks**, switch `Quiz-led Discovery` to **Enabled**, and switch `Conversation-led Discovery` to **Disabled**. Publish a new revision. From now on every visitor gets the quiz, and the old Playbook stays available if you want to bring it back or test it again against a third idea.
+    Suppose `Quiz-led Discovery` wins. Click **End Experiment**. Then go to **Journeys**, switch `Quiz-led Discovery` to **Enabled**, and switch `Conversation-led Discovery` to **Disabled**. Publish a new revision. From now on every visitor gets the quiz, and the old Journey stays available if you want to bring it back or test it again against a third idea.
   </Step>
 </Steps>
 
 ## Measuring it
 
-The goal event is `add_to_cart`, and the number that decides the Experiment is the goal event rate per Playbook: visitors who fired `add_to_cart` at least once after assignment, divided by visitors assigned to that Playbook.
+The goal event is `add_to_cart`, and the number that decides the Experiment is the goal event rate per Journey: visitors who fired `add_to_cart` at least once after assignment, divided by visitors assigned to that Journey.
 
-| Playbook | Visitors assigned | Reached the goal | Goal rate |
+| Journey | Visitors assigned | Reached the goal | Goal rate |
 | -------- | ----------------- | ---------------- | --------- |
 | Conversation-led Discovery | 4,120 | 391 | 9.5% |
 | Quiz-led Discovery | 4,087 | 470 | 11.5% |
@@ -82,7 +82,7 @@ The figures above are illustrative. Yours will differ.
 
 The goal rate tells you which approach won. The events emitted along the way tell you why. Every rendered component has its own impression and interaction events, so you can read a funnel per arm.
 
-| Signal | Playbook A | Playbook B |
+| Signal | Journey A | Journey B |
 | ------ | ---------- | ---------- |
 | Starter clicks | **Help me find a running shoe** clicked, divided by welcome impressions | **Take the 60-second shoe finder** clicked, divided by welcome impressions |
 | Discovery completed | Conversations where the Agent returned a product collection | Quizzes completed, divided by quizzes started |
