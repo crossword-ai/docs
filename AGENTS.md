@@ -32,5 +32,3 @@
   internal hostnames that are not already public.
 - Architecture decisions, ADRs, RFCs and runbooks belong in the private product
   repo, not here.
-- Never use real customer, merchant, or brand names in examples. Use generic
-  stand-ins such as "your storefront", "a sneaker brand", or "Product A".
