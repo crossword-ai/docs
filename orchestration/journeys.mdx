@@ -1,105 +1,142 @@
 ---
 title: "Journeys"
-description: "A reusable collection of contextual behaviors Crossword applies when relevant"
+description: "One situation a shopper is in, selected by its entry point, with its own starters, proactive messages, Agent, and goals"
 ---
 
-A Journey is a reusable collection of contextual behaviors that Crossword applies when relevant. It lets you group everything a shopper in one situation should see, such as arriving from a video or returning with items in their cart, without writing that situation into every component by hand.
+A Journey is one situation a shopper is in, such as browsing a collection, reading a product page, or looking for help with an order. Crossword selects it by its **entry point**, the pages and sometimes a condition that describe that situation. Only one Journey applies to a shopper at a time, and each starter or proactive message it shows routes to the Agent you name for it.
 
-A Journey does not switch on as a whole. Each rule-based component inside it carries its own rule. Enabling the Journey makes those rules eligible for evaluation, and the Rulebook for each component type decides what actually shows.
+## What a Journey contains
 
-## What it contains
-
-A Journey is a container. It holds three kinds of rule-based components plus the settings that shape the whole experience. The Default Journey also holds the experience's one welcome message, which carries no rule. The plain components those hold, such as cards and quizzes, come from the shared library.
+Every Journey has the same six parts. The diagram shows them from the entry point at the top to the goals at the bottom.
 
 ```mermaid
 flowchart TB
-  J["Journey<br/><small>name · description · enabled · Default designation</small>"]
-  J --> CONV
-  J --> AG
-  J --> PAGE
-  J --> SET["Appearance and response settings<br/><small>baseline from the Default Journey</small>"]
-  WMG["Welcome message<br/><small>global, set in the Default Journey</small>"]
-  J --> WMG
-  subgraph CONV["Conversation components · rule"]
-    CS["Conversation starters"]
-    PM["Proactive messages"]
+  J["Journey<br/><small>one situation a shopper is in</small>"]
+  J --> PARTS
+  subgraph PARTS["The six parts"]
+    EP["Entry point<br/><small>pages, and sometimes a condition such as logged in</small>"]
+    WM["Welcome message<br/><small>global · shown for reference</small>"]
+    CS["Conversation starters<br/><small>each names an Agent · may open a component</small>"]
+    PM["Proactive messages<br/><small>each has shows when · names an Agent</small>"]
+    AG["Agent<br/><small>the Journey's own Agent</small>"]
+    GO["Goals<br/><small>primary and secondary</small>"]
   end
-  subgraph AG["Agents · routing rule"]
-    A1["Agent"] --> WF["Workflows"]
-    FU["Follow-up suggestions<br/><small>written per reply</small>"]
-    A1 --> FU
-  end
-  subgraph PAGE["Page sections · rule, page, placement"]
-    CB["Content block"]
-    PS["Page suggestions"]
-    RS["Recommendation section"]
-    CMP["Comparison section"]
-    SP["Social proof section"]
-    DL["Dynamic landing page"]
-  end
-  LIB["Cards and interactive components<br/><small>shared Component library, no rule</small>"]
-  CONV -. "embed" .-> LIB
-  AG -. "compose into the reply" .-> LIB
-  PAGE -. "embed" .-> LIB
+  PARTS -. "starters and messages route to" .-> NA["Any named Agent<br/><small>set on each starter or message</small>"]
 ```
 
-| Concept | Meaning | Example |
-| ------- | ------- | ------- |
-| Name and description | What the Journey is for | "YouTube Unboxing: shoppers arriving from unboxing videos" |
-| Enabled or disabled | Whether the Journey's rules are eligible for evaluation | Enabled |
-| Default designation | Marks the one Journey that supplies baseline settings and fallback content | Default Journey |
-| Appearance and response settings | Baseline look, tone, and reply behavior for the experience. Supplied by the Default Journey | Brand colors, reply length |
-| Welcome message | The experience's one global welcome message. Only the Default Journey holds it, it carries no rule, and every shopper sees it on every page | "Hello! How can I help?" |
-| Conversation components | Conversation starters and proactive messages, each with its own rule | A proactive greeting for video arrivals |
-| Agents | The configured assistants this Journey makes available, each with a routing rule. Each Agent writes the follow-up suggestions under its replies, from its instructions, with no rule | A shopping assistant |
-| Page sections | Content blocks, page suggestions, recommendation, comparison, and social proof sections, and dynamic landing page configurations, each with a rule, a target page, and a placement | Video context on a product page |
+| Part | What it holds | Example from the board |
+| ---- | ------------- | ---------------------- |
+| Entry point | The pages that select this Journey, and sometimes a condition | Arrives on a product page |
+| Welcome message | The global greeting. You set it once in [Global settings](/global/overview), and it is the same in every Journey. The Journey card shows it for reference only | "Hi! Energy, sleep, mood or strength: what are you after today?" |
+| Conversation starters | The tappable prompts this Journey offers. Each one routes to a named Agent and can open a component | "Is this right for me?" routes to the Product Q&A Agent and opens the quiz if the shopper is unsure |
+| Proactive messages | Messages Crossword sends without being asked. Each one carries a "shows when" rule and routes to a named Agent | "Running low? Want to reorder?" shows when the shopper has ordered this product before |
+| Agent | The Agent that answers in this Journey | Product Q&A Agent |
+| Goals | One primary and one secondary outcome | Primary: add to cart. Secondary: bundle or Subscribe & Save |
 
-## The Default Journey
+## Entry points and the Default Journey
 
-Every experience has exactly one Default Journey. It does three jobs.
+The entry point decides which Journey a shopper is in. Most entry points are pages, such as the home page, collection pages, or every product page. Some add a condition, such as "user is logged in".
 
-- It supplies the baseline **appearance and response settings** for the experience.
-- It holds the experience's one **welcome message**. The welcome message carries no rule, and every shopper sees it on every page. Other Journeys do not add welcome messages.
-- It supplies the **fallback** for every Rulebook. Its components carry no rule, or a rule that always matches, at priority 0.
+- **Selection.** Crossword checks the shopper's page and context against every Journey's entry point and applies the one that matches. When the shopper moves to another page, Crossword checks again.
+- **Specificity.** When entry points overlap, the more specific one wins. A Journey for one product's page wins over a Journey for every product page.
+- **Fallback.** The **Default Journey** covers any page no other Journey claims. Every shopper is always in exactly one Journey, so there are always starters to tap and an Agent to answer.
 
-The Default Journey guarantees a shopper always sees the welcome message, always has starters, and always reaches an Agent, even when no other Journey applies. It cannot be disabled.
+On the board, the Product Discovery Journey claims the home and collection pages, the Product Q&A Journey claims product pages, and the Brand FAQ Journey claims the About Us and FAQ pages. A shopper on a blog post matches none of them, so the Default Journey applies.
 
-## Two principles
+## Starters and proactive messages route to Agents
 
-**Rules belong to components, not to Journeys.** There is no master condition on a Journey. Each starter, proactive message, Agent, and page section inside it carries its own rule. A starter's rule is the page it shows on, and a priority. The others carry their own conditions and priority, and proactive messages and page sections add timing and delivery restrictions. Cards and interactive components placed inside them carry no rule. Neither does the welcome message, which is global and set once in the Default Journey. Read [Rules](/orchestration/rules).
+Everything a Journey shows leads to an Agent, and the Journey card names that Agent next to each item.
 
-**Journeys are not mutually exclusive.** A visitor can qualify for YouTube Unboxing, Returning Customer, and VIP Customer at once. The Journeys do not fight. Each contributes candidates to the relevant Rulebook, and the Rulebook resolves them. Read [How rulebooks resolve conflicts](/orchestration/how-rulebooks-resolve).
+- **Conversation starters** belong to the Journey. The shopper sees them whenever the Journey applies. Tapping one sends it straight to the Agent named next to it. A starter can also open a component, such as the [quiz](/components/interactive/quiz).
+- **Proactive messages** each carry their own "shows when" rule, such as 30 seconds on the page, a scroll to the reviews, a paid ad as the arrival source, or a past order. The message shows when its rule is met inside the active Journey. A reply goes straight to the Agent named next to it. Read [Rules](/orchestration/rules) for what a "shows when" rule can test.
+- **Typed questions** do not use the Journey's routing. They go through [intent routing](/global/intent-routing), set in Global settings, which sends each question to the right Agent.
+
+A starter can name a different Agent from the Journey's own. On the board, the Default Journey's "What makes you different?" starter goes to the Brand and Support Agent, while its other starters go to the Product Discovery Agent.
+
+## Goals
+
+Each Journey names one primary and one secondary goal. The primary goal is the outcome the Journey exists for. The secondary goal is the next best result when the primary one does not happen.
+
+| Journey | Primary goal | Secondary goal |
+| ------- | ------------ | -------------- |
+| Default | Interacted | View product page |
+| Product Discovery | Interacted | View product page |
+| Product Q&A | Add to cart | Bundle or Subscribe & Save |
+| Brand FAQ | Answered question or ticket deflection | Back to shopping |
+| Support | Ticket deflection | Convert a return to an exchange |
+
+Each Journey's goals become its success metric. Read [Quality and governance](/quality/overview) for how those metrics roll up.
 
 ## How it fits
 
-A Journey lives inside an experience. Below it sit the components it holds. The rule-based ones decide when they show. The cards and interactive components placed inside them come from the shared Component library and carry no rule of their own.
+A Journey lives inside an experience, next to the settings and Agents it uses.
 
-Three things act on Journeys from outside.
-
-- **Rulebooks** take the eligible rules from every enabled Journey and decide what shows.
-- **Campaigns** can activate a Journey for a shopper for a defined scope or lifetime, such as their next visit. Read [Journeys vs campaigns](/orchestration/journeys-vs-campaigns).
-- **Experiments** split traffic between two or more Journeys and measure a goal. Read [Experiments](/orchestration/experiments).
+- **[Agents](/agents/overview)** answer inside a Journey. The Journey names its Agent, and each starter and proactive message names the Agent it routes to.
+- **[Global settings](/global/overview)** hold what every Journey shares: the welcome message, intent routing for typed questions, brand voice, and global guardrails.
+- **[Quality and governance](/quality/overview)** measures each Journey against its goals, and tests every Journey before it goes live.
+- **[Rules](/orchestration/rules)** is the reference for entry points and "shows when" rules.
+- **[Campaigns](/orchestration/campaigns)** handle what happens over time. Read [Journeys vs campaigns](/orchestration/journeys-vs-campaigns) to choose between them.
 
 ## Example
 
-The board below plans one web experience for a wellness gummy brand as five Journeys. Each Journey is a column of components, and each component notes the rule that makes it eligible.
+The Product Q&A Journey from a gummy supplement store's board, written out as one Journey card.
 
-- **Default Web Experience Journey.** Starters with no rule, a welcome message that shows on every page, and a discovery Agent that hands off to the quiz or to support by intent. No proactive messages.
-- **Product Discovery and Q&A Journey.** Starters set on product pages, home, and collections, and proactive messages such as "Running low? Want to reorder?" for shoppers who ordered before. A product Q&A Agent answers from the product's FAQ and the catalog.
-- **Quiz Journey.** Starts when a shopper taps "Find my routine" or says they are not sure. A quiz Agent asks six questions as chips and ends with a diagnosis card and an offer.
-- **Brand and Support Journey.** Starters and proactive messages on the About, FAQ, shipping, and returns pages, with a brand FAQ Agent and a support Agent.
-- **Traffic sources.** How each arrival, paid social, a search for the brand, or direct, lands in one of the Journeys above, with the proactive message that greets it.
+```yaml
+Journey: Product Q&A
+Entry point: Arrives on a product page
+Welcome message: "Hi! Energy, sleep, mood or strength: what are you after today?"  # global, shown for reference
+Conversation starters:
+  - Starter: Is this right for me?
+    Routes to: Product Q&A Agent
+    Does: Checks fit, and opens the quiz if the shopper is unsure
+  - Starter: One per product
+    Routes to: Product Q&A Agent
+    Examples:
+      Sleep: Will I wake up groggy?
+      Energy: Will I crash later?
+      Passion: Works for men and women?
+      Creatine: Need a loading phase?
+  - Starter: Best value pack?
+    Routes to: Product Q&A Agent
+Proactive messages:
+  - Message: "Curious how fast %Product Name% works? Most people notice it in the first week."
+    Shows when: 30 seconds on the product page, or the shopper scrolls to reviews
+    Routes to: Product Q&A Agent
+  - Message: "Running low on %Product Name%? Want to reorder?"
+    Shows when: On the product page, and the shopper has ordered this product before
+    Routes to: Product Q&A Agent
+  - Message: "Here from our %Ad Angle% ad? Ask me anything about %Product Name%."
+    Shows when: Source is a paid ad, and 5 seconds on the product page
+    Routes to: Product Q&A Agent
+Agent: Product Q&A Agent
+Goals:
+  Primary: Add to cart
+  Secondary: Bundle or Subscribe & Save
+```
 
-Each Journey lists its goal, such as add to cart, quiz completed, or ticket deflection. The yellow note at the bottom is an open decision the team was still weighing when the board was drawn.
+Tokens such as `%Product Name%` and `%Ad Angle%` are filled in when the message shows.
 
-<Frame caption="One web experience planned as five Journeys">
-  <img src="/images/orchestration/journeys-board.png" alt="One web experience planned as five Journeys" />
+The board below plans the whole store as Journeys and Agents. Each Journey column follows the same shape as the card above.
+
+<Frame caption="The store's Journeys and Agents, each Journey from entry point to goals">
+  <img src="/images/orchestration/journeys-board.png" alt="A board of Journeys for a gummy supplement store, each listing its entry point, welcome message, conversation starters, proactive messages, Agent, and goals" />
 </Frame>
+
+Read [Five Journeys, three Agents](/use-cases/five-journeys-three-agents) for the full setup behind this board.
 
 ## Related
 
 <CardGroup cols={2}>
-  <Card title="Rulebooks" href="/orchestration/rulebooks" />
-  <Card title="Journeys vs campaigns" href="/orchestration/journeys-vs-campaigns" />
-  <Card title="YouTube unboxing journey" href="/use-cases/youtube-unboxing-journey" />
+  <Card title="Agents" icon="robot" href="/agents/overview">
+    Who answers inside a Journey.
+  </Card>
+  <Card title="Global settings" icon="globe" href="/global/overview">
+    The welcome message, intent routing, and defaults every Journey shares.
+  </Card>
+  <Card title="Rules" icon="sliders" href="/orchestration/rules">
+    Entry points and "shows when" rules.
+  </Card>
+  <Card title="Journeys vs campaigns" icon="code-branch" href="/orchestration/journeys-vs-campaigns">
+    When the situation is enough and when you need a sequence over time.
+  </Card>
 </CardGroup>

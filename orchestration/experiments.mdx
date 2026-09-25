@@ -40,27 +40,20 @@ flowchart TB
 
 A visitor who is eligible and inside the participation percentage is assigned to one Journey. The assignment is consistent: the same visitor sees the same Journey every time they return while the Experiment runs. That keeps the comparison clean. A visitor who is not eligible, or who falls outside the participation percentage, sees the experience as if the Experiment did not exist.
 
-An assigned Journey behaves like any other enabled Journey. Its rules become eligible, and the Rulebooks resolve them alongside every other enabled Journey. The Journeys under test can differ in one component or in many.
+An assigned Journey behaves like any other Journey. It applies at its entry point, with its own starters, proactive messages, Agent, and goals. The Journeys under test can differ in one component or in many.
 
 ## How it fits
 
-An Experiment lives inside an experience and acts on Journeys. It does not change Rulebooks, Campaigns, or the Default Journey.
+An Experiment lives inside an experience and acts on Journeys. It does not change global settings, Campaigns, or the Default Journey.
 
 Publishing and Experiments are separate. Deployment publishes the whole experience, including any running Experiment. Read [Deployment](/orchestration/deployment).
 
 ## Example
 
-An Experiment called Product Discovery Method tests whether a quiz or a conversation drives more add-to-carts. Journey A is conversation-led discovery: the shopping Agent without a quiz. Journey B is quiz-led discovery: the same Agent with a quiz. Traffic splits 50/50. The goal event is `add_to_cart`. Read the build in [Quiz-led vs conversation-led discovery](/use-cases/discovery-experiment).
-
-The screenshot shows Product Discovery Method open on the **Experiments** screen with its status set to Running. Eligible audience reads New visitors and Participation is 40%. The Journeys table lists Conversation-led discovery at 50% and Quiz-led discovery at 50%. Goal reads Add to cart with the event `add_to_cart`, and the results panel shows participants and goal rate for each Journey.
-
-<Frame caption="Product Discovery Method Experiment with a 50/50 split">
-  <img src="/images/placeholder.svg" alt="Product Discovery Method Experiment with a 50/50 split" />
-</Frame>
+An Experiment called Product Discovery Method tests whether a quiz or a conversation drives more add-to-carts. Journey A is conversation-led discovery: the shopping Agent without a quiz. Journey B is quiz-led discovery: the same Agent with a quiz. Traffic splits 50/50. The goal event is `add_to_cart`. Read the build in Quiz-led vs conversation-led discovery.
 
 ## Related
 
 <CardGroup cols={2}>
   <Card title="Journeys" href="/orchestration/journeys" />
-  <Card title="Quiz-led vs conversation-led discovery" href="/use-cases/discovery-experiment" />
 </CardGroup>

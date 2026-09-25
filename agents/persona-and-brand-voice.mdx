@@ -1,0 +1,63 @@
+---
+title: "Persona and brand voice"
+description: "How an Agent sounds, and how it narrows the global brand voice"
+---
+
+Persona and brand voice decide how an Agent sounds. You write one brand voice in Global settings, and every Agent inherits it. An Agent narrows that voice only where its job calls for it.
+
+## The global voice
+
+The global persona and brand voice lives in [Global settings](/global/overview). It describes the brand's personality, sentence length, how much playfulness is allowed, and small rules such as how many emojis a reply may use.
+
+Write it the way you would describe your brand to a new copywriter.
+
+- **Personality.** A few adjectives and a reference point, such as "like the brand's own FAQ".
+- **Rhythm.** Short sentences or long, and how much detail a reply carries.
+- **Small rules.** Emoji limits, words to avoid, and how to handle jargon.
+
+Every Agent starts from this voice, so shoppers hear one brand whichever Agent answers.
+
+## How an Agent narrows it
+
+An Agent's own persona and brand voice adds to the global voice or narrows it. It never replaces it. Common reasons to narrow the voice:
+
+- **The situation is serious.** A shopper with a late order or a product that is not working wants calm and speed, not jokes.
+- **The topic is sensitive.** An Agent that answers questions about how a product works stays factual about effects.
+- **The job is focused.** An Agent that answers on a product page leads with facts before personality.
+
+An Agent can also switch voice by situation. The Brand and Support Agent uses the full brand voice for brand questions, and a calmer voice for problems and orders.
+
+Tone never overrides a guardrail. A playful voice still makes no health or medical claims. Read [Guardrails and fallback](/agents/guardrails-and-fallback).
+
+## Voice and the operating procedure
+
+Voice is how the Agent says things. The [operating procedure](/agents/goal-and-operating-procedure) is what it does and in which order. Keep the two apart. "Answer in two or three sentences" is a step. "Friendly and confident, facts first" is voice.
+
+## Example
+
+The global voice for a gummy supplement store is playful. The Brand and Support Agent keeps it for brand questions and narrows it for problems.
+
+| Aspect | Global voice | Brand and Support Agent, for problems and orders |
+| ------ | ------------ | ------------------------------------------------ |
+| Personality | Playful, upbeat, and a little cheeky, like the brand's own FAQ | Calm, warm, and straight to the point |
+| Sentences | Short and friendly | Short and direct |
+| Emojis | One at most | None |
+| Jokes | Light jokes allowed | None |
+| Expertise | Nerdy about mushrooms, always in plain words | Plain words, focused on the fix |
+
+```yaml
+persona_and_brand_voice:
+  brand_questions: The brand voice.
+  problems_and_orders: Calm, warm, and straight to the point. No jokes, no emojis.
+```
+
+The Product Q&A Agent narrows the voice differently. It stays friendly and confident with facts first, keeps light playfulness, and never jokes about how the product works or its effects.
+
+## Related
+
+<CardGroup cols={2}>
+  <Card title="Global settings" href="/global/overview" />
+  <Card title="Agents" href="/agents/overview" />
+  <Card title="Goal and operating procedure" href="/agents/goal-and-operating-procedure" />
+  <Card title="Guardrails and fallback" href="/agents/guardrails-and-fallback" />
+</CardGroup>

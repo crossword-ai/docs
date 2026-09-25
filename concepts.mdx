@@ -1,56 +1,53 @@
 ---
 title: "Core concepts"
-description: "The vocabulary Crossword uses, from primitives to experiences"
+description: "The vocabulary Crossword uses, from experiences to components"
 ---
 
 Crossword has its own vocabulary because it does more than answer chat messages. It decides what a shopper sees, when they see it, and what happens next. The objects that make those decisions nest inside each other, so it helps to learn the layers before the individual features.
 
 ## The layers
 
-Content in Crossword nests. An experience holds Journeys. Journeys hold components. Components are built from primitives.
+An experience holds Global settings, Journeys, and Pages and placements. Crossword selects one Journey for the shopper by its entry point. The Journey holds its conversation starters and proactive messages, and names its Agent. Agents place cards and interactive components in their replies. Page sections sit outside Journeys, under Pages and placements.
 
 ```mermaid
 flowchart TB
-  EX["Experience"] --> PB["Journeys"]
-  PB --> CO
-  subgraph BB["Building blocks"]
-    direction TB
-    CO["Components, some with rules"] --> PR["Primitives"]
-    AG["Agents"] -- "fill the assistant reply" --> CO
-  end
+  EX["Experience"] --> GS["Global settings<br/><small>welcome message · intent routing · brand voice · guardrails</small>"]
+  EX --> J["Journeys<br/><small>one at a time, selected by entry point</small>"]
+  EX --> PP["Pages and placements<br/><small>outside Journeys</small>"]
+  GS -. "welcome message shown in" .-> J
+  GS -. "inherited by" .-> AG
+  J --> SM["Starters and proactive messages<br/><small>each routes to a named Agent</small>"]
+  J -. "names its Agent" .-> AG["Agents"]
+  SM -. "route to" .-> AG
+  AG --> CI["Cards and interactive components<br/><small>placed in replies</small>"]
+  PP --> PS["Page sections<br/><small>own target page, placement, and rule</small>"]
 ```
 
-Each layer contains the one below it. The box holds the building blocks: what you place, and who answers the shopper.
+Global settings sit above both Journeys and Agents. Each Journey holds its starters and proactive messages and names its Agent.
 
 1. **[Experience](/orchestration/channels-and-experiences).** One storefront's configuration on one channel. An experience lives on a single channel such as your website, Instagram, or iMessage.
-2. **[Journeys](/orchestration/journeys).** Reusable collections of contextual behavior. A Journey holds components, and nothing switches it on as a whole. Each component with a rule decides for itself.
-3. **[Components](/components/overview).** Everything a shopper can see or interact with. Welcome messages, starters, product cards, quizzes, page sections. One list, in five families. Some carry a rule that says when and where they show. Others are plain content placed inside them.
-4. **[Primitives](/components/primitives).** The buttons, inputs, selectors, media, and text every component is built from.
-5. **[Agents](/agents/overview).** Who answers when a shopper asks something. An Agent composes the assistant reply from text, cards, and follow-up suggestions at the moment of the question. The welcome message and the starters show before any Agent is involved.
+2. **[Global settings](/global/overview).** What every Journey and Agent shares. The welcome message, intent routing for typed questions, brand voice, global guardrails, and shared customer memory.
+3. **[Journeys](/orchestration/journeys).** One situation a shopper is in, selected by its entry point. One Journey applies at a time. Each holds its own conversation starters, proactive messages, Agent, and goals.
+4. **[Components](/components/overview).** Everything a shopper can see or interact with. Welcome messages, starters, product cards, quizzes, page sections. Some carry a rule that says when and where they show. Others are plain content placed inside them.
+5. **[Agents](/agents/overview).** Who answers inside a Journey. An Agent composes the assistant reply from text, cards, and follow-up suggestions at the moment of the question. Tapped starters and proactive messages go straight to the Agent named next to them. Typed questions reach an Agent through [intent routing](/global/intent-routing).
 
-Four more things act on this structure without being part of the chain. [Rulebooks](/orchestration/rulebooks) pick which component wins when several Journeys propose one. [Campaigns](/orchestration/campaigns) run sequences over time and can activate Journeys or send messages. [Experiments](/orchestration/experiments) split traffic between Journeys. [Deployment](/orchestration/deployment) publishes the whole experience. All four are covered under [Orchestration](/orchestration/overview).
-
-The screenshot below is a product page on a sneaker storefront with the chat widget open, annotated with callouts. The callouts label one Journey, two components that carry rules (the conversation starters and a page section below the buy box), the global welcome message, which carries no rule, one plain component placed inside a message (a product card), and the assistant reply the Agent composed. Everything in the image except the storefront itself is one of the layers above.
-
-<Frame caption="One product page, with each layer labelled">
-  <img src="/images/placeholder.svg" alt="One product page, with each layer labelled" />
-</Frame>
+Four more things act on this structure without being part of the chain. [Campaigns](/orchestration/campaigns) run sequences over time and can activate Journeys or send messages. [Experiments](/orchestration/experiments) split traffic between Journeys. [Deployment](/orchestration/deployment) publishes the whole experience. [Quality and governance](/quality/overview) measures, tests, and versions it. The first three are mapped in [How it fits together](/orchestration/overview).
 
 ## Which components carry rules
 
-Every component is in one list, but they come in two kinds. Some carry a rule: conditions, priority, and sometimes timing and delivery limits. A [Rulebook](/orchestration/rulebooks) resolves them against others of the same type. A conversation starter's rule has one condition, the page. The rest are plain content with properties and no rule. They show because a rule-based component or an Agent placed them.
+Every component is in one list, but they come in two kinds. Some carry their own rule. The rest show because the Journey the shopper is in holds them, or because an Agent or another component placed them. The Journey itself is selected by its [entry point](/orchestration/rules#entry-points).
 
 | Family | Components | Carries a rule? |
 | ------ | ---------- | --------------- |
-| Conversation | [Conversation starter](/components/conversation/conversation-starter) | Yes. A page rule: the page it shows on, and priority. Set per page. |
-| Conversation | [Proactive message](/components/conversation/proactive-message) | Yes. Conditions and priority, plus timing and delivery limits. |
-| Conversation | [Follow-up suggestion](/components/conversation/follow-up-suggestion) | No. Set in the Agent. The Agent writes them for each reply from its instructions. |
-| Conversation | [Welcome message](/components/conversation/welcome-message) | No. It is global. There is one per experience, set once in the Default Journey, and every shopper sees it on every page. |
-| Conversation | [Assistant reply](/components/conversation/assistant-reply) | No. The Agent composes it each turn. |
-| Cards | [Product card](/components/cards/product-card), [product collection](/components/cards/product-collection), [comparison card](/components/cards/comparison-card), [cart and checkout card](/components/cards/cart-checkout-card), [order and refund card](/components/cards/order-refund-card) | No. Placed inside a message, a reply, or a page section. |
-| Interactive | [Quiz](/components/interactive/quiz), [bundle builder](/components/interactive/bundle-builder), [form](/components/interactive/form), [game](/components/interactive/game), [configurator](/components/interactive/configurator) | No. Placed the same way as cards. |
-| Page | [Content block](/components/page/content-block), [page suggestions](/components/page/page-suggestions), [recommendation section](/components/page/recommendation-section), [comparison section](/components/page/comparison-section), [social proof section](/components/page/social-proof-section) | Yes. A target page, a placement, a rule, and optional timing and delivery limits. See [Page sections](/components/page/page-sections). |
-| Primitives | [Button, input, selector, media, text](/components/primitives) | No. |
+| Widget | [Widget](/components/widget/overview) and its [placements](/components/widget/placements) | No. They make up the chat widget itself. |
+| Conversation | [Conversation starter](/components/conversation/conversation-starter) | No rule of its own. It belongs to a Journey, shows whenever that Journey applies, and routes to a named Agent. It can open a component such as the quiz. |
+| Conversation | [Proactive message](/components/conversation/proactive-message) | Yes. A "shows when" rule, such as time on page, scroll, arrival source, or past orders, inside the active Journey. Routes to a named Agent. |
+| Conversation | [Follow-up suggestion](/components/conversation/follow-up-suggestion) | No. Set in the Agent. The Agent writes them for each reply from its operating procedure. |
+| Conversation | [Welcome message](/components/conversation/welcome-message) | No. It is global. You set it once in [Global settings](/global/overview), and it is the same in every Journey. |
+| Conversation | [Assistant reply](/components/conversation/assistant-reply), [feedback](/components/conversation/feedback) | No. The Agent composes the reply each turn, and feedback sits under it. |
+| Cards | [Product card](/components/cards/product-card), [product collection](/components/cards/product-collection), [comparison card](/components/cards/comparison-card), [cart and checkout card](/components/cards/cart-checkout-card), [order and refund card](/components/cards/order-refund-card), [product detail card](/components/cards/product-detail) | No. Placed inside a message, a reply, or a page section. |
+| Interactive | [Complete the look](/components/interactive/complete-the-look), [quiz](/components/interactive/quiz), [form](/components/interactive/form), [game](/components/interactive/game) | No. Placed the same way as cards, or opened by a starter. |
+| Page | [Content block](/components/page/content-block), [page suggestions](/components/page/page-suggestions), [recommendation and upsell section](/components/page/recommendation-section), [comparison section](/components/page/comparison-section), [social proof section](/components/page/social-proof-section) | Yes. A target page, a placement, a rule, and optional timing and delivery limits. See [Page sections](/components/page/page-sections). |
 
 Read [Rules](/orchestration/rules) for what a rule can contain.
 
@@ -59,17 +56,23 @@ Read [Rules](/orchestration/rules) for what a rule can contain.
 | Term | Meaning |
 | ---- | ------- |
 | [Channel](/orchestration/channels-and-experiences) | A surface Crossword runs on. Web, Instagram, iMessage, or another supported channel. |
-| [Experience](/orchestration/channels-and-experiences) | One storefront's configuration on one channel. Holds Journeys, Rulebooks, Campaigns, Experiments, and Deployment. |
-| [Journey](/orchestration/journeys) | A reusable collection of components and their rules that Crossword applies when relevant. Enabling a Journey makes its rules eligible for evaluation. |
-| [Default Journey](/orchestration/journeys) | The one Journey in each experience that supplies baseline settings, the global welcome message, and fallback content when no other rule matches. |
-| [Rulebook](/orchestration/rulebooks) | The engine for one component type that looks at every eligible rule and decides what shows. There are five: conversation starters, proactive messages, agent routing, dynamic landing pages, and page placements. The welcome message has none, because it carries no rule. |
+| [Experience](/orchestration/channels-and-experiences) | One storefront's configuration on one channel. Holds Global settings, Journeys, Agents, Campaigns, Pages and placements, Experiments, and Deployment. |
+| [Global settings](/global/overview) | What every Journey and Agent in an experience shares. The welcome message, intent routing, brand voice, global guardrails, shared rich responses, escalation defaults, and customer memory. |
+| [Journey](/orchestration/journeys) | One situation a shopper is in, selected by its entry point. Holds a welcome message for reference, its own conversation starters and proactive messages, the Agent that answers, and its goals. One Journey applies to a shopper at a time. |
+| [Entry point](/orchestration/rules#entry-points) | The pages, and sometimes a condition such as "user is logged in", that select a Journey. When entry points overlap, the more specific one wins. |
+| [Default Journey](/orchestration/journeys#entry-points-and-the-default-journey) | The Journey that covers any page no other Journey claims. |
+| [Goal](/orchestration/journeys#goals) | The outcome a Journey exists for. Each Journey has one primary and one secondary goal, such as add to cart and Subscribe & Save. |
+| [Intent routing](/global/intent-routing) | The Global setting that sends each typed question to the right Agent. Tapped starters and proactive messages skip it and go straight to the Agent named next to them. |
 | [Campaign](/orchestration/campaigns) | A stateful customer-engagement program that enrolls an audience and orchestrates actions over time. |
 | [Sequence](/orchestration/campaigns) | The ordered steps inside a Campaign. Messages, waits, branches, and actions. |
-| [Rule](/orchestration/rules) | The conditions, timing, priority, and delivery restrictions attached to one rule-based component. Rules live on components, not on Journeys. |
-| [Component](/components/overview) | Anything a shopper can see or interact with. Messages, suggestions, cards, interactive pieces, and page sections. Some carry a rule, the rest are placed by one that does. |
-| [Component library](/components/overview) | The single list of every component, in five families. Shared across every experience. |
-| [Primitive](/components/primitives) | The smallest building block. Button, input, selector, media, text. |
-| [Agent](/agents/overview) | The assistant that composes the assistant reply. Has routing rules, instructions, knowledge, guardrails, and response settings. |
+| [Rule](/orchestration/rules) | A condition that decides when something applies. Entry points select Journeys, "shows when" rules time proactive messages, and page sections carry their own rules. |
+| [Component](/components/overview) | Anything a shopper can see or interact with. Messages, suggestions, cards, interactive pieces, and page sections. |
+| [Component library](/components/overview) | The single list of every component, grouped into families. Shared across every experience. |
+| [Agent](/agents/overview) | The assistant that answers inside a Journey and composes the assistant reply. Has a goal, an operating procedure, a persona, knowledge, guardrails, and the actions it can take. |
+| [Operating procedure](/agents/goal-and-operating-procedure) | The numbered steps an Agent follows to reach its goal, such as ask one or two questions, then recommend one best pick. |
+| [Fallback behaviour](/agents/guardrails-and-fallback) | What an Agent does when it cannot answer, such as saying so honestly and offering the quiz, or bringing in a human. |
+| [Customer memory](/agents/customer-memory) | What an Agent remembers about a shopper, such as what they are looking for, questions already answered, or an order number once shared. |
+| [Escalation and handoff](/agents/escalation-and-handoff) | When an Agent passes the conversation to another Agent or to a human on your team, with the conversation so far. |
 | [Workflow](/agents/workflows) | A deterministic set of steps an Agent or a Campaign can run. Look up an order, generate a return label, apply a coupon. |
 | [Audience](/orchestration/audiences) | Who something applies to. Expressed as a Segment. |
 | [Segment](/orchestration/audiences) | A reusable definition of a customer group. Static segments have assigned members. Dynamic segments recalculate membership from conditions. |
@@ -80,23 +83,29 @@ Read [Rules](/orchestration/rules) for what a rule can contain.
 
 ## Two principles that shape everything
 
-**Rules belong to components, not to Journeys.** A [Journey](/orchestration/journeys) does not have one master condition that switches everything on. Each starter, proactive message, or page section inside it carries its own rule. The welcome message is the exception: it carries no rule and is set once in the Default Journey. Enabling the Journey makes those rules eligible. The Rulebook for each component type then decides what wins. Read [Rules](/orchestration/rules) and [How rulebooks resolve conflicts](/orchestration/how-rulebooks-resolve).
+**One Journey at a time, selected by entry point.** A shopper is always in exactly one [Journey](/orchestration/journeys). Crossword picks it by matching the shopper's page and context against each Journey's entry point. When entry points overlap, the more specific one wins, and the Default Journey covers every page no other Journey claims. The shopper sees that Journey's starters and proactive messages, and nothing from any other Journey.
 
-**Journeys are not mutually exclusive.** A visitor can qualify for YouTube Unboxing, Returning Customer, and VIP Customer at the same time. The Journeys do not fight. Each contributes candidates to the relevant Rulebook, and the Rulebook resolves them. Some surfaces allow one winner, such as a placement on a product page. Others allow several, such as conversation starters.
+**Everything a Journey shows routes to an Agent.** Each conversation starter and each proactive message names the Agent it goes to, and the Journey names the Agent that answers in it. A tapped starter or a reply to a proactive message goes straight to that Agent. A typed question goes through [intent routing](/global/intent-routing) in Global settings.
 
 ## Where to go next
 
 <CardGroup cols={2}>
-  <Card title="Journeys vs campaigns" icon="code-branch" href="/orchestration/journeys-vs-campaigns">
-    When contextual behavior is enough and when you need a stateful sequence.
+  <Card title="Journeys" icon="route" href="/orchestration/journeys">
+    What a Journey contains, from entry point to goals.
   </Card>
-  <Card title="How rulebooks resolve conflicts" icon="scale-balanced" href="/orchestration/how-rulebooks-resolve">
-    Priority, single or multiple winners, limits, and fallback.
+  <Card title="Agents" icon="robot" href="/agents/overview">
+    Who answers inside a Journey, and how.
+  </Card>
+  <Card title="Global settings" icon="globe" href="/global/overview">
+    The welcome message, intent routing, and defaults every Journey shares.
+  </Card>
+  <Card title="Journeys vs campaigns" icon="code-branch" href="/orchestration/journeys-vs-campaigns">
+    When the situation is enough and when you need a stateful sequence.
   </Card>
   <Card title="Component library" icon="cubes" href="/components/overview">
     Every component in one list, with which ones carry rules.
   </Card>
   <Card title="Rules" icon="sliders" href="/orchestration/rules">
-    What a rule can contain and which components carry one.
+    Entry points, "shows when" rules, and page section rules.
   </Card>
 </CardGroup>

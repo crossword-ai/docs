@@ -1,0 +1,63 @@
+---
+title: "Rich responses and actions"
+description: "The components an Agent may put in a reply, and what it can do for the shopper"
+---
+
+Rich responses are the components an Agent may put in a reply, beyond plain text. Actions and integrations are what the Agent can do for the shopper, such as adding a product to the cart or starting a return. Shared ones come from Global settings, and each Agent adds the ones its job needs.
+
+## Rich responses
+
+Every turn, the Agent composes one [assistant reply](/components/conversation/assistant-reply). The reply holds text and any of the components the Agent is allowed to use. The Agent picks among them at reply time, based on the question and its operating procedure.
+
+| Component | What it shows |
+| --------- | ------------- |
+| [Product card](/components/cards/product-card) | One product with price and an **Add to cart** button |
+| [Product detail](/components/cards/product-detail) | One product in full, with a size choice, ready to add to the cart |
+| [Quiz](/components/interactive/quiz) | A short set of questions that matches the shopper to a product |
+| [Order and refund card](/components/cards/order-refund-card) | Order status, tracking, and return progress |
+| [Follow-up suggestion](/components/conversation/follow-up-suggestion) | Next steps under the reply, written for this reply |
+
+Shared rich responses come from [Global settings](/global/overview), so every Agent can use them. On a typical store these are product cards with **Add to cart** and the quiz. An Agent's own list adds to the shared set.
+
+### Follow-up suggestions
+
+The Agent writes follow-up suggestions for every reply from its [operating procedure](/agents/goal-and-operating-procedure). They carry no rule. Each one points to the next useful move.
+
+- **Toward a Journey.** A suggestion such as "Find my routine" takes the shopper into the quiz.
+- **Toward product Q&A.** A suggestion such as "Will I crash later?" asks the next question about the product in the reply.
+
+## Actions and integrations
+
+Actions are what the Agent can do, not just say. Each Agent gets only the actions its job needs.
+
+| Action | What happens |
+| ------ | ------------ |
+| Recommend products | Shows one or more product cards chosen for the shopper |
+| Add to cart | Adds the chosen product or pack to the shopper's cart |
+| Run the quiz | Opens the quiz and explains the result in plain words |
+| Track an order | Looks up the order in your store and shows its status |
+| Start a return or exchange | Starts the return, or offers an exchange first |
+| Bring in a human | Hands the conversation to someone on your team |
+
+Some actions need your store connected, such as tracking an order. Multi-step actions, such as tracking an order or starting a return, run as [Workflows](/agents/workflows). Bringing in a human is covered in [Escalation and handoff](/agents/escalation-and-handoff).
+
+Guardrails still apply to every action. An Agent that must never block a return always offers one, whatever its operating procedure says. Read [Guardrails and fallback](/agents/guardrails-and-fallback).
+
+## Example
+
+A gummy supplement store gives its three Agents different rich responses and actions. All three also inherit product cards, the quiz, and the handoff to a human from Global settings.
+
+| Agent | Rich responses | Actions and integrations |
+| ----- | -------------- | ------------------------ |
+| Product Discovery | Product cards with **Add to cart**, quiz | Recommends products, adds products to the cart, runs the quiz and explains the result |
+| Product Q&A | Product detail, review summary, bundle suggestion, **Add to cart**, quiz | Answers product questions, checks product fit, adds the right pack to the cart, offers a reorder to returning customers |
+| Brand and Support | Order status, product cards for swaps, quiz | Answers brand questions, tracks orders once connected to the store, starts a return or exchange, brings in a human from the team |
+
+## Related
+
+<CardGroup cols={2}>
+  <Card title="Assistant reply" href="/components/conversation/assistant-reply" />
+  <Card title="Follow-up suggestion" href="/components/conversation/follow-up-suggestion" />
+  <Card title="Workflows" href="/agents/workflows" />
+  <Card title="Global settings" href="/global/overview" />
+</CardGroup>

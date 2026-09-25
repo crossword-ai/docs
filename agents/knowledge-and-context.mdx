@@ -1,92 +1,78 @@
 ---
-title: "Knowledge and context"
-description: "The catalog, knowledge sources, and shopper context an Agent can read"
+title: "Knowledge and customer context"
+description: "What an Agent answers from, and what it knows about the shopper right now"
 ---
 
-Knowledge and context access defines what an Agent can read when it composes a reply. There are three sources: the catalog, knowledge sources, and shopper context. Each Agent is given access to the sources its job needs.
+Knowledge sources are what an Agent answers from, such as the catalog, product FAQs, and policies. Customer context is what the Agent knows about this shopper right now, such as the page they are on and where they came from. Each Agent gets only the knowledge and context its job needs.
 
-An Agent reads. It does not write. Anything it needs to change goes through a Workflow.
+## Knowledge sources
 
-## What it contains
+Knowledge sources are content you keep current. The Agent answers from them and cites nothing it cannot find in them.
 
-The diagram shows the three sources an Agent can read, what each holds, and where changes go instead.
+| Source | What it holds | Example |
+| ------ | ------------- | ------- |
+| Catalog | Products, variants, prices, stock, and bestsellers | Every gummy, spray, and bundle |
+| Product FAQs | Questions and answers about a single product | "Will I wake up groggy?" for the sleep gummy |
+| Brand FAQs | Questions about the brand as a whole | Ingredients, sourcing, lab testing, vegan |
+| Policies | Shipping, returns, guarantees, and contact details | The 30-day guarantee |
+| Reviews | What customers say about a product | Review highlights for the product on screen |
 
-```mermaid
-flowchart TB
-  KC["Knowledge and context access<br/><small>set per Agent · read only</small>"]
-  KC --> CAT
-  KC --> KS
-  KC --> SC
-  subgraph CAT["Catalog"]
-    C1["Products and variants"]
-    C2["Stock and price"]
-  end
-  subgraph KS["Knowledge sources"]
-    K1["Policies and guides"]
-    K2["FAQs and reference content"]
-  end
-  subgraph SC["Shopper context"]
-    S1["Current page and cart"]
-    S2["Segment membership"]
-    S3["Previous interactions in this session"]
-  end
-  WF["Workflow<br/><small>every change goes through one</small>"]
-  KC -. "changes go through" .-> WF
-```
+Narrow each Agent to its job. An Agent on a product page answers best from that product's own FAQ, not the whole catalog. The global guardrails also hold every Agent to facts the brand has published. Read [Guardrails and fallback](/agents/guardrails-and-fallback).
 
-| Setting | What it controls | Example |
-| ------- | ---------------- | ------- |
-| Catalog access | Which products, variants, stock, and prices the Agent can read | The full catalog, or one collection |
-| Knowledge sources | Which policies, guides, and FAQs the Agent can cite | Returns policy, sizing guide |
-| Shopper context | Which session and profile signals the Agent can see | Current page, cart, segments |
-
-## The three sources
-
-| Source | What it holds | Who keeps it current |
-| ------ | ------------- | -------------------- |
-| Catalog | Products, variants, stock, and price | Your product data |
-| Knowledge sources | Policies, guides, FAQs, and other reference content | You, as documents and pages |
-| Shopper context | The current page, the cart, segment membership, and previous interactions in this session | Crossword, live, for every shopper |
-
-The catalog is what lets the Agent recommend, compare, and place [product cards](/components/cards/product-card) and [collections](/components/cards/product-collection) with accurate details.
-
-When the Agent answers from a knowledge source, it can cite it in the reply text. Restrict each Agent to the sources its job needs.
-
-Shopper context is what Crossword knows about this shopper right now: the page they are on, what is in their cart, which segments they belong to, and what they have already said and done in this session. Segment membership comes from [Audiences and segments](/orchestration/audiences).
-
-## What it can read versus what it can change
-
-An Agent reads all three sources and changes none of them directly.
-
-Every change goes through a [Workflow](/agents/workflows). The Agent calls the Workflow, passes the inputs, and uses the outputs in its reply. The Workflow's steps do the work against your systems, with confirmation and approval where you require it. Which Workflows an Agent may call is set in [Guardrails and permissions](/agents/guardrails-and-permissions).
-
-| The Agent wants to | How it happens |
-| ------------------ | -------------- |
-| Check stock for a variant | Reads the catalog |
-| Quote the return window | Reads a knowledge source |
-| Know what is in the cart | Reads shopper context |
-| Add an item to the cart | Calls a Workflow |
-| Apply a coupon or start a return | Calls a Workflow |
-
-## How it fits
-
-Knowledge and context access is set per Agent, so two Agents in the same Journey can see different things. What the Agent reads shapes the reply text and the cards it composes. What it may put in the reply is decided by [Response configuration](/agents/response-configuration).
-
-## Example
-
-A shopper asks "will these fit if I'm usually a 9?". The shopping assistant reads the product's size guide from the catalog, the fit notes from a sizing guide in the knowledge sources, and the shopper's preferred size from shopper context. It replies with a recommendation and a product card for the right variant.
-
-The screenshot shows the **Knowledge** screen, where knowledge sources are managed before an Agent is given access to them. Filter tabs across the top read **All**, **Synced**, **Syncing**, **Failed**, and **Not started**, beside a search box and a **New knowledge base** button. The table lists each knowledge base with its name, embedding model, source count, chunk count, status, and when it was last updated. Help Center has 142 sources and 3,820 chunks and is Synced, as is Product Docs with 217 sources and 9,140 chunks. Billing Policies is still Syncing, Legal & Terms has Failed, and Onboarding Guides has Not started, so only the synced ones can be cited in a reply right now.
+The **Knowledge** screen lists your knowledge bases with their source count and sync status. Only synced knowledge can be used in a reply.
 
 <Frame caption="The Knowledge screen listing five knowledge bases">
   <img src="/images/agents/knowledge-and-context.png" alt="The Knowledge screen listing five knowledge bases" />
 </Frame>
 
+## Customer context
+
+Customer context is live information about the shopper, supplied by Crossword for every conversation.
+
+| Signal | What it tells the Agent | Example use |
+| ------ | ----------------------- | ----------- |
+| Page | Which page the shopper is on, down to the product | Answer about the product on screen |
+| Arrival source | Where they came from, such as an ad, Google, or direct | Pick up the angle of the ad they clicked |
+| Logged in | Whether the shopper is signed in | Offer an order lookup |
+| Past orders | What the shopper has bought before | Offer a reorder of a product they already use |
+
+Some context comes from Global settings and applies to every Agent. Customer context is what is true now. [Customer memory](/agents/customer-memory) is what the Agent has learned in the conversation and on earlier visits.
+
+## Read versus change
+
+An Agent reads its knowledge sources and customer context. It changes none of them directly.
+
+Every change goes through an action, such as adding to cart or starting a return. Multi-step actions run as [Workflows](/agents/workflows). Read [Rich responses and actions](/agents/rich-responses-and-actions).
+
+| The Agent wants to | How it happens |
+| ------------------ | -------------- |
+| Quote a pack price | Reads the catalog |
+| Explain the return window | Reads a policy |
+| Know the shopper came from an ad | Reads customer context |
+| Add a pack to the cart | Runs an action |
+| Start a return | Runs an action |
+
+## Example
+
+The Product Q&A Agent answers on product pages, so its knowledge and context stay close to the product on screen.
+
+```yaml
+knowledge_sources:
+  - The product on screen and its own FAQ
+  - Reviews, pack sizes, prices, Subscribe & Save, 30-day guarantee
+customer_context:
+  - Which product page they are on
+  - Whether they have ordered this product before
+  - Whether they came from an ad
+```
+
+A returning customer on the sleep gummy page gets a reorder offer, because past orders show they bought it before.
+
 ## Related
 
 <CardGroup cols={2}>
-  <Card title="Audiences and segments" href="/orchestration/audiences" />
+  <Card title="Customer memory" href="/agents/customer-memory" />
+  <Card title="Rich responses and actions" href="/agents/rich-responses-and-actions" />
   <Card title="Workflows" href="/agents/workflows" />
-  <Card title="Guardrails and permissions" href="/agents/guardrails-and-permissions" />
-  <Card title="Product card" href="/components/cards/product-card" />
+  <Card title="Global settings" href="/global/overview" />
 </CardGroup>

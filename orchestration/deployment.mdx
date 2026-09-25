@@ -5,7 +5,7 @@ description: "Environments, publishing, revisions, and installation"
 
 Deployment is how a configured experience reaches shoppers. It gives you separate environments to test in and to serve from, a numbered revision every time you publish, and the installation code or channel connection each environment needs.
 
-Deployment acts on the whole experience. A revision is a snapshot of every Journey, Rulebook, Campaign, page, and Experiment at the moment you publish.
+Deployment acts on the whole experience. A revision is a snapshot of the global settings and every Journey, Agent, Campaign, page, and Experiment at the moment you publish.
 
 ## What it contains
 
@@ -48,6 +48,8 @@ Each experience starts with **Test** and **Production**. Create as many more as 
 
 Each environment serves one published revision at a time. Change it to move forward to a newer revision or back to an older one.
 
+Agents also keep their own version history. For versioning and rolling back a single Agent, read [Quality and governance](/quality/overview).
+
 ## Publishing
 
 1. Click **Publish** on the experience.
@@ -72,12 +74,6 @@ Experiments and Campaigns are part of what gets published. A running Experiment 
 ## Example
 
 Your storefront's web experience has two environments. Test runs on your staging site and serves revision 14. Production runs on your live site and serves revision 12. You publish revision 15 to Test, check it, then publish it to Production at 10% of traffic. When the numbers look right you raise the rollout to 100%.
-
-The screenshot shows the **Deployment** screen of the Web experience with two environment cards. Test serves revision 15 to All visitors at 100%. Production serves revision 15 at a 10% rollout, with revision 12 for everyone else. Each card has an installation snippet, a script tag with a **Copy** button, and a **Publish** button. The revision history beneath lists revisions 15, 14, 13, and 12 with their publish dates.
-
-<Frame caption="Test and Production environments with revisions">
-  <img src="/images/placeholder.svg" alt="Test and Production environments with revisions" />
-</Frame>
 
 ## Related
 

@@ -5,6 +5,10 @@ description: "The first message a shopper sees when the widget opens"
 
 The welcome message is the first component a shopper reads when the widget opens. It sits at the top of the conversation, above the conversation starters, before the shopper has typed anything. It is a Conversation component that carries no rule. There is one welcome message per experience, and every shopper sees the same one on every page.
 
+<Frame caption="A text-only welcome message with starters beneath it">
+  <img src="/images/conversation/welcome-message.png" alt="A text-only welcome message with starters beneath it" />
+</Frame>
+
 ## What it contains
 
 | Property | What it holds |
@@ -17,19 +21,19 @@ The text, media, and embedded components belong to the welcome message. The card
 
 ## Where it is set
 
-The welcome message has no rule, no priority, and no Rulebook. You set it once, in the [Default Journey](/orchestration/journeys#the-default-journey).
+The welcome message is global. You set it once, in [Global settings](/global/overview), and it carries no rule.
 
 - **One per experience.** Each experience has exactly one welcome message.
-- **Set in the Default Journey.** Other Journeys do not add welcome messages.
-- **The same for everyone.** Every shopper sees it on every page, whatever the arrival source, segment, device, or cart.
+- **Set in Global settings.** Journeys do not add welcome messages. Each Journey card shows the global one for reference only.
+- **The same for everyone.** Every shopper sees it on every page, in every Journey, whatever the arrival source, segment, device, or cart.
 
-To change what a shopper reads first, edit the welcome message in the Default Journey. The change applies to every conversation in that experience.
+To change what a shopper reads first, edit the welcome message in Global settings. The change applies to every conversation in that experience.
 
 ## Greetings that depend on context
 
-A greeting that depends on where the shopper came from or who they are, such as an arrival from a video or an ad, or membership in a segment, belongs in a [proactive message](/components/conversation/proactive-message). A proactive message can appear on arrival, such as "Looking for the pair from the video?" It carries conditions, timing, and priority, and its own [Rulebook](/orchestration/rulebooks) resolves it.
+A greeting that depends on where the shopper came from or who they are, such as an arrival from a video or an ad, or membership in a segment, belongs in a [proactive message](/components/conversation/proactive-message). A proactive message can appear on arrival, such as "Looking for the pair from the video?" It carries a "shows when" rule, shows inside the active Journey when that rule is met, and routes to a named Agent.
 
-To offer different prompts on different pages, use [conversation starters](/components/conversation/conversation-starter). Starters sit under the welcome message and are set per page. They do not change with the arrival source or segment.
+To offer different prompts in different situations, use [conversation starters](/components/conversation/conversation-starter). Starters sit under the welcome message and belong to the active [Journey](/orchestration/journeys), so they change with the page the shopper is on. They do not change with the arrival source or segment.
 
 ## Examples
 
@@ -44,10 +48,6 @@ Content: One-line greeting that says what the assistant can help with
 Media: none
 Embedded component: none
 ```
-
-<Frame caption="A text-only welcome message with starters beneath it">
-  <img src="/images/conversation/welcome-message.png" alt="A text-only welcome message with starters beneath it" />
-</Frame>
 
 ### Text with product cards
 
@@ -69,5 +69,5 @@ Embedded component: Product collection, shown as a fanned carousel
   <Card title="Conversation starter" href="/components/conversation/conversation-starter" />
   <Card title="Proactive message" href="/components/conversation/proactive-message" />
   <Card title="Journeys" href="/orchestration/journeys" />
-  <Card title="Rulebooks" href="/orchestration/rulebooks" />
+  <Card title="Global settings" href="/global/overview" />
 </CardGroup>

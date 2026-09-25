@@ -5,6 +5,10 @@ description: "The shopper's basket, totals, and checkout controls"
 
 The cart and checkout card shows the shopper what is in their basket and lets them change it or check out from inside the conversation. As a cart card it focuses on items and quantities. As a checkout card it focuses on the summary and the controls that lead to payment. Either way, the shopper finishes without leaving the chat.
 
+<Frame caption="The cart card with one item, a quantity of two, and three items">
+  <img src="/images/cards/cart-checkout-card.png" alt="The cart card with one item, a quantity of two, and three items" />
+</Frame>
+
 ## Anatomy
 
 The diagram shows the cart and checkout card as its items, totals, modifications, recommendations, and controls, and the two modes it can take.
@@ -53,7 +57,7 @@ The card reads the live cart from your storefront. When the shopper changes a qu
 A cart and checkout card never shows on its own. One of these components includes it.
 
 - In the [welcome message](/components/conversation/welcome-message), which is global. Every shopper sees the same one on every page, including shoppers with an empty cart, so for a returning shopper with items still in their cart, use a proactive message instead.
-- In a [proactive message](/components/conversation/proactive-message), for example a cart recovery message that shows the items left behind. The [cart recovery Campaign](/use-cases/cart-recovery-campaign) sends one at each step of its sequence.
+- In a [proactive message](/components/conversation/proactive-message), for example a cart recovery message that shows the items left behind. A cart recovery Campaign sends one at each step of its sequence.
 - In the [assistant reply](/components/conversation/assistant-reply), where the Agent chooses it. The shopper asks what is in their cart, asks to remove something, or asks to check out, and the Agent answers with the card.
 - On a page, inside a [page section](/components/page/page-sections) on the cart page, for example a [content block](/components/page/content-block) that shows the basket beside the discount that applies to it.
 
@@ -63,16 +67,19 @@ A cart and checkout card carries no rule. It shows because the welcome message, 
 
 ## Example
 
-A shopper taps the cart button on a product card and the reply confirms it with the cart card. The header carries a green check and reads "Added Speedcat OG to your cart", so the shopper knows the tap worked. Below it, three line items each show a thumbnail, the title, and the line price on the right: Speedcat OG at $120, Court Classic at $85, and Trail Knit Low at $70. A **Total (3)** row sums them to $275, and a full-width **Go to checkout** button closes the card. The card reads the live storefront cart, so the cart page shows the same three items on refresh.
+The card that confirms an add to cart, shown in three states.
 
-<Frame caption="Cart card confirming an add with three items and checkout">
-  <img src="/images/cards/cart-checkout-card.png" alt="Cart card confirming an add with three items and checkout" />
-</Frame>
+```yaml
+Header: A check with "Added to your cart"
+Line items: Thumbnail, title, size, quantity when more than one, and price
+Total: Cart total with the item count
+```
+
+With one pair, the card shows that item and a total of one. When the shopper adds a second of the same pair, the line shows the quantity and the total counts both. With several products, each gets its own line and the total adds them up. The card reads the live storefront cart, so the cart page matches it on refresh.
 
 ## Related
 
 <CardGroup cols={2}>
   <Card title="Product card" href="/components/cards/product-card" />
-  <Card title="Cart recovery Campaign" href="/use-cases/cart-recovery-campaign" />
   <Card title="Order and refund status card" href="/components/cards/order-refund-card" />
 </CardGroup>

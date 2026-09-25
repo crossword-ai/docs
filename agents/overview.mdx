@@ -1,91 +1,153 @@
 ---
 title: "Agents"
-description: "Routing, instructions, knowledge, guardrails, and response configuration"
+description: "What an Agent is made of, and how it fits with Journeys and Global settings"
 ---
 
-An Agent is the assistant that answers when a shopper asks something. It lives inside a Journey and composes the assistant reply for each turn from reply text, cards, interactive components, follow-up suggestions, quick replies, and actions. You can have several Agents, each with one job, and the agent routing Rulebook decides which one takes a conversation.
+An Agent is the assistant that answers a shopper inside a Journey. Each Agent has one job, such as helping an undecided shopper pick a product or resolving an order problem. Every Agent follows the same shape of eleven parts and inherits the rest from Global settings.
 
-A shopper never picks an Agent. The welcome message shows and conversation starters are chosen by their own Rulebook before any Agent is involved. The Agent enters at the first question.
+## What an Agent contains
 
-## The seven parts
-
-The diagram shows an Agent, the seven parts it holds, the Rulebook that routes a conversation to it, and the assistant reply it composes.
+The diagram groups the eleven parts by what they do. Every Agent inherits from Global settings and adds to or narrows what it inherits.
 
 ```mermaid
 flowchart TB
-  A["Agent<br/><small>lives inside a Journey · one job</small>"]
-  A --> NR["Name and responsibility"]
-  A --> RR["Routing rules"]
-  A --> IM["Instructions and model settings"]
-  A --> KC["Knowledge and context access"]
-  A --> GP["Guardrails and permissions"]
-  A --> RC["Response configuration"]
-  A --> WF["Workflows<br/><small>the ones it can call</small>"]
-  RB["Agent routing Rulebook"]
-  REPLY["Assistant reply<br/><small>one per turn · no rule</small>"]
-  RB -. "routes a conversation to" .-> A
-  RR -. "resolved by" .-> RB
-  A -. "composes" .-> REPLY
+  A["Agent<br/><small>answers inside a Journey · one job</small>"]
+  A --> AIM
+  A --> KNOW
+  A --> DO
+  subgraph AIM["What it aims for"]
+    G["Goal and success criteria"]
+    OP["Operating procedure"]
+  end
+  subgraph KNOW["What it knows"]
+    KS["Knowledge sources"]
+    CC["Customer context"]
+    CM["Customer memory"]
+  end
+  subgraph DO["What it can do and say"]
+    PV["Persona and brand voice"]
+    RR["Rich responses"]
+    AI["Actions and integrations"]
+    GR["Guardrails"]
+    FB["Fallback behavior"]
+    EH["Escalation and handoff"]
+  end
+  GS["Global settings<br/><small>voice · guardrails · shared responses · memory · escalation</small>"]
+  GS -. "inherits" .-> A
 ```
 
-| Part | What it holds | Read |
+| Part | What it holds | Page |
 | ---- | ------------- | ---- |
-| Name and responsibility | What this Agent is for, in one line, such as "Order assistant: tracking, returns, and refunds" | [Instructions and model](/agents/instructions-and-model) |
-| Routing rules | The conditions under which this Agent is a candidate for a conversation, resolved by the agent routing Rulebook | [Routing](/agents/routing) |
-| Instructions and model settings | What the Agent does, how it speaks, what it prioritises, and which model settings it uses | [Instructions and model](/agents/instructions-and-model) |
-| Knowledge and context access | The catalog, knowledge sources, and shopper context the Agent can read | [Knowledge and context](/agents/knowledge-and-context) |
-| Guardrails and permissions | What the Agent must not say or do, and which actions it may take, with limits and confirmations | [Guardrails and permissions](/agents/guardrails-and-permissions) |
-| Response configuration | Reply content and formatting, suggestions and quick replies, and the cards and interactive components it can use from the Component library | [Response configuration](/agents/response-configuration) |
-| Workflows | The Workflows this Agent can call for operational tasks | [Workflows](/agents/workflows) |
+| Goal and success criteria | What a good conversation achieves, and how you know it happened | [Goal and operating procedure](/agents/goal-and-operating-procedure) |
+| Operating procedure | The numbered steps the Agent follows in a conversation | [Goal and operating procedure](/agents/goal-and-operating-procedure) |
+| Persona and brand voice | How the Agent sounds, narrowed from the global voice | [Persona and brand voice](/agents/persona-and-brand-voice) |
+| Knowledge sources | The catalog, FAQs, and policies the Agent answers from | [Knowledge and customer context](/agents/knowledge-and-context) |
+| Customer context | What the Agent knows about the shopper right now, such as the page and arrival source | [Knowledge and customer context](/agents/knowledge-and-context) |
+| Rich responses | The components the Agent may put in a reply, including follow-up suggestions | [Rich responses and actions](/agents/rich-responses-and-actions) |
+| Actions and integrations | What the Agent can do, such as add to cart or start a return | [Rich responses and actions](/agents/rich-responses-and-actions) |
+| Guardrails | What the Agent must never say or do, on top of the global guardrails | [Guardrails and fallback](/agents/guardrails-and-fallback) |
+| Fallback behavior | What the Agent does when it cannot answer | [Guardrails and fallback](/agents/guardrails-and-fallback) |
+| Customer memory | What the Agent remembers, so the shopper never repeats themselves | [Customer memory](/agents/customer-memory) |
+| Escalation and handoff | When the Agent passes the conversation to another Agent or to a human | [Escalation and handoff](/agents/escalation-and-handoff) |
+
+The **Agents** screen lists every Agent in the experience as a card with its name, a one-line description of its job, and a status.
+
+<Frame caption="The Agents screen with Agents in a grid">
+  <img src="/images/agents/overview.png" alt="The Agents screen with Agents in a grid" />
+</Frame>
 
 ## How it fits
 
-An Agent is neither a component nor orchestration. It sits inside a [Journey](/orchestration/journeys) beside that Journey's components. Enabling the Journey makes the Agent's routing rules eligible. The Agent in the Default Journey is the fallback. It answers whenever no other routing rule matches.
+An Agent answers inside a [Journey](/orchestration/journeys). Each Journey names its Agent. The Journey's [conversation starters](/components/conversation/conversation-starter) and [proactive messages](/components/conversation/proactive-message) each route to a named Agent, so a tapped chip goes straight to the Agent shown next to it.
 
-[Rulebooks](/orchestration/rulebooks) decide what the shopper sees before the Agent is involved. The welcome message that opens a conversation is global and set once in the Default Journey, so no Rulebook picks it. The conversation starters beneath it are picked by their own Rulebook. The agent routing Rulebook then picks the Agent. From that point the Agent composes one [assistant reply](/components/conversation/assistant-reply) per turn. The reply is the only component an Agent produces, and it carries no rule.
+A question the shopper types goes through [intent routing](/global/intent-routing). The Intent Routing Agent reads the question and sends it to the right Agent. A shopper never picks an Agent.
 
-A [Campaign](/orchestration/campaigns) step can hand a shopper to an Agent when a sequence needs a live conversation. For operational tasks such as looking up an order or applying a coupon, the Agent calls a [Workflow](/agents/workflows). The Agent decides when to call it. The Workflow decides what happens once called. An Agent changes nothing in your systems on its own.
+Every Agent inherits [Global settings](/global/overview): the global persona and brand voice, the global guardrails, the shared rich responses and actions, the global escalation rules, and global customer memory. An Agent's own settings add to or narrow the global ones. An Agent can never loosen a global guardrail.
+
+Once it has the conversation, the Agent composes one [assistant reply](/components/conversation/assistant-reply) per turn. For multi-step actions, such as tracking an order or starting a return, it runs a [Workflow](/agents/workflows).
 
 ## Example
 
-A sneaker storefront has two Agents in its Default Journey. A shopping assistant handles discovery and recommendations. An order assistant handles tracking, returns, and refunds. The order assistant's routing rule matches when the shopper is signed in and asks about an order. Everything else routes to the shopping assistant.
+A gummy supplement store runs three Agents: Product Discovery, Product Q&A, and Brand and Support. The Product Q&A Agent answers in the Product Q&A Journey, on every product page. Here it is with all eleven parts.
 
-When a signed-in shopper asks where their parcel is, the order assistant answers. It calls a Workflow to look the order up and replies with an order card. When the same shopper asks for a similar pair in white, the shopping assistant takes over and replies with a product collection.
+```yaml
+# Product Q&A Agent
+goal_and_success_criteria:
+  goal: A shopper on a product page gets their doubts answered and buys with confidence.
+  success: The product, or a better fit, is added to cart.
+operating_procedure:
+  - Answer in two or three sentences, straight from the product's FAQ.
+  - For "Is this right for me?", ask a question or two, then confirm or suggest a better fit.
+  - If the shopper is still unsure, open the Quiz.
+  - Once doubts are cleared, point to the best-value pack. Suggest a bundle only when it fits.
+persona_and_brand_voice: >-
+  Friendly and confident, facts first. Light playfulness.
+  Never jokes about how the product works or its effects.
+knowledge_sources:
+  - The product on screen and its own FAQ
+  - Reviews, pack sizes, prices, Subscribe & Save, 30-day guarantee
+customer_context:
+  - Which product page they are on
+  - Whether they have ordered this product before
+  - Whether they came from an ad
+rich_responses:
+  - Product detail
+  - Review summary
+  - Bundle suggestion
+  - Add to cart
+  - Quiz component
+actions_and_integrations:
+  - Answers product questions
+  - Checks product fit
+  - Adds the right pack to the cart
+  - Offers a reorder to returning customers
+guardrails:
+  - Only states results and timelines the product's FAQ states
+fallback_behavior: Says it does not have that detail and offers to connect them with the team.
+customer_memory:
+  - Questions already answered
+  - The pack size they chose
+escalation_and_handoff:
+  - To the Product Discovery Agent if they want a different product
+  - To the Brand and Support Agent for order or shipping questions
+```
 
-The screenshot shows the **Agents** screen in the dashboard, with filter tabs for **All**, **Active**, and **Draft**, a search box, and a **New agent** button in the top right. Six Agents sit in a grid of cards, each with painted cover art, a name, a one-line description of its job, and a status badge. Support Router carries a **Master agent** tag and routes incoming messages to the right Agent, which is the routing role described above. Billing Support, Order Tracking, Greeter, and Feedback Collector are Active, each with one responsibility in its description. Refund Handler is still a Draft, so its routing rules are not yet eligible.
-
-<Frame caption="The Agents screen with six Agents in a grid">
-  <img src="/images/agents/overview.png" alt="The Agents screen with six Agents in a grid" />
-</Frame>
+Everything not listed here comes from Global settings. The Agent still follows the global guardrails, such as making no health or medical claims.
 
 ## In this section
 
 <CardGroup cols={2}>
-  <Card title="Routing" icon="route" href="/agents/routing">
-    How the agent routing Rulebook picks one Agent, and what happens on handoff.
+  <Card title="Goal and operating procedure" icon="bullseye" href="/agents/goal-and-operating-procedure">
+    What a good conversation achieves, and the steps the Agent follows.
   </Card>
-  <Card title="Instructions and model" icon="pen-to-square" href="/agents/instructions-and-model">
-    Responsibility, instructions, tone, reply length, and model settings.
+  <Card title="Persona and brand voice" icon="comment" href="/agents/persona-and-brand-voice">
+    How the Agent sounds, and how it narrows the global voice.
   </Card>
-  <Card title="Knowledge and context" icon="book-open" href="/agents/knowledge-and-context">
-    The catalog, knowledge sources, and shopper context an Agent can read.
+  <Card title="Knowledge and customer context" icon="book-open" href="/agents/knowledge-and-context">
+    What the Agent answers from, and what it knows about the shopper.
   </Card>
-  <Card title="Guardrails and permissions" icon="shield-halved" href="/agents/guardrails-and-permissions">
-    What an Agent must not say, and which actions it may take.
+  <Card title="Rich responses and actions" icon="message" href="/agents/rich-responses-and-actions">
+    The components it may show, and what it can do.
   </Card>
-  <Card title="Response configuration" icon="message" href="/agents/response-configuration">
-    Reply formatting, allowed components, suggestions, quick replies, and actions.
+  <Card title="Guardrails and fallback" icon="shield-halved" href="/agents/guardrails-and-fallback">
+    What it must never do, and what it does when it cannot answer.
+  </Card>
+  <Card title="Customer memory" icon="brain" href="/agents/customer-memory">
+    What it remembers within a conversation and across visits.
+  </Card>
+  <Card title="Escalation and handoff" icon="people-arrows" href="/agents/escalation-and-handoff">
+    Passing a conversation to another Agent or to your team.
   </Card>
   <Card title="Workflows" icon="diagram-project" href="/agents/workflows">
-    Deterministic steps an Agent or a Campaign step can run.
+    How multi-step actions run, such as tracking an order.
   </Card>
 </CardGroup>
 
 ## Related
 
 <CardGroup cols={2}>
-  <Card title="Assistant reply" href="/components/conversation/assistant-reply" />
+  <Card title="Global settings" href="/global/overview" />
+  <Card title="Intent routing" href="/global/intent-routing" />
   <Card title="Journeys" href="/orchestration/journeys" />
-  <Card title="Rulebooks" href="/orchestration/rulebooks" />
-  <Card title="Campaigns" href="/orchestration/campaigns" />
+  <Card title="Assistant reply" href="/components/conversation/assistant-reply" />
 </CardGroup>

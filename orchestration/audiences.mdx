@@ -24,8 +24,10 @@ flowchart TB
     EXIT["Exit<br/><small>a profile stops qualifying</small>"]
   end
   subgraph USERS["Who uses segments"]
+    EPU["Entry points<br/><small>test membership to select a Journey</small>"]
+    SWU["Shows when rules<br/><small>on proactive messages, test membership</small>"]
+    PSU["Page section rules<br/><small>test membership</small>"]
     CAMP["Campaigns<br/><small>enroll from a segment</small>"]
-    RULE["Rules on components<br/><small>test membership</small>"]
   end
   SEG -. "used by" .-> USERS
 ```
@@ -46,7 +48,7 @@ A Campaign names a segment as its audience. Cart Recovery says "Audience: High-v
 
 ## How rules use segments
 
-Segment membership is a condition on the rules of proactive messages, page sections, and Agent routing. A proactive message can require membership in "Returning customers". A page section can exclude "Already purchased Product A". This lets a Journey react to who the shopper is, not only to where they came from. Read [Rules](/orchestration/rules).
+Segment membership is a condition on the rules of proactive messages and page sections. A proactive message can require membership in "Returning customers". A page section can exclude "Already purchased Product A". This lets a Journey react to who the shopper is, not only to where they came from. Read [Rules](/orchestration/rules).
 
 ## Enrollment is not membership
 
@@ -59,17 +61,11 @@ A shopper can be enrolled in a Campaign and no longer be a member of its segment
 
 ## How it fits
 
-Segments sit beside experiences, alongside the Component library. Above them are the shopper profiles and events that feed their rules. Below them are the two consumers: Campaigns, which enroll from them, and rules on components, which test against them.
+Segments sit beside experiences, alongside the Component library. Above them are the shopper profiles and events that feed their rules. Below them are the consumers. Entry points, "shows when" rules on proactive messages, and page section rules test membership. Campaigns enroll from them.
 
 ## Example
 
 A segment called High-value abandoned-cart shoppers is dynamic. Its rule is cart value over $50 and inactive for 30 minutes. A cart recovery Campaign enrolls from it. A proactive message rule in the Returning Customer Journey tests membership in it to offer help with checkout. When a shopper purchases, they stop qualifying and exit the segment.
-
-The screenshot shows the **Audiences** screen. The segment list has High-value abandoned-cart shoppers as Dynamic with 312 members, Loyalty members as Static with 4,820 members, and Returning customers as Dynamic. High-value abandoned-cart shoppers is open on the right with its rule reading Cart value over $50 and Inactive for 30 minutes. The Used by panel lists the Cart Recovery Campaign and one proactive message in the Returning Customer Journey.
-
-<Frame caption="A dynamic segment and where it is used">
-  <img src="/images/placeholder.svg" alt="A dynamic segment and where it is used" />
-</Frame>
 
 ## Related
 

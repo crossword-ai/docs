@@ -1,0 +1,51 @@
+---
+title: "On-page AI embeds"
+description: "Small AI elements placed on a merchant page, such as a size guide or an Ask AI button"
+---
+
+On-page AI embeds are small AI elements Crossword places on a merchant page, outside the widget. They sit next to the part of the page they help with: an **Ask AI** button beside the product title, a size guide under the size selector, a review summary above the reviews. Each one answers a question in place or opens the conversation with the context already set.
+
+<Frame caption="An AI summary, Ask AI suggestions, and an inline ask box on a product page">
+  <img src="/images/page/page-embeds.png" alt="An AI summary, Ask AI suggestions, and an inline ask box on a product page" />
+</Frame>
+
+## What it contains
+
+| Embed | What the shopper sees |
+| ----- | --------------------- |
+| Ask AI button | A button that opens the conversation about the product or page on screen. |
+| Size guide | A size recommendation for the shopper, with a link to ask about fit. |
+| Notify me | A back-in-stock signup on a sold-out product or variant. |
+| Trivia | A short fact or question about the product or brand that invites a tap. |
+| Contextual benefit prompt | One line about a benefit that fits the shopper's context, such as free shipping above a cart value, with a prompt to ask more. |
+| Product summary block | A short AI summary of the product, which expands to show key features, with **Show less** and **Ask about this** links. |
+| Inline ask box | A **Looking for specific info?** field on the page. The shopper types a question and the answer appears right there, with follow-up questions beneath it, without opening the chat. |
+| Review summary block | A review summary on the page: rating, themes, and a few quotes. |
+
+Each embed holds its own content. Tapping one either answers in place, such as the size guide, or opens the widget with a question already sent.
+
+## Where it appears
+
+Embeds sit on merchant pages, most often the product page, near the part of the page they relate to. The collection page and the cart page work for the Ask AI button and the benefit prompt. Each embed goes into a placement with an action, usually insert. Read [Pages and placements](/orchestration/pages-and-placements).
+
+## Rules
+
+Each embed carries a page section rule: a target page, a placement, and a placement action, with optional conditions. It works the same way as the other [page sections](/components/page/page-sections). Read [Rules](/orchestration/rules).
+
+## Example
+
+A product page for a running shoe carries three embeds.
+
+```yaml
+Ask AI button: Next to the product title, opens the conversation about this product
+Size guide: Below the size selector, recommends a size from the shopper's past orders
+Review summary block: Above the storefront's reviews, rating and top three themes
+Rule: Product page, each at its own placement, insert
+```
+
+## Related
+
+<CardGroup cols={2}>
+  <Card title="Page sections" href="/components/page/page-sections" />
+  <Card title="Pages and placements" href="/orchestration/pages-and-placements" />
+</CardGroup>

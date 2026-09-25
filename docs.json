@@ -15,7 +15,8 @@
         "group": "Getting started",
         "pages": [
           "index",
-          "concepts"
+          "concepts",
+          "orchestration/overview"
         ]
       },
       {
@@ -23,13 +24,21 @@
         "pages": [
           "components/overview",
           {
+            "group": "Widget",
+            "pages": [
+              "components/widget/overview",
+              "components/widget/placements"
+            ]
+          },
+          {
             "group": "Conversation",
             "pages": [
               "components/conversation/welcome-message",
               "components/conversation/conversation-starter",
               "components/conversation/follow-up-suggestion",
               "components/conversation/proactive-message",
-              "components/conversation/assistant-reply"
+              "components/conversation/assistant-reply",
+              "components/conversation/feedback"
             ]
           },
           {
@@ -39,17 +48,17 @@
               "components/cards/product-collection",
               "components/cards/comparison-card",
               "components/cards/cart-checkout-card",
-              "components/cards/order-refund-card"
+              "components/cards/order-refund-card",
+              "components/cards/product-detail"
             ]
           },
           {
             "group": "Interactive",
             "pages": [
+              "components/interactive/complete-the-look",
               "components/interactive/quiz",
-              "components/interactive/bundle-builder",
               "components/interactive/form",
-              "components/interactive/game",
-              "components/interactive/configurator"
+              "components/interactive/game"
             ]
           },
           {
@@ -60,38 +69,60 @@
               "components/page/page-suggestions",
               "components/page/recommendation-section",
               "components/page/comparison-section",
-              "components/page/social-proof-section"
+              "components/page/social-proof-section",
+              "components/page/page-embeds"
             ]
-          },
-          "components/primitives"
+          }
+        ]
+      },
+      {
+        "group": "Journeys",
+        "pages": [
+          "orchestration/journeys",
+          "orchestration/journeys-vs-campaigns"
         ]
       },
       {
         "group": "Agents",
         "pages": [
           "agents/overview",
-          "agents/routing",
-          "agents/instructions-and-model",
+          "agents/goal-and-operating-procedure",
+          "agents/persona-and-brand-voice",
           "agents/knowledge-and-context",
-          "agents/guardrails-and-permissions",
-          "agents/response-configuration",
+          "agents/rich-responses-and-actions",
+          "agents/guardrails-and-fallback",
+          "agents/customer-memory",
+          "agents/escalation-and-handoff",
           "agents/workflows"
         ]
       },
       {
-        "group": "Orchestration",
+        "group": "Global settings",
         "pages": [
-          "orchestration/overview",
-          "orchestration/channels-and-experiences",
-          "orchestration/journeys",
+          "global/overview",
+          "global/intent-routing"
+        ]
+      },
+      {
+        "group": "Targeting and campaigns",
+        "pages": [
           "orchestration/rules",
-          "orchestration/rulebooks",
-          "orchestration/how-rulebooks-resolve",
-          "orchestration/campaigns",
-          "orchestration/journeys-vs-campaigns",
           "orchestration/audiences",
           "orchestration/pages-and-placements",
-          "orchestration/experiments",
+          "orchestration/campaigns",
+          "orchestration/experiments"
+        ]
+      },
+      {
+        "group": "Quality and governance",
+        "pages": [
+          "quality/overview"
+        ]
+      },
+      {
+        "group": "Setup and publishing",
+        "pages": [
+          "orchestration/channels-and-experiences",
           "orchestration/deployment"
         ]
       },
@@ -99,9 +130,7 @@
         "group": "Use cases",
         "pages": [
           "use-cases/overview",
-          "use-cases/youtube-unboxing-journey",
-          "use-cases/cart-recovery-campaign",
-          "use-cases/discovery-experiment"
+          "use-cases/five-journeys-three-agents"
         ]
       }
     ]

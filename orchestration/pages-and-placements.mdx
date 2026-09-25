@@ -16,7 +16,7 @@ flowchart TB
   PPL["Pages and placements<br/><small>on channels that support page experiences</small>"]
   PPL --> DLP
   PPL --> PERS
-  subgraph DLP["Dynamic landing page, one configuration per Journey with a rule"]
+  subgraph DLP["Dynamic landing page, one configuration per landing page, chosen by its own rule"]
     SHELL["Merchant shell<br/><small>your header and footer, unchanged</small>"]
     BODY["Page body<br/><small>the area Crossword fills</small>"]
     BODY --> LAY["Layout"]
@@ -39,17 +39,17 @@ flowchart TB
 | Merchant shell | Your header and footer, unchanged | Your navigation and footer links |
 | Page body | The area Crossword fills | Everything between header and footer |
 | Layout and placements | The arrangement of the body and the placements in it | Hero, two-column section, full-width section |
-| Page personalization | Changing part of a page you already have | A recommendation section on the cart page |
+| Page personalization | Changing part of a page you already have | A recommendation and upsell section on the cart page |
 | Target page | The page type or path personalization applies to | Product, cart, home, collection, about, or another approved page |
 | Placement | Where on the target page the change lands | A location on the page, or an existing part of the page |
 | Placement action | How the change is applied: insert, replace, or update | Insert above the reviews section |
-| Eligible page sections | Which page sections, with which settings, the placement can hold | Recommendation section, content block |
+| Eligible page sections | Which page sections, with which settings, the placement can hold | Recommendation and upsell section, content block |
 
 ## Dynamic landing pages
 
 A dynamic landing page keeps your storefront's header and footer and hands the body to Crossword. You define the layout and its placements, and each placement holds a page section from the [Component library](/components/overview).
 
-Each landing page configuration lives inside a Journey with its own rule. When a visitor arrives, the dynamic landing page selection Rulebook picks one configuration. The page section in each placement is then chosen by the component selection by page placement Rulebook. Read [Rulebooks](/orchestration/rulebooks).
+Each landing page has one configuration, chosen by its own rule. When a visitor arrives, Crossword shows the configuration whose rule matches. Each placement then shows the page section whose rule matches. Read [Rules](/orchestration/rules).
 
 ## Page personalization
 
@@ -59,25 +59,19 @@ Page personalization works on pages you already have. You pick a target page, a 
 - **Placements.** A location on the page, such as above the fold or after the product description, or an existing part of the page such as your reviews section.
 - **Actions.** **Insert** adds a page section at the placement. **Replace** swaps the existing content for a page section. **Update** keeps the existing part of the page and changes its content.
 
-Each placement lists the page sections it can hold. A placement that replaces the merchant reviews block accepts a social proof section. A placement above the add-to-cart button accepts a content block or a recommendation section.
+Each placement lists the page sections it can hold. A placement that replaces the merchant reviews block accepts a social proof section. A placement above the add-to-cart button accepts a content block or a recommendation and upsell section.
 
-Page sections fill placements: content blocks, page suggestions, recommendation sections, comparison sections, and social proof sections. Read [Page sections](/components/page/page-sections) and [Page suggestions](/components/page/page-suggestions).
+Page sections fill placements: content blocks, page suggestions, recommendation and upsell sections, comparison sections, and social proof sections. Read [Page sections](/components/page/page-sections) and [Page suggestions](/components/page/page-suggestions).
 
 ## How it fits
 
-Pages and placements live inside an experience. The page sections themselves live inside Journeys, each with a rule, a target page, and a placement. Two Rulebooks resolve them: dynamic landing page selection returns one page configuration, and component selection by page placement returns one page section per placement. Every page section comes from the shared Component library.
+Pages and placements live inside an experience. Page sections sit outside Journeys. Each one carries its own target page, placement, placement action, conditions, and priority within a placement. Their rules decide what shows: one page configuration per landing page, and one page section per placement. Every page section comes from the shared Component library.
 
 Page sections carry the same rules as conversation components, plus timing and delivery restrictions. A page section can react to UTM parameters, segment membership, and cart contents like any other rule-based component. Read [Rules](/orchestration/rules).
 
 ## Example
 
 A sneaker brand runs an unboxing campaign on YouTube. Visitors from the video land on a dynamic landing page: the brand's own header and footer, with a Crossword-controlled body that shows the pair from the video, a comparison with two alternatives, and reviews that mention fit. On the product page for that pair, page personalization inserts a "Why this is right for you" content block above the existing reviews section.
-
-The screenshot shows the **Pages and placements** screen of the Web experience. The Dynamic landing pages tab has Unboxing landing page open, with its rule reading `utm_campaign` equals `unboxing-a` and a body of three sections: the featured product, a comparison section with two alternatives, and a social proof section filtered to reviews that mention fit. The Placements tab beside it lists the product page template with a placement named Above reviews, filled by the content block "Why this is right for you".
-
-<Frame caption="Unboxing landing page and a product page placement">
-  <img src="/images/placeholder.svg" alt="Unboxing landing page and a product page placement" />
-</Frame>
 
 ## Related
 

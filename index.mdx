@@ -3,24 +3,36 @@ title: "Introduction"
 description: "What Crossword is and who it is for"
 ---
 
-{/* TODO: One paragraph on what Crossword does, who it is for, and what they can accomplish with it. */}
+Crossword is an AI shopping assistant for your storefront that greets shoppers, answers their questions, recommends and sells products, and resolves support issues. You organize it into Journeys, one for each situation a shopper is in, and Agents, the assistants that answer inside each Journey.
 
 ## How the docs are organised
 
-Crossword is layered. A channel holds an experience. An experience holds Journeys and Campaigns. Those place components on the surface, and Agents answer the shopper. Read top-down to understand the model, or start at the components to see what you can put on your site.
+The navigation has nine groups. **Getting started** explains the model and how it fits together. **Components** covers everything a shopper can see. **Journeys** covers the situations that decide what shows, and **Agents** covers who answers. **Global settings** holds the defaults every Journey and Agent share. **Targeting and campaigns** covers who sees what, where, and over time. **Quality and governance** covers how you measure and improve. **Setup and publishing** covers channels and going live. **Use cases** walks through complete setups.
 
 <CardGroup cols={2}>
-  <Card title="Core concepts" icon="layer-group" href="/concepts">
-    The vocabulary and how the layers nest.
+  <Card title="Getting started" icon="layer-group" href="/concepts">
+    The vocabulary, and a map of how it all fits together.
   </Card>
   <Card title="Components" icon="cubes" href="/components/overview">
     Every message, card, interactive piece, and page section in one list.
   </Card>
-  <Card title="Agents" icon="robot" href="/agents/overview">
-    Who answers the shopper, and what an answer can contain.
+  <Card title="Journeys" icon="route" href="/orchestration/journeys">
+    One situation a shopper is in, from entry point to goals.
   </Card>
-  <Card title="Orchestration" icon="diagram-project" href="/orchestration/overview">
-    Journeys, rulebooks, campaigns, experiments, and deployment.
+  <Card title="Agents" icon="robot" href="/agents/overview">
+    Who answers the shopper, and how.
+  </Card>
+  <Card title="Global settings" icon="globe" href="/global/overview">
+    The welcome message, intent routing, brand voice, and guardrails every Journey shares.
+  </Card>
+  <Card title="Quality and governance" icon="shield-check" href="/quality/overview">
+    Success metrics, testing, supervision, versioning, and improvement.
+  </Card>
+  <Card title="Targeting and campaigns" icon="bullseye" href="/orchestration/rules">
+    Rules, audiences, page placements, campaigns, and experiments.
+  </Card>
+  <Card title="Setup and publishing" icon="rocket" href="/orchestration/channels-and-experiences">
+    Channels, experiences, environments, and deployment.
   </Card>
   <Card title="Use cases" icon="wand-magic-sparkles" href="/use-cases/overview">
     End-to-end walkthroughs on a real storefront.

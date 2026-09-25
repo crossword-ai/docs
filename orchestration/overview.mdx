@@ -1,9 +1,9 @@
 ---
-title: "Orchestration"
-description: "How channels, experiences, journeys, rulebooks, and campaigns decide what a shopper sees"
+title: "How it fits together"
+description: "How channels, experiences, Journeys, and campaigns decide what a shopper sees"
 ---
 
-The [Core concepts](/concepts) page shows how content nests. [Components](/components/overview) covers everything a shopper can see or interact with, and [Agents](/agents/overview) covers who composes the assistant reply. This section covers everything that acts on those components: what proposes them, what resolves them, what runs over time, what tests them, and what publishes them.
+The [Core concepts](/concepts) page shows how content nests. [Components](/components/overview) covers everything a shopper can see or interact with, and [Agents](/agents/overview) covers who composes the assistant reply. This section covers the experience that holds them and everything that acts on them: the rules that select a Journey, what runs over time, what tests it, and what publishes it.
 
 ## The full map
 
@@ -11,38 +11,37 @@ The [Core concepts](/concepts) page shows how content nests. [Components](/compo
 flowchart TB
   CH["Channel"] --> EX
   subgraph EX["Experience"]
-    direction TB
-    PB1["Journey A"]
-    PB2["Journey B"]
-    PBD["Default Journey"]
-    RB["Rulebooks"]
+    GS["Global settings<br/><small>welcome message · intent routing · brand voice</small>"]
+    JN["Journeys<br/><small>one at a time, by entry point · Default covers the rest</small>"]
+    AG["Agents"]
     CA["Campaigns"]
-    PB1 --> RB
-    PB2 --> RB
-    PBD --> RB
-    CA -. "activates" .-> PB2
+    PP["Pages and placements"]
+    XP["Experiments"]
+    DP["Deployment"]
   end
-  XP["Experiment"] -. "splits traffic" .-> PB1
-  XP -. "splits traffic" .-> PB2
-  SG["Audiences"] -. "enrolls" .-> CA
-  SG -. "conditions" .-> RB
-  EX ==> DP["Deployment"]
-  DP --> ENV1["Test environment"]
-  DP --> ENV2["Production environment"]
+  GS -. "welcome message shown in" .-> JN
+  GS -. "inherited by" .-> AG
+  JN -. "names its Agent" .-> AG
+  CA -. "activates" .-> JN
+  XP -. "splits traffic" .-> JN
+  CA -. "enrolls from" .-> SG["Audiences<br/><small>shared across experiences</small>"]
+  SG -. "conditions" .-> JN
+  EX -. "uses" .-> LIB["Component library<br/><small>shared across experiences</small>"]
+  DP --> ENVS
+  subgraph ENVS["Environments"]
+    ENV1["Test environment"]
+    ENV2["Production environment"]
+    ENV3["More environments<br/><small>such as one per regional site</small>"]
+  end
 ```
 
-Read it in four parts.
+Read it in five parts.
 
-- **Inside the experience.** Journeys propose candidates for each rule-based component type. Rulebooks resolve the proposals into what shows. The Default Journey supplies the fallback. Campaigns run over time and can activate a Journey for a shopper's next visit.
-- **Audiences.** Shared segments that Campaigns enroll and that rules on components can test against.
+- **Inside the experience.** [Global settings](/global/overview) hold what every Journey and Agent shares. Each Journey is selected by its entry point, and one applies to a shopper at a time. The Default Journey covers any page no other Journey claims. Each Journey names the [Agent](/agents/overview) that answers in it. Pages and placements hold the page sections Crossword places on your storefront.
+- **Campaigns.** Run over time and can activate a Journey for a shopper's next visit.
+- **Audiences.** Shared segments that Campaigns enroll and that entry points and "shows when" rules can test against.
 - **Experiments.** Act on Journeys, not on the experience. An experiment splits traffic between two or more Journeys and measures a goal event.
-- **Deployment.** Acts on the whole experience. Publishing creates a numbered revision and pushes it to an environment. Each environment has its own installation snippet.
-
-The screenshot shows the overview of a sneaker storefront's Web experience. The side navigation lists Journeys, Rulebooks, Campaigns, Audiences, Pages and placements, Experiments, and Deployment. The summary cards read three Journeys enabled, five Rulebooks, one active Campaign named Cart Recovery, one running Experiment named Product Discovery Method, and Deployment with Test on revision 15 and Production on revision 12.
-
-<Frame caption="Web experience overview with its sections">
-  <img src="/images/placeholder.svg" alt="Web experience overview with its sections" />
-</Frame>
+- **Deployment.** Publishes the whole experience. Publishing creates a numbered revision and pushes it to an environment. Each environment has its own installation snippet.
 
 ## In this section
 
@@ -51,16 +50,13 @@ The screenshot shows the overview of a sneaker storefront's Web experience. The 
     Where Crossword runs and the container everything lives in.
   </Card>
   <Card title="Journeys" href="/orchestration/journeys">
-    Reusable collections of contextual behavior.
+    One situation a shopper is in, selected by its entry point.
   </Card>
   <Card title="Rules" href="/orchestration/rules">
-    Conditions, timing, priority, and delivery restrictions on rule-based components.
+    Entry points, shows when rules on proactive messages, and page section rules.
   </Card>
-  <Card title="Rulebooks" href="/orchestration/rulebooks">
-    Where proposals from every Journey are resolved.
-  </Card>
-  <Card title="How rulebooks resolve conflicts" href="/orchestration/how-rulebooks-resolve">
-    Priority, winners, limits, and fallback, with worked examples.
+  <Card title="Global settings" href="/global/overview">
+    The welcome message, intent routing, and defaults every Journey shares.
   </Card>
   <Card title="Campaigns" href="/orchestration/campaigns">
     Stateful programs that run a sequence over time.

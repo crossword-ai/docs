@@ -1,9 +1,13 @@
 ---
-title: "Recommendation section"
-description: "A product collection with a contextual explanation, placed on a merchant page"
+title: "Recommendation and upsell section"
+description: "Products that go with what the shopper is viewing or buying, with a reason for each, placed on a merchant page"
 ---
 
-A recommendation section is a product collection paired with an explanation of why these products were picked, placed on a merchant page. The shopper sees several products and a sentence that ties them to what they said, did, or arrived from, such as "Picked for your trip". The explanation is what separates it from a plain list of products.
+A recommendation and upsell section shows products that go with what the shopper is viewing or has in their cart, each with a reason it was picked, placed on a merchant page. On the cart page it works as an upsell: the shopper can add a piece without leaving the page. The shopper sees several products and a sentence that ties them to what they said, did, or arrived from, such as "Picked for your trip". The explanation is what separates it from a plain list of products.
+
+<Frame caption="An upsell section on the cart page, picked for the item in the bag">
+  <img src="/images/page/recommendation-section.png" alt="An upsell section on the cart page, picked for the item in the bag" />
+</Frame>
 
 ## Anatomy
 
@@ -25,21 +29,17 @@ The section goes into a placement. It can be inserted at a location, or replace 
 
 ## Rules
 
-A recommendation section carries its own rule, scoped by its target page and placement. Target page, placement, and placement action are required. Conditions, priority, timing, and delivery limits are optional.
+A recommendation and upsell section carries its own rule, scoped by its target page and placement. Target page, placement, and placement action are required. Conditions, priority, timing, and delivery limits are optional.
 
 The rule decides whether the section shows. The ordering and filters on the embedded collection shape what is inside it.
 
 ## Examples
 
-Every scene below is a recommendation section on a sneaker brand's storefront. The rule decides where it lands and who sees it; the embedded collection decides what is inside.
+Every scene below is a recommendation and upsell section on a sneaker brand's storefront. The rule decides where it lands and who sees it; the embedded collection decides what is inside.
 
 ### Out of the box
 
-The Default Journey's section sits on the product page and replaces the storefront's generic "You may also like" carousel, for every shopper. The heading reads **Pairs well with**, three product cards show socks, insoles, and a running cap, each with image, price, and an **Add to cart** button, and the explanation reads "Chosen for the shoe you are viewing." No conditions, priority 0.
-
-<Frame caption="Default recommendation section replacing the related carousel">
-  <img src="/images/placeholder.svg" alt="Default recommendation section replacing the related carousel" />
-</Frame>
+The default section sits on the product page and replaces the storefront's generic "You may also like" carousel, for every shopper. The heading reads **Pairs well with**, three product cards show socks, insoles, and a running cap, each with image, price, and an **Add to cart** button, and the explanation reads "Chosen for the shoe you are viewing." No conditions, priority 0.
 
 ### With a rule: trail shoes in the cart
 
@@ -47,19 +47,11 @@ The Default Journey's section sits on the product page and replaces the storefro
 
 A shopper with a pair of trail shoes in the cart sees a section under the items headed **Complete your trail kit**, with merino trail socks, a set of gaiters, and a pair of insoles. The explanation reads "Chosen to go with the trail shoes in your cart." A shopper with road shoes in the cart does not match, so the cart page stays as it ships.
 
-<Frame caption="Trail kit recommendations below the cart items">
-  <img src="/images/placeholder.svg" alt="Trail kit recommendations below the cart items" />
-</Frame>
-
 ### With a rule: VIP customers with a known size
 
 > Rule: home page, below the hero, insert. All of: member of "VIP customers", preferred size is known. Priority 20.
 
 A VIP shopper whose size is on their profile opens the home page and sees **New arrivals in your size** under the hero, with four cards filtered to that size and the explanation "Everything here is in stock in a size 9.". Both conditions must hold. A VIP shopper with no size on file does not match, and sees the home page as it ships.
-
-<Frame caption="VIP new arrivals in the shopper's size">
-  <img src="/images/placeholder.svg" alt="VIP new arrivals in the shopper's size" />
-</Frame>
 
 ### With a rule: product out of stock
 
@@ -67,19 +59,11 @@ A VIP shopper whose size is on their profile opens the home page and sees **New 
 
 On a sold-out pair, the add-to-cart area is replaced by a section headed **In stock now, same feel**, with three alternatives that share the pair's cushioning and drop, and the explanation "Closest matches to the pair on this page, all shipping today.". The disabled add-to-cart button is gone, so the shopper has a way forward instead of a dead end.
 
-<Frame caption="In-stock alternatives replacing the add-to-cart area">
-  <img src="/images/placeholder.svg" alt="In-stock alternatives replacing the add-to-cart area" />
-</Frame>
-
 ### With a rule: sale weekend
 
 > Rule: cart page, below the cart items, replace. Scheduled window 28 to 30 November. Priority 15.
 
 For three days, the section under the cart items reads **Sale picks under $50** with four discounted products and the explanation "Marked down this weekend only.". At priority 15 it outranks the trail kit section at 10 for the same placement, so a trail shopper sees the sale picks during the window and the trail kit again on Monday.
-
-<Frame caption="Sale-weekend picks below the cart items">
-  <img src="/images/placeholder.svg" alt="Sale-weekend picks below the cart items" />
-</Frame>
 
 ### What else a rule can do
 

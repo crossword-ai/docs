@@ -1,9 +1,13 @@
 ---
 title: "Conversation starter"
-description: "Suggested prompts shown under the welcome message, set per page"
+description: "Suggested prompts shown under the welcome message, set per Journey and routed to a named Agent"
 ---
 
-A conversation starter is a tappable prompt a shopper sees under the welcome message, before they type. Tapping one sends its prompt to the Agent. You set starters per page, so the home page, a product page, and the cart can each offer their own. Several starters show at once, three to five, drawn by priority from every enabled Journey by the conversation starter Rulebook.
+A conversation starter is a tappable prompt a shopper sees under the welcome message, before they type. Starters belong to the active [Journey](/orchestration/journeys), the one selected by the shopper's entry point, so a product page, a collection page, and the returns page can each offer their own. Tapping a starter sends it straight to the Agent named next to it. A starter can also open a component, such as the [quiz](/components/interactive/quiz).
+
+<Frame caption="Generic starters stacked above the launcher">
+  <img src="/images/conversation/conversation-starter.png" alt="Generic starters stacked above the launcher" />
+</Frame>
 
 ## What it contains
 
@@ -11,68 +15,48 @@ The diagram shows the suggestion set the shopper sees, the settings that shape i
 
 ```mermaid
 flowchart TB
-  SET["Suggestion set<br/><small>what the shopper sees under the welcome message</small>"]
-  SET --> CAND["Candidates<br/><small>starters for this page from every enabled Journey</small>"]
-  SET --> MAX["Maximum visible<br/><small>the Rulebook's Total setting: 3, 4, or 5</small>"]
-  SET --> RANK["Ranking<br/><small>priority order by default</small>"]
-  SET --> LAY["Layout<br/><small>row of chips or stacked list</small>"]
-  SET --> FB["Fallback set<br/><small>the Default Journey's starters</small>"]
-  CAND --> ST
-  subgraph ST["Conversation starters, each with a page rule"]
+  J["Active Journey<br/><small>selected by its entry point</small>"]
+  J --> SET["Suggestion set<br/><small>what the shopper sees under the welcome message</small>"]
+  SET --> MAX["Maximum visible<br/><small>how many starters show at once</small>"]
+  SET --> LAY["Layout<br/><small>row of chips, stacked list, or inside the chat bar</small>"]
+  SET --> ST
+  subgraph ST["The Journey's conversation starters"]
     S1["Starter"]
     S1 --> LB["Label<br/><small>written or generated at display time</small>"]
     S1 --> IC["Icon<br/><small>optional</small>"]
-    S1 --> AC["Action<br/><small>sends a prompt to the Agent</small>"]
-    S1 --> RU["Page rule<br/><small>which page · priority</small>"]
+    S1 --> AG["Routes to<br/><small>a named Agent</small>"]
+    S1 --> OP["Opens<br/><small>optional component such as the quiz</small>"]
   end
-  RB["Conversation starter Rulebook<br/><small>Take from highest priority · Then one from each · Total</small>"]
-  RB -. "returns" .-> CAND
 ```
 
 | Property | What it holds |
 | -------- | ------------- |
 | Label | The text on the starter, written by you or generated at display time |
 | Icon | An optional icon shown with the label |
-| Action | What tapping the starter does. Usually it sends a prompt to the Agent |
-| Rule | The page the starter shows on, and its priority. One rule can carry several starters |
+| Routes to | The Agent that answers when the shopper taps it. Usually the Journey's own Agent, but a starter can name a different one |
+| Opens | An optional component the starter opens, such as the [quiz](/components/interactive/quiz) or a [form](/components/interactive/form) |
 
-A generated label is written at display time from variables on the page, such as `{product_name}` on a product page. Generated starters compete in the Rulebook exactly like written ones.
+A generated label is written at display time from variables on the page, such as `{product_name}` on a product page. Generated starters sit in the set exactly like written ones.
 
-A starter holds its own label and embeds nothing from the [Component library](/components/overview). The assistant reply that follows a tap can render any card the library offers.
+A starter holds its own label. The reply that follows a tap is composed by the Agent it routes to and can render any card the [Component library](/components/overview) offers.
 
-## Rule
+## Rules
 
-A starter's rule has one condition: the page it shows on. Timing and delivery restrictions do not apply, because starters show once, together with the welcome message.
+A starter carries no rule of its own. It belongs to a Journey and shows whenever that Journey applies. The Journey applies because the shopper's page and context match its [entry point](/orchestration/rules#entry-points). When the shopper moves to a page that selects a different Journey, the starters change with it. On a page no other Journey claims, the Default Journey's starters show.
 
-| Rule field | What you can set |
-| ---------- | ---------------- |
-| Page | A page type, such as home, product, collection, or cart, or a specific page or URL |
-| Priority | Orders the rules that match the same page and decides which rule the Rulebook takes the first starters from |
+Starters do not test where the shopper came from, who they are, or what is in their cart. A prompt that depends on the arrival source, a segment, or a past order belongs in a [proactive message](/components/conversation/proactive-message), which carries a "shows when" rule.
 
-Starters do not test where the shopper came from, who they are, or what is in their cart. A prompt that depends on the arrival source, a segment, or the cart belongs in a [proactive message](/components/conversation/proactive-message).
-
-Several Journeys can propose starters for the same page. The conversation starter Rulebook collects every rule that matches the current page from every enabled Journey, orders them by priority, and builds the set with three settings.
-
-| Setting | What it does |
-| ------- | ------------ |
-| Take from highest priority | How many starters to take from the highest-priority rule that matches the page |
-| Then one from each | After that, take one starter from each remaining matching rule, in priority order |
-| Total | The maximum number of starters to show. Choose 3, 4, or 5 |
-
-The Default Journey's starters, at priority 0, match every page and are always the last matching rule. A page with no starters configured shows the Default Journey's starters.
-
-Read the [worked example](/orchestration/how-rulebooks-resolve#worked-example-conversation-starters) to see how the same candidates produce different sets under four different settings.
+Tapping a starter skips [intent routing](/global/intent-routing). The starter goes straight to the Agent named next to it. A question the shopper types goes through intent routing instead.
 
 ## Suggestion set
 
-The starters the Rulebook returns render inside a suggestion set. The set turns the Rulebook's result into what the shopper sees. It is a setting on the starters, not a component with a rule of its own.
+The active Journey's starters render inside a suggestion set. It is a setting on the starters, not a component with a rule of its own.
 
 | Setting | What it controls |
 | ------- | ---------------- |
-| Ranking | The order of the visible starters. Priority order by default |
-| Layout | How the visible starters are arranged, such as a row of chips or a stacked list |
-
-The number of visible starters is the Rulebook's Total setting. The fallback set is the Default Journey's starters.
+| Maximum visible | How many starters show at once, usually three to five |
+| Order | The order you list the starters in the Journey |
+| Layout | How the visible starters are arranged, such as a row of chips, a stacked list, or inside the [chat bar](/components/widget/overview) with a typewriter style |
 
 ## Examples
 
@@ -80,26 +64,22 @@ Two ways to set starters. Each one describes the configuration, not the exact co
 
 ### Generic
 
-The same fixed prompts on every page, stacked above the launcher before the widget opens.
+The Default Journey's starters, shown on any page no other Journey claims, stacked above the launcher before the widget opens.
 
 ```yaml
-Page: Every page
+Journey: Default, entry point is any page not covered by another Journey
 Starters: Three fixed prompts about choosing a product, building a routine, and the brand
-Priority: 0 (Default Journey)
+Routes to: Product Discovery Agent, and the brand prompt to the Brand and Support Agent
 ```
 
-<Frame caption="Generic starters stacked above the launcher">
-  <img src="/images/conversation/conversation-starter.png" alt="Generic starters stacked above the launcher" />
-</Frame>
+### Personalized per Journey
 
-### Personalized per page
-
-Prompts written for one page, here the collection page where the shopper browses the whole range.
+Prompts written for one Journey, here the Product Discovery Journey, whose entry point includes the collection page where the shopper browses the whole range.
 
 ```yaml
-Page: Collection page (Shop All)
+Journey: Product Discovery, entry point is the home page or a collection page
 Starters: Three prompts for choosing from the range: by need, by routine, and by bestseller
-Priority: 10
+Routes to: Product Discovery Agent, and the routine prompt opens the quiz
 ```
 
 <Frame caption="Starters written for the collection page">
@@ -109,8 +89,8 @@ Priority: 10
 ## Related
 
 <CardGroup cols={2}>
-  <Card title="Rulebooks" href="/orchestration/rulebooks" />
+  <Card title="Journeys" href="/orchestration/journeys" />
   <Card title="Welcome message" href="/components/conversation/welcome-message" />
   <Card title="Proactive message" href="/components/conversation/proactive-message" />
-  <Card title="How rulebooks resolve conflicts" href="/orchestration/how-rulebooks-resolve" />
+  <Card title="Intent routing" href="/global/intent-routing" />
 </CardGroup>

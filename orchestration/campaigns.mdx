@@ -52,7 +52,7 @@ flowchart TB
 | Action | Something a step executes | Add a coupon, update an attribute |
 | Workflow call | Runs an operational Workflow | Generate a return label |
 | Journey activation | Makes a Journey applicable for a defined scope or lifetime | Apply "Abandoned Cart Return Visit" on the next website visit |
-| Agent handoff | Starts or routes into an Agent when interaction is needed | Shopping assistance |
+| Agent handoff | Starts a conversation with a named Agent when interaction is needed, without intent routing | Product Q&A Agent |
 | Conversion or completion | The goal event occurred | Purchase |
 | Delivery limits and suppression | Caps on how often the Campaign contacts a shopper, and when it stays quiet | No more than one message per day |
 | On audience exit | What happens when an enrolled shopper leaves the segment | Exit Campaign, or Continue Campaign |
@@ -75,7 +75,7 @@ The enrollment rule and re-entry policy still apply whichever trigger you use.
 | Wait | Pauses for a duration, or until an event such as a click or a purchase |
 | Branch | Chooses the next step from what the shopper did: read, clicked, replied, or ignored, where the channel reports it |
 | Make selected Journeys available | Activates one or more Journeys for this shopper for a defined scope or lifetime |
-| Invoke an Agent | Hands the shopper to an Agent for a live conversation |
+| Invoke an Agent | Hands the shopper to a named Agent for a live conversation. Intent routing is not involved |
 | Call a Workflow | Runs a Workflow and can branch on its outputs |
 | Complete or exit | Ends the sequence, as a conversion or as an exit |
 
@@ -102,24 +102,17 @@ A Campaign can be a single step. Enter segment, send message, end. You do not ne
 
 A Campaign lives inside an experience and enrolls from shared segments. Read [Audiences and segments](/orchestration/audiences).
 
-A Campaign hands off in three directions. It can activate a Journey, which then feeds the Rulebooks like any other Journey. It can call a Workflow. It can hand the shopper to an Agent. The Campaign owns the timing and the memory. Journeys, Workflows, and Agents own what happens at each moment.
+A Campaign hands off in three directions. It can activate a Journey, which then applies like any other Journey. It can call a Workflow. It can hand the shopper to an Agent. The Campaign owns the timing and the memory. Journeys, Workflows, and Agents own what happens at each moment.
 
 For when to use a Campaign and when a Journey is enough, read [Journeys vs campaigns](/orchestration/journeys-vs-campaigns).
 
 ## Example
 
-A Campaign called Cart Recovery enrolls shoppers whose cart is over $50 and who have been inactive for 30 minutes. It sends a message, waits, checks whether the shopper clicked, branches, waits again, and sends a second message. It exits as soon as the shopper purchases. Read the sequence in full in [Journeys vs campaigns](/orchestration/journeys-vs-campaigns) and the build in [Cart recovery campaign](/use-cases/cart-recovery-campaign).
-
-The screenshot shows Cart Recovery open in the **Campaigns** sequence builder. The settings panel reads Audience High-value abandoned-cart shoppers, Entry trigger Segment entry, Re-entry Once every 7 days, Exit rule Purchase completed, Goal event `purchase`, and On audience exit set to Exit Campaign. The canvas runs Wait 30 minutes, a Purchased? branch, Send message "Still thinking it over?", Wait 6 hours, a Message clicked? branch, Wait one day, and a second message. Delivery limits shows No more than one message per day.
-
-<Frame caption="Cart Recovery Campaign in the sequence builder">
-  <img src="/images/placeholder.svg" alt="Cart Recovery Campaign in the sequence builder" />
-</Frame>
+A Campaign called Cart Recovery enrolls shoppers whose cart is over $50 and who have been inactive for 30 minutes. It sends a message, waits, checks whether the shopper clicked, branches, waits again, and sends a second message. It exits as soon as the shopper purchases. Read the sequence in full in [Journeys vs campaigns](/orchestration/journeys-vs-campaigns) and the build in Cart recovery campaign.
 
 ## Related
 
 <CardGroup cols={2}>
   <Card title="Audiences and segments" href="/orchestration/audiences" />
   <Card title="Journeys vs campaigns" href="/orchestration/journeys-vs-campaigns" />
-  <Card title="Cart recovery campaign" href="/use-cases/cart-recovery-campaign" />
 </CardGroup>
