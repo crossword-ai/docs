@@ -3,7 +3,11 @@ title: "Follow-up suggestion"
 description: "Suggested next prompts the Agent writes under each assistant reply"
 ---
 
-A follow-up suggestion is a prompt a shopper sees directly under an assistant reply. The Agent writes a new set for every reply, based on the reply it just gave and the Journeys that are enabled. Tapping one sends that prompt back to the Agent or takes the shopper into a Journey. Follow-ups carry no rule, no conditions, and no priority, and no Rulebook resolves them.
+A follow-up suggestion is a prompt a shopper sees directly under an assistant reply. The Agent writes a new set for every reply, based on the reply it just gave. Tapping one sends that prompt back to the Agent or takes the shopper into a Journey. Follow-ups carry no rule, no conditions, and no priority.
+
+<Frame caption="Product Q&A follow-ups under a product recommendation">
+  <img src="/images/conversation/follow-up-suggestion.png" alt="Product Q&A follow-ups under a product recommendation" />
+</Frame>
 
 ## What it contains
 
@@ -22,7 +26,7 @@ A follow-up holds its own label and embeds nothing from the [Component library](
 
 ## How it is configured
 
-You configure follow-ups through the Agent, in its prompt. In the Agent's [instructions](/agents/instructions-and-model), describe when to offer which kind, how many, and which Journeys to point to. On every reply, the Agent reads the reply it just gave and the enabled Journeys, and writes the follow-ups from your guidance. [Response configuration](/agents/response-configuration) turns follow-ups on for the Agent and sets the suggestion set.
+You configure follow-ups through the Agent, in its prompt. In the Agent's [instructions](/agents/goal-and-operating-procedure), describe when to offer which kind, how many, and which Journeys to point to. On every reply, the Agent reads the reply it just gave and writes the follow-ups from your guidance. [Response configuration](/agents/rich-responses-and-actions) turns follow-ups on for the Agent and sets the suggestion set.
 
 Guidance in the Agent's instructions reads like this.
 
@@ -33,7 +37,7 @@ and one that starts the quiz Journey if the shopper seems unsure.
 After you answer a question about an order, offer the support Journey.
 ```
 
-There is no rule to write and no list of configured follow-ups to maintain. Which Agent answers, and so whose instructions apply, is decided upstream by the agent routing Rulebook. Read [Routing](/agents/routing).
+There is no rule to write and no list of configured follow-ups to maintain. Which Agent answers, and so whose instructions apply, is decided upstream. A tapped starter or proactive message goes to the Agent named next to it, and a typed question goes through [intent routing](/global/intent-routing).
 
 ## Suggestion set
 
@@ -58,10 +62,6 @@ After: A reply that recommends a few products
 Follow-ups: Up to three next steps about those products: see more options, compare them, and narrow by price
 ```
 
-<Frame caption="Product Q&A follow-ups under a product recommendation">
-  <img src="/images/conversation/follow-up-suggestion.png" alt="Product Q&A follow-ups under a product recommendation" />
-</Frame>
-
 ### Journey follow-ups
 
 Suggestions that move a shopper who asks for help choosing into a guided Journey you have built.
@@ -81,7 +81,7 @@ Takes the shopper to: A guided discovery Journey that asks a few questions and r
 
 <CardGroup cols={2}>
   <Card title="Assistant reply" href="/components/conversation/assistant-reply" />
-  <Card title="Instructions and model" href="/agents/instructions-and-model" />
-  <Card title="Response configuration" href="/agents/response-configuration" />
+  <Card title="Goal and operating procedure" href="/agents/goal-and-operating-procedure" />
+  <Card title="Rich responses and actions" href="/agents/rich-responses-and-actions" />
   <Card title="Journeys" href="/orchestration/journeys" />
 </CardGroup>

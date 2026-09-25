@@ -1,0 +1,52 @@
+---
+title: "Complete the look"
+description: "A set of pieces built around one product, each swappable, all addable at once"
+---
+
+Complete the look builds a set around one product. A shopper looking at a jacket sees it styled with a top, trousers, and shoes that go with it. They can keep the set as it is, swap any piece for another, or add everything to the cart at once. It raises order value by showing a whole outfit instead of one item.
+
+<Frame caption="A shopper building a look in the conversation">
+  <video autoPlay muted loop playsInline src="/images/interactive/complete-the-look.mp4"></video>
+</Frame>
+
+## What it contains
+
+| Property | What it holds |
+| -------- | ------------- |
+| Anchor product | The product the set is built around, such as the one on screen or the one the shopper asked about. |
+| Pieces | The other products in the set, each shown as a compact [product card](/components/cards/product-card) with its image, price, and variant selection. |
+| Select | A control on each piece to include or leave it out. |
+| Swap | A control on each piece that shows alternatives for that position, such as other shoes that go with the jacket. |
+| Add all to cart | One button that adds every selected piece, with the total. |
+
+The set can also start from a photo. A shopper uploads a picture of an outfit through the [chat bar](/components/widget/overview), and the Agent builds a set of matching products from your catalog.
+
+The Agent picks the pieces around one product, and the shopper adjusts them.
+
+## Where it appears
+
+- In the [assistant reply](/components/conversation/assistant-reply), where the Agent chooses it. The shopper asks "What goes with this?" or uploads a photo and asks for the look.
+- In a [proactive message](/components/conversation/proactive-message), for example on a product page after the shopper views the reviews.
+
+## Rules
+
+Complete the look carries no rule. It shows because an Agent composed it into a reply, or because a proactive message embedded it and that message's "shows when" rule was met.
+
+## Example
+
+A shopper on a denim jacket's product page asks "How would you style this?"
+
+```yaml
+Anchor product: The product on screen
+Pieces: Three to four products that go with it, from your catalog
+Controls: Select, swap, and add all to cart
+Start from a photo: On
+```
+
+## Related
+
+<CardGroup cols={2}>
+  <Card title="Product card" href="/components/cards/product-card" />
+  <Card title="Chat bar" href="/components/widget/overview" />
+  <Card title="Cart and checkout card" href="/components/cards/cart-checkout-card" />
+</CardGroup>

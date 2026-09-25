@@ -1,0 +1,67 @@
+---
+title: "Goal and operating procedure"
+description: "What a good conversation achieves, and the steps an Agent follows to get there"
+---
+
+The goal says what a good conversation with this Agent achieves. The operating procedure says how the Agent gets there, as numbered steps it follows in order. Together they turn a general assistant into one with a clear job.
+
+## Goal and success criteria
+
+The goal is one sentence about the shopper, written from their side of the conversation. The success criteria say how you know the goal was met, as something you can observe in the conversation or the store.
+
+| Part | What it holds | Example |
+| ---- | ------------- | ------- |
+| Goal | What a good conversation achieves for the shopper | An undecided shopper finds the right product and adds it to cart |
+| Success criteria | The observable signal that the goal was met | The shopper views or adds a recommended product |
+
+Keep the goal narrow. An Agent with one clear goal makes better choices than an Agent asked to sell, support, and educate at once. When a conversation drifts outside the goal, the Agent hands it on. Read [Escalation and handoff](/agents/escalation-and-handoff).
+
+## Agent goals and Journey goals
+
+A [Journey](/orchestration/journeys) also has goals, and the two do different jobs.
+
+- **The Journey goal is the business outcome.** It is what you measure across every shopper in that situation, such as add to cart or ticket deflection.
+- **The Agent goal is what a good conversation achieves.** It is what the Agent works toward, turn by turn, with one shopper.
+
+The Product Q&A Journey's primary goal is add to cart. The Product Q&A Agent's goal is that the shopper gets their doubts answered and buys with confidence. A good conversation serves the Journey goal, but the Agent is judged on the conversation.
+
+## Operating procedure
+
+The operating procedure is a short list of numbered steps. Each step names a situation and what the Agent does in it. The Agent follows the steps in order and moves to the next one when the conversation calls for it.
+
+Write the steps as you would brief a new member of staff.
+
+- Start with the first thing the Agent does, such as asking one or two questions.
+- Give each fork a step of its own, such as what to do when the shopper is still unsure.
+- End with the step that closes the conversation well, such as pointing to the best-value pack.
+- Keep each step to one action. Four steps is typical.
+
+The operating procedure also shapes the [follow-up suggestions](/components/conversation/follow-up-suggestion) under each reply. The Agent writes them from the step it is on, so they point to the next useful move. Read [Rich responses and actions](/agents/rich-responses-and-actions).
+
+Anything the Agent must never do belongs in [Guardrails](/agents/guardrails-and-fallback), not in the operating procedure. A step can never override a guardrail.
+
+## Example
+
+The Product Discovery Agent helps an undecided shopper pick a gummy. Its goal and four steps look like this.
+
+```yaml
+goal_and_success_criteria:
+  goal: An undecided shopper finds the right product and adds it to cart.
+  success: The shopper views or adds a recommended product.
+operating_procedure:
+  - Ask one or two quick questions, such as what they want to feel, and gummy or spray.
+  - Recommend one best pick and one alternative, bestsellers first.
+  - If the shopper is still unsure, open the Quiz, then explain the result in plain words.
+  - At the pick, mention Subscribe & Save once.
+```
+
+This Agent answers in the Default Journey, whose primary goal is Interacted and secondary goal is View product page.
+
+## Related
+
+<CardGroup cols={2}>
+  <Card title="Agents" href="/agents/overview" />
+  <Card title="Journeys" href="/orchestration/journeys" />
+  <Card title="Rich responses and actions" href="/agents/rich-responses-and-actions" />
+  <Card title="Guardrails and fallback" href="/agents/guardrails-and-fallback" />
+</CardGroup>

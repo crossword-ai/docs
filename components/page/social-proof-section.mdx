@@ -5,6 +5,10 @@ description: "Reviews, testimonials, or data selected for the shopper's context"
 
 A social proof section shows reviews, testimonials, or data such as ratings and purchase counts, selected for the shopper's context. A marathon runner sees reviews that mention marathons. A shopper who asked about wide feet sees reviews that mention fit. It answers the question "do people like me like this?" with evidence rather than copy.
 
+<Frame caption="A review summary on the product page, expanded in the conversation">
+  <img src="/images/page/social-proof-section.png" alt="A review summary on the product page, expanded in the conversation" />
+</Frame>
+
 ## Anatomy
 
 | Property | What it holds |
@@ -35,11 +39,7 @@ Every scene below is a social proof section on a sneaker brand's storefront. The
 
 ### Out of the box
 
-The Default Journey's section sits on the product page and replaces the storefront's reviews block, for every shopper. The heading reads **What runners say**, a rating summary reads **4.6 of 5 from 1,240 reviews**, and beneath it are the three most recent reviews rated four stars or higher, in a list. A **Read all reviews** link sits under the third. No conditions, priority 0.
-
-<Frame caption="Default social proof section replacing the reviews block">
-  <img src="/images/placeholder.svg" alt="Default social proof section replacing the reviews block" />
-</Frame>
+The default section sits on the product page and replaces the storefront's reviews block, for every shopper. The heading reads **What runners say**, a rating summary reads **4.6 of 5 from 1,240 reviews**, and beneath it are the three most recent reviews rated four stars or higher, in a list. A **Read all reviews** link sits under the third. No conditions, priority 0.
 
 ### With a rule: asked about fit in chat
 
@@ -47,19 +47,11 @@ The Default Journey's section sits on the product page and replaces the storefro
 
 A shopper who asked the widget "Do these run narrow?" and then scrolls down sees the same placement, but the heading now reads **What runners say about fit** and the three reviews each mention width or sizing, with the matching phrase highlighted, such as "true to size, roomy toe box". Priority 10 outranks the default at 0 for the same placement, so this shopper sees fit reviews and nothing else.
 
-<Frame caption="Fit-focused reviews after a sizing question in chat">
-  <img src="/images/placeholder.svg" alt="Fit-focused reviews after a sizing question in chat" />
-</Frame>
-
 ### With a rule: marathon runners
 
 > Rule: product page, reviews block, replace. Member of "Marathon runners". Priority 15.
 
 A shopper in the marathon segment sees the heading **What marathoners say**, a data point reading **Worn in 312 marathons this year**, and a carousel of reviews that mention a race. The layout is a carousel rather than a list, because that is how this section is configured. Shoppers outside the segment fall through to the fit section or the default.
-
-<Frame caption="Race reviews and a purchase data point for marathoners">
-  <img src="/images/placeholder.svg" alt="Race reviews and a purchase data point for marathoners" />
-</Frame>
 
 ### With a rule: arrival from a review site
 
@@ -67,19 +59,11 @@ A shopper in the marathon segment sees the heading **What marathoners say**, a d
 
 A visitor who arrives from a review site lands on the home page and sees a section inserted under the hero: a single highlighted quote, a rating summary reading **4.7 of 5 across 12,000 reviews**, and a **See what runners say** link. The home page has no reviews block of its own, so this is an insert rather than a replace. Visitors from other sources see the home page as it ships.
 
-<Frame caption="Highlighted testimonial for visitors from a review site">
-  <img src="/images/placeholder.svg" alt="Highlighted testimonial for visitors from a review site" />
-</Frame>
-
 ### With a rule: high-value cart
 
 > Rule: cart page, above the checkout button, insert. Cart value is over $150. Priority 20.
 
 A shopper whose cart totals more than 150 sees a compact section above the checkout button: a rating summary reading **4.7 average across the items in your cart** and one short quote about durability. It is there to steady a larger purchase at the last step. A cart under $150 does not match, and the checkout button stands alone.
-
-<Frame caption="Cart reassurance above the checkout button">
-  <img src="/images/placeholder.svg" alt="Cart reassurance above the checkout button" />
-</Frame>
 
 ### What else a rule can do
 

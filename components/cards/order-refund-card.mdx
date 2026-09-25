@@ -5,6 +5,10 @@ description: "Order reference, status, and the actions a shopper can take"
 
 The order and refund status card shows a shopper where an order stands and what they can do about it. It covers the whole post-purchase path: tracking an order, starting a return, and following a refund. The shopper gets the answer and the next action in one card instead of a link to an account page.
 
+<Frame caption="Order status card for an order out for delivery">
+  <img src="/images/cards/order-refund-card.png" alt="Order status card for an order out for delivery" />
+</Frame>
+
 ## Anatomy
 
 | Property | What it holds |
@@ -12,7 +16,7 @@ The order and refund status card shows a shopper where an order stands and what 
 | Order reference | The order number and the date it was placed. |
 | Items | The products in the order. For a return, only the eligible items. |
 | Status and details | The current state of the order, return, or refund, with details such as a tracking link or a refund amount. |
-| Relevant controls | The actions available in the current state, such as **Track order**, **Return these items**, or **Cancel return**. Built from the [button](/components/primitives#button) primitive. |
+| Relevant controls | The actions available in the current state, such as **Track order**, **Return these items**, or **Cancel return**. |
 
 The controls run [Workflows](/agents/workflows). A **Return these items** button starts the Workflow that generates a return label, and the card updates as the Workflow moves through its steps. Which controls show depends on the state: an order that has shipped offers tracking, an order that has arrived offers a return.
 
@@ -32,10 +36,6 @@ An order and refund status card carries no rule. It shows because the welcome me
 ## Example
 
 A signed-in shopper asks "Where is my order?" and the Agent replies with the status card for their most recent order. The header reads "Order #1008" with a green **Arrives Tue** badge, followed by the single item in the order, Speedcat OG, with its thumbnail, a quantity of 1, and $120. Below the item a vertical timeline walks through the order's states: Order placed on Mon, 9 Jun and Packed on Tue, 10 Jun are complete, Out for delivery at 8:40 AM today is the current step, and Delivered, expected today, is greyed out. The shopper sees where the parcel is without opening an account page. Once the order arrives, the same card marks Delivered as complete and offers a return instead.
-
-<Frame caption="Order status card for an order out for delivery">
-  <img src="/images/cards/order-refund-card.png" alt="Order status card for an order out for delivery" />
-</Frame>
 
 ## Related
 

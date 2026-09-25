@@ -1,0 +1,54 @@
+---
+title: "Product detail"
+description: "A larger card for one product, with its size choice and actions, so the shopper can pick a variant in the conversation"
+---
+
+A product detail card shows one product in full, with room to choose a variant before adding it. It is the bigger sibling of the [product card](/components/cards/product-card). The Agent uses it when the shopper is close to buying and still has to pick a size or another option.
+
+<Frame caption="A product detail card at rest, before a size is chosen">
+  <img src="/images/cards/product-detail.png" alt="A product detail card at rest, before a size is chosen" />
+</Frame>
+
+## What it contains
+
+| Property | What it holds |
+| -------- | ------------- |
+| Image | A photo carousel with page dots, an expand control, and a badge such as **New** |
+| Title and brand | The product name and the brand |
+| Price | The current price, with the original struck through when it is on sale |
+| Variant selector | The sizes or other options as chips, with a **Size guide** link |
+| Actions | Save to wishlist and see similar products |
+| Add button | Reads **Select size** and stays disabled until the shopper picks a variant, then adds that variant to the cart |
+
+The card reads live stock, so sizes that are sold out show as unavailable.
+
+## Where it appears
+
+- In the [assistant reply](/components/conversation/assistant-reply), once the shopper has settled on a product. The Product Q&A Agent reaches for it after answering the shopper's doubts.
+- When the shopper expands a [product card](/components/cards/product-card) or a card in a [product collection](/components/cards/product-collection).
+
+## Rules
+
+A product detail card carries no rule. It shows because an Agent composed it into a reply, or because the shopper expanded a product card.
+
+## Example
+
+One product, ready for the shopper to choose a size.
+
+```yaml
+Image: Photo carousel with page dots, an expand control, and a New badge
+Title and brand: Shown
+Price: Sale price with the original struck through
+Variant selector: Sizes 7 to 11, with a Size guide link
+Actions: Save to wishlist, see similar products
+Add button: Select size, disabled until a size is chosen
+```
+
+## Related
+
+<CardGroup cols={2}>
+  <Card title="Product card" href="/components/cards/product-card" />
+  <Card title="Product collection" href="/components/cards/product-collection" />
+  <Card title="Cart and checkout card" href="/components/cards/cart-checkout-card" />
+  <Card title="Rich responses and actions" href="/agents/rich-responses-and-actions" />
+</CardGroup>

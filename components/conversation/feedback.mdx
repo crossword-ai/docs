@@ -1,0 +1,66 @@
+---
+title: "Feedback and CSAT"
+description: "Thumbs up or down on a reply, and a satisfaction rating at a moment you choose"
+---
+
+Feedback lets the shopper tell you how the conversation went. There are two kinds. Message feedback is a thumbs up or down under an [assistant reply](/components/conversation/assistant-reply). The CSAT survey is a card that asks for an overall rating, at the moment in the conversation you choose. Both feed the success metrics you read in [Quality and governance](/quality/overview).
+
+<Frame caption="The CSAT card with a five-point rating and an optional comment">
+  <img src="/images/conversation/csat.png" alt="The CSAT card with a five-point rating and an optional comment" />
+</Frame>
+
+## What it contains
+
+| Part | What it holds |
+| ---- | ------------- |
+| Thumbs up and down | Two controls under a reply. One tap records the vote. |
+| Reason chips | Shown after a down vote, such as **Not accurate**, **Not helpful**, or **Wrong product**. The shopper picks one or more, and can add a short comment. |
+| CSAT survey card | A five-point rating from **Awful** to **Excellent**, with a face that changes as the shopper moves the slider, an optional **Tell us more** comment, and a **Submit feedback** button. |
+| Thank-you state | A short confirmation that replaces the controls once the shopper responds. |
+
+You choose the reason chips offered after a down vote. Each vote and each rating is tied to the reply or the conversation it belongs to, and to the Agent that answered.
+
+## Where it appears
+
+- **Message feedback** sits under assistant replies, next to the reply's other actions.
+- **The CSAT survey card** opens over the conversation, at the moment you configure.
+
+Both appear in every [placement](/components/widget/placements) of the widget. Down votes and their reasons point to the replies worth reviewing. CSAT ratings roll up by Agent and by Journey, next to each Journey's goals, in [Quality and governance](/quality/overview).
+
+## When to ask for CSAT
+
+You decide where in the conversation the CSAT card appears. Pick one or more moments:
+
+| Moment | Asks the shopper |
+| ------ | ---------------- |
+| Conversation ends | When the shopper goes quiet after a finished exchange |
+| Goal reached | After a Journey goal, such as an add to cart or a resolved question |
+| Handoff ends | After a person on your team closes the conversation |
+| Chat closed | When the shopper closes the widget |
+
+The timing can also be dynamic. You tell the Agent in its [operating procedure](/agents/goal-and-operating-procedure) when a conversation counts as done, such as once an order question is answered, and it asks at that point. Either way, a shopper is asked at most once per conversation, and you can space it out further, such as once a week.
+
+## Rules
+
+Message feedback carries no rule. It shows under replies when you turn it on for the experience. The CSAT card follows the moments you choose above, not a page or a condition.
+
+## Example
+
+A shopper rates the conversation after the Agent answers their question.
+
+```yaml
+Ask CSAT: When a Journey goal is reached, or when the Agent judges the conversation done
+Scale: Five points, Awful to Excellent
+Comment: Optional
+Frequency: Once per conversation
+Feeds: CSAT in Quality and governance
+```
+
+## Related
+
+<CardGroup cols={2}>
+  <Card title="Assistant reply" href="/components/conversation/assistant-reply" />
+  <Card title="Quality and governance" href="/quality/overview" />
+  <Card title="Escalation and handoff" href="/agents/escalation-and-handoff" />
+  <Card title="Conversation states" href="/components/widget/overview" />
+</CardGroup>

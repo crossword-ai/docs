@@ -5,6 +5,10 @@ description: "A guided set of questions that ends in a recommendation"
 
 A quiz walks a shopper through a few questions and ends with a recommendation. It gives shoppers who do not know what to ask a structured way in, and it gives the Agent the answers it needs to recommend well. A shoe finder that asks about use, fit, and budget and then shows three matches is a quiz.
 
+<Frame caption="A shopper taking the quiz in the conversation">
+  <video autoPlay muted loop playsInline src="/images/interactive/quiz.mp4"></video>
+</Frame>
+
 ## Anatomy
 
 The diagram shows a quiz as its intro, its questions with what each one holds, its progress and submission, and the results the shopper reaches.
@@ -29,8 +33,6 @@ flowchart TB
     RE["Explanation<br/><small>why they fit</small>"]
     RN["Next steps<br/><small>Shop these · Ask a question</small>"]
   end
-  PRIM["Primitives<br/><small>input and selector</small>"]
-  IT -. "built from" .-> PRIM
   AG["Agent"]
   SUB -. "answers go to" .-> AG
 ```
@@ -48,7 +50,7 @@ Each question holds these properties.
 | Property | What it holds |
 | -------- | ------------- |
 | Text and help text | The question and an optional line of guidance under it. |
-| Input type | How the shopper answers: single choice, multiple choice, free text, or a scale. Built from the [input](/components/primitives#input) and [selector](/components/primitives#selector) primitives. |
+| Input type | How the shopper answers: single choice, multiple choice, free text, or a scale. |
 | Answer choices | Each choice has a label, a value, and an optional image. |
 | Required status and validation | Whether the shopper can skip the question, and any rules the answer must meet. |
 | Visibility and branching | When the question shows, based on earlier answers, and which question comes next. |
@@ -64,25 +66,25 @@ A quiz never shows on its own. One of these components includes it.
 - In the [assistant reply](/components/conversation/assistant-reply), where the Agent chooses it. A [conversation starter](/components/conversation/conversation-starter) such as **Help me find a shoe** leads straight into it, and the Agent can offer it whenever a shopper's question is too broad to answer directly.
 - On a page, inside a [content block](/components/page/content-block) on a collection page or a dynamic landing page, for example under a heading such as **Not sure where to start?**.
 
-The [discovery experiment](/use-cases/discovery-experiment) uses the same quiz in one Journey and leaves it out of another to measure which discovery method converts better.
-
 ## Rules
 
 A quiz carries no rule. It shows because the welcome message, or a proactive message or page section with a rule, included it, or because the Agent composed it into the assistant reply. The rule that decides whether and when the shopper sees it lives on that component, not on the quiz. The welcome message is the exception: it carries no rule and is global, so every shopper sees what it embeds. Read [Rules](/orchestration/rules).
 
 ## Example
 
-A shopper opens the widget on the running shoes collection page and taps the conversation starter **Help me find a shoe**. The assistant reply holds the quiz, titled **Shoe finder**, with the intro "Three questions and we'll show you your best matches." The first question reads "What will you mostly use them for?" with four choices, **Daily runs**, **Race day**, **Trail**, and **Gym and everyday**, a progress indicator of **1 of 3**, and a **Next** button. After fit and budget, the result screen shows a product collection of three shoes under the heading **Your matches**, a line that reads "Cushioned daily trainers under $150, in your width", and two buttons: **Shop these** and **Ask a question**.
+A shopper asks to take the quiz, and the Agent starts it in the conversation.
 
-<Frame caption="Shoe finder quiz: first question and its result">
-  <img src="/images/placeholder.svg" alt="Shoe finder quiz: first question and its result" />
-</Frame>
+```yaml
+Start: The shopper taps a starter or asks to take the quiz
+Intro: One line saying it will ask a few quick questions
+Questions: Three or four, one at a time, each with lettered choices
+Free answer: The shopper can type their own answer instead of picking a choice
+Result: A product collection of the best matches, with a line explaining why
+```
 
 ## Related
 
 <CardGroup cols={2}>
-  <Card title="Quiz-led vs conversation-led discovery" href="/use-cases/discovery-experiment" />
   <Card title="Product collection" href="/components/cards/product-collection" />
   <Card title="Conversation starters" href="/components/conversation/conversation-starter" />
-  <Card title="Primitives" href="/components/primitives" />
 </CardGroup>

@@ -1,26 +1,23 @@
 ---
 title: "Workflows"
-description: "Deterministic steps, branches, confirmations, and handoffs an agent can run"
+description: "How an Agent runs multi-step actions such as tracking an order or starting a return"
 ---
 
-A Workflow is a set of steps that an Agent or a Campaign can run to complete an operational task. It gives the parts of a conversation that must be exact, such as looking up an order or generating a return label, a fixed path with defined inputs, outputs, and error handling.
-
-Use a Workflow whenever the outcome has to be the same every time. An Agent decides when to call it. The Workflow decides what happens once called.
+A Workflow is how a multi-step action runs, such as tracking an order or starting a return. It gives the parts of a conversation that must be exact a fixed path with defined inputs, outputs, and error handling. The Agent decides when to run it, and the Workflow decides what happens once it runs.
 
 ## What it contains
 
-The diagram shows a Workflow, what it is built from, and who calls it.
+The diagram shows a Workflow, what it is built from, and who runs it.
 
 ```mermaid
 flowchart TB
-  W["Workflow<br/><small>a callable unit · no rule</small>"]
+  W["Workflow<br/><small>a multi-step action</small>"]
   W --> IN["Inputs<br/><small>values it needs before it runs</small>"]
-  W --> OUT["Outputs<br/><small>values it returns to the caller</small>"]
+  W --> OUT["Outputs<br/><small>values it returns</small>"]
   W --> STEPS
-  W --> EH["Error handling<br/><small>retry, branch, respond, or hand off</small>"]
-  W --> TH["Timeout handling<br/><small>retry, branch, respond, or hand off</small>"]
-  subgraph STEPS["Steps, ordered, of five types"]
-    S1["Deterministic operation"]
+  W --> EH["Error and timeout handling<br/><small>retry, branch, respond, or hand off</small>"]
+  subgraph STEPS["Steps, in order"]
+    S1["Store operation"]
     S2["Agent invocation"]
     S3["Condition or branch"]
     S4["Confirmation or approval"]
@@ -28,58 +25,57 @@ flowchart TB
   end
   AG["Agent"]
   CS["Campaign step"]
-  AG -. "calls" .-> W
-  CS -. "calls" .-> W
-  S2 -. "invokes" .-> AG
-  S5 -. "hands off to" .-> AG
+  AG -. "runs" .-> W
+  CS -. "runs" .-> W
 ```
 
 | Concept | Meaning | Example |
 | ------- | ------- | ------- |
-| Inputs | The values a Workflow needs before it runs | Order number, item list |
-| Outputs | The values a Workflow returns to the caller | Label URL, eligibility status |
-| Steps | The ordered nodes the Workflow runs | Look up order, confirm items, create label |
-| Error handling | What happens when a step fails | Retry the lookup once, then respond with an apology |
-| Timeout handling | What happens when a step takes too long | After 30 seconds, hand off to the Agent |
+| Inputs | The values a Workflow needs before it runs | Order number, items to return |
+| Outputs | The values it returns | Order status, return label link |
+| Steps | The ordered steps it runs | Look up order, confirm items, create label |
+| Error and timeout handling | What happens when a step fails or takes too long | Retry the lookup once, then hand off to a human |
 
 ## Step types
 
 | Step type | What it does | Example |
 | --------- | ------------ | ------- |
-| Deterministic operation | Runs a fixed action against your systems | Look up an order, apply a coupon, update an attribute |
-| Agent invocation | Asks an Agent to produce content or a judgement inside the Workflow | Summarize the reason for the return |
-| Condition or branch | Chooses the next step from the values so far | Is the order within the return window? |
-| Confirmation or approval | Pauses until the shopper or an operator confirms | "Return these two items?" |
-| Response or handoff | Sends a reply to the shopper, or hands the conversation to an Agent | "Your label is ready" with a link |
+| Store operation | Runs a fixed action against your store or other systems | Look up an order, create a return |
+| Agent invocation | Asks an Agent for content or a judgement inside the Workflow | Summarize why the shopper is returning |
+| Condition or branch | Chooses the next step from the values so far | Is the order within 30 days? |
+| Confirmation or approval | Pauses until the shopper or someone on your team confirms | "Return these two packs?" |
+| Response or handoff | Replies to the shopper, or hands the conversation to an Agent or a human | "Your return is started" |
 
-## Error and timeout handling
+When a step fails or times out, the Workflow retries it, branches, responds to the shopper, or hands off. A Workflow that hits an unhandled error ends and returns control to the Agent.
 
-Each Workflow defines what happens when a step fails and when a step exceeds its time limit. The options are the same for both: retry the step, branch to a different step, respond to the shopper, or hand off to an Agent. A Workflow that hits an unhandled error ends and returns control to whoever called it.
+## Who runs a Workflow
 
-## Who can call a Workflow
+- **An Agent.** Workflows back the Agent's [actions and integrations](/agents/rich-responses-and-actions). The Agent decides when the conversation needs one, passes the inputs, and uses the outputs in its reply. The Agent's [guardrails](/agents/guardrails-and-fallback) still apply, so a support Agent that must never block a return always runs the return.
+- **A Campaign step.** A Workflow can be a step in a [Campaign](/orchestration/campaigns) sequence, which passes the inputs and can branch on the outputs.
 
-- **An Agent.** The Agent's configuration lists the Workflows it can call, and its [permissions](/agents/guardrails-and-permissions) set the limits and confirmations on each. The Agent decides when the conversation needs one, passes the inputs, and uses the outputs in its reply. An Agent reads its [knowledge and context](/agents/knowledge-and-context) directly but changes nothing without a Workflow. Read [Agents](/agents/overview).
-- **A Campaign step.** A Workflow call is a step type in a Campaign sequence. The Campaign passes the inputs and can branch on the outputs. Read [Campaigns](/orchestration/campaigns).
-
-## How it fits
-
-A Workflow sits beside Agents and Campaigns as a callable unit. It does not carry a rule, and it is not resolved by a Rulebook. Something else decides to run it. Once running, it can invoke an Agent for a single step and hand off to an Agent at the end.
+An Agent reads its [knowledge and customer context](/agents/knowledge-and-context) directly. It changes nothing in your store except through an action.
 
 ## Example
 
-A Workflow called Generate return label takes an order number and the items to return. It checks eligibility, asks the shopper to confirm the items, creates the label, and returns a link. If the order is outside the return window, it branches to a response that explains why and hands the conversation back to the Agent.
+The Brand and Support Agent runs a Start a return Workflow when a shopper says a product is not working for them.
 
-The screenshot shows the **Workflows** screen with Generate return label open in the step editor. Inputs are `order_number` and `items`, and Outputs are `label_url` and `eligibility`. The canvas runs Look up order, then a branch named Within return window?, then Confirm items, Create label, and a response step reading "Your label is ready". The No path from the branch goes to a response that explains the window and then a Hand off to Order assistant step. The settings panel shows Error handling as Retry once, then respond, and Timeout as 30 seconds, then hand off.
-
-<Frame caption="Generate return label Workflow in the step editor">
-  <img src="/images/placeholder.svg" alt="Generate return label Workflow in the step editor" />
-</Frame>
+```yaml
+workflow: Start a return
+inputs: [order_number, items]
+steps:
+  - Look up the order
+  - Branch on whether the order is within the 30-day guarantee
+  - Offer a better-fit swap first
+  - Confirm the items with the shopper
+  - Create the return and reply with the next steps
+on_error: Hand off to a human with name, email, order number, and problem
+```
 
 ## Related
 
 <CardGroup cols={2}>
-  <Card title="Agents" href="/agents/overview" />
-  <Card title="Guardrails and permissions" href="/agents/guardrails-and-permissions" />
-  <Card title="Knowledge and context" href="/agents/knowledge-and-context" />
+  <Card title="Rich responses and actions" href="/agents/rich-responses-and-actions" />
+  <Card title="Guardrails and fallback" href="/agents/guardrails-and-fallback" />
+  <Card title="Escalation and handoff" href="/agents/escalation-and-handoff" />
   <Card title="Campaigns" href="/orchestration/campaigns" />
 </CardGroup>

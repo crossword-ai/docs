@@ -1,0 +1,73 @@
+---
+title: "Customer memory"
+description: "What an Agent remembers about a shopper, within a conversation and across visits"
+---
+
+Customer memory is what an Agent remembers about a shopper. It keeps what the shopper has already said and done, so they never have to repeat themselves. Every Agent inherits global memory and adds what its own job needs.
+
+## Why memory matters
+
+A shopper who has already said they want better sleep should not be asked again. A shopper who has explained a problem should not explain it twice when a human takes over. Memory makes the conversation feel like one conversation, even when it moves between Agents or spans several visits.
+
+## Within a conversation and across visits
+
+Memory works at two scopes.
+
+| Scope | What it keeps | Example |
+| ----- | ------------- | ------- |
+| Within a conversation | What the shopper said and chose in this conversation | Questions already answered, the problem already described |
+| Across visits | What stays true about the shopper from one visit to the next | Quiz result, past orders |
+
+Memory within a conversation passes with the conversation when one Agent hands off to another. Read [Escalation and handoff](/agents/escalation-and-handoff).
+
+## Global memory and Agent memory
+
+Global customer memory lives in [Global settings](/global/overview). Every Agent can use it.
+
+- The page the shopper is on and where they came from, such as an ad, Google, or direct.
+- Whether they are logged in, and their past orders.
+- Their quiz result, once they have taken it.
+
+Agent memory adds what one Agent's job needs. A discovery Agent remembers what the shopper is looking for. A support Agent remembers the name, email, and order number once the shopper shares them.
+
+Memory is not the same as [customer context](/agents/knowledge-and-context). Context is what Crossword knows about the shopper right now. Memory is what the Agent has learned and kept.
+
+## How Agents use memory
+
+Memory changes what an Agent does next.
+
+- **It skips questions.** A shopper whose quiz result is known gets a recommendation, not the quiz again.
+- **It picks up where things stopped.** A shopper who added a pack to the cart earlier hears about that pack, not a new one.
+- **It prepares a handoff.** A human on your team receives the details already collected.
+
+Memory never overrides a guardrail. The Agent never asks for card or payment details, so they never enter memory.
+
+## Example
+
+A gummy supplement store keeps global memory for every Agent and adds Agent memory on top.
+
+| Agent | Agent memory |
+| ----- | ------------ |
+| Product Discovery | What they are looking for, such as energy, sleep, mood, or strength. Products they looked at or added to cart. |
+| Product Q&A | Questions already answered. The pack size they chose. |
+| Brand and Support | Name, email, and order number, once shared. The problem already described. |
+
+```yaml
+customer_memory:
+  global:
+    - Page they are on and where they came from
+    - Logged-in status and past orders
+    - Quiz result, once they have taken it
+  product_discovery_agent:
+    - What they are looking for
+    - Products they looked at or added to cart
+```
+
+## Related
+
+<CardGroup cols={2}>
+  <Card title="Knowledge and customer context" href="/agents/knowledge-and-context" />
+  <Card title="Escalation and handoff" href="/agents/escalation-and-handoff" />
+  <Card title="Global settings" href="/global/overview" />
+  <Card title="Agents" href="/agents/overview" />
+</CardGroup>

@@ -1,0 +1,67 @@
+---
+title: "Guardrails and fallback"
+description: "What an Agent must never say or do, and what it does when it cannot answer"
+---
+
+Guardrails are the rules an Agent must never break, whatever the shopper asks and whatever its operating procedure says. Fallback behavior is what the Agent does when it cannot answer. Together they keep every reply accurate and every shopper moving forward.
+
+## Global guardrails
+
+Global guardrails live in [Global settings](/global/overview) and apply to every Agent. A typical set looks like this.
+
+- No health or medical claims. The Agent never says a product treats, cures, or prevents anything.
+- "Please check with your doctor" when the shopper is on medication, pregnant, or has a condition.
+- Only facts the brand has published. The Agent never invents details.
+- Products show as cards, never as long text lists.
+- The Agent never asks for card or payment details.
+- The Agent never promises refunds or delivery dates it cannot confirm.
+
+Every reply is checked against the guardrails as it is written.
+
+## Agent guardrails
+
+An Agent's own guardrails sit on top of the global ones. They add rules that fit the Agent's job, or narrow a global rule further.
+
+An Agent can never loosen a global guardrail. If an Agent guardrail and a global guardrail disagree, the stricter one wins.
+
+Good Agent guardrails are short and testable.
+
+- **Limit what it shows.** Recommend at most two products at a time.
+- **Protect a result.** Never re-score or change a quiz result.
+- **Limit what it claims.** Only state results and timelines the product's FAQ states.
+- **Protect the shopper.** Never block a return. No selling while resolving a problem.
+
+A guardrail is not a step. Steps belong in the [operating procedure](/agents/goal-and-operating-procedure), and a step can never override a guardrail.
+
+## Fallback behavior
+
+Fallback behavior is what the Agent does when it cannot answer, because the question is outside its knowledge or a guardrail stops it. Without a fallback, an Agent is tempted to guess. With one, it moves the shopper forward honestly.
+
+There are three common fallbacks.
+
+- **Say so.** Tell the shopper plainly that the Agent does not have that detail.
+- **Offer the quiz.** When the shopper is unsure what to buy, the [quiz](/components/interactive/quiz) can answer what the Agent cannot.
+- **Bring in a human.** Hand the conversation to your team with everything collected so far. Read [Escalation and handoff](/agents/escalation-and-handoff).
+
+Pick the fallback that fits the Agent's job. A discovery Agent offers the quiz. A support Agent brings in a human.
+
+Questions an Agent could not answer are worth reviewing. Each one is a gap you can close with new knowledge. Read [Quality](/quality/overview).
+
+## Example
+
+A gummy supplement store gives each of its three Agents its own guardrails and fallback, on top of the global guardrails.
+
+| Agent | Guardrails | Fallback behavior |
+| ----- | ---------- | ----------------- |
+| Product Discovery | Recommends at most two products at a time. Never re-scores or changes a quiz result. | Says so honestly and offers the quiz. Never guesses. |
+| Product Q&A | Only states results and timelines the product's FAQ states. | Says it does not have that detail and offers to connect the shopper with the team. |
+| Brand and Support | Never blocks a return. No selling while resolving a problem. | Brings in a human from the team. |
+
+## Related
+
+<CardGroup cols={2}>
+  <Card title="Global settings" href="/global/overview" />
+  <Card title="Escalation and handoff" href="/agents/escalation-and-handoff" />
+  <Card title="Goal and operating procedure" href="/agents/goal-and-operating-procedure" />
+  <Card title="Quiz" href="/components/interactive/quiz" />
+</CardGroup>
