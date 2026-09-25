@@ -1,8 +1,8 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
-  "name": "Crossword",
-  "description": "Documentation for Crossword",
+  "name": "Crossword Docs",
+  "description": "Documentation for Crossword, the AI shopper assistant that remembers, recommends, resolves, and reports, all within the guardrails you set.",
   "colors": {
     "primary": "#004C27",
     "light": "#3DBE7A",
