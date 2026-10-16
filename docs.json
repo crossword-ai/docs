@@ -123,6 +123,7 @@
         "group": "Setup and publishing",
         "pages": [
           "orchestration/channels-and-experiences",
+          "identity/overview",
           "orchestration/deployment"
         ]
       },
