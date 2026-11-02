@@ -16,7 +16,8 @@
         "pages": [
           "index",
           "concepts",
-          "orchestration/overview"
+          "orchestration/overview",
+          "try-on-your-store"
         ]
       },
       {
