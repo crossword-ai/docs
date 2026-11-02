@@ -21,6 +21,12 @@
         ]
       },
       {
+        "group": "Integrations",
+        "pages": [
+          "integrations/shopify"
+        ]
+      },
+      {
         "group": "Components",
         "pages": [
           "components/overview",
