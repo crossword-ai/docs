@@ -1,0 +1,63 @@
+---
+title: "Connect Intercom to Crossword"
+sidebarTitle: "Intercom"
+description: "Create a private app in your own Intercom and connect it to Crossword, so every chat your Agent hands to a person goes to Intercom instead of Crossword's Inbox."
+---
+
+Once you connect Intercom, every chat your Agent hands to a person goes to Intercom instead of Crossword's Inbox. Your support agents reply from Intercom as usual. The visitor gets the replies in the Crossword widget.
+
+Intercom connects through a **private app** you create in your own Intercom.
+
+<Note>
+  Only workspaces hosted in the **United States** can be connected for now.
+</Note>
+
+To learn when your Agent hands off to a person, read [Escalation and handoff](/agents/escalation-and-handoff#human-handoff).
+
+## Before you start
+
+You need admin access to your Crossword workspace and to Intercom.
+
+Open **Helpdesk > Connection** in the [Crossword dashboard](https://app.crossword.ai). This guide calls it the Helpdesk connection page.
+
+## Connect Intercom
+
+<Steps>
+  <Step title="Create the app in Intercom">
+    In Intercom, go to **Settings > Developers > [Developer Hub](https://app.intercom.com/a/apps/_/developer-hub)** and create a new app. Choose an internal or private app.
+
+    In the app, copy its **access token**.
+
+    In the same app, copy its **client secret**. Crossword uses it to check that updates really come from Intercom.
+  </Step>
+  <Step title="Connect in Crossword">
+    On the Helpdesk connection page, choose **Intercom**.
+
+    Pick the data region **United States**, then enter the **access token** and **client secret**.
+
+    Click **Connect**.
+  </Step>
+  <Step title="Finish the app in Intercom">
+    Crossword shows an **endpoint URL**, the **topics** to tick, and the **permissions** to grant. Make these changes to your app in the [Developer Hub](https://app.intercom.com/a/apps/_/developer-hub), in this order.
+
+    Under **Configure > Authentication**, give the app exactly these permissions:
+
+    - Read and write conversations
+    - Read and write users and companies
+    - Read and write tags
+    - Read and write tickets
+    - Read admins
+
+    Under **Configure > Webhooks**, paste the **endpoint URL** Crossword shows.
+
+    Tick the **topics** Crossword lists, then save. Intercom sends a test notification, and the Crossword page shows webhooks as working once it arrives.
+
+    Under **Basic information**, set the app's **API version** to the one Crossword shows.
+  </Step>
+</Steps>
+
+## After you connect
+
+- The **Health** section on the Helpdesk connection page shows whether the access token and webhooks are working.
+- If the access token stops working, use **Replace the access token**. Open chats stay where they are.
+- Turn on identity capture in the widget, so handoffs land under the visitor's email. Your Agent can also ask for it.

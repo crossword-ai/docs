@@ -1,0 +1,56 @@
+---
+title: "Connect Gorgias to Crossword"
+sidebarTitle: "Gorgias"
+description: "Enter your Gorgias subdomain, login email, and API key in Crossword, so every chat your Agent hands to a person goes to Gorgias instead of Crossword's Inbox."
+---
+
+Once you connect Gorgias, every chat your Agent hands to a person goes to Gorgias instead of Crossword's Inbox. Your support agents reply from Gorgias as usual. The visitor gets the replies in the Crossword widget.
+
+To learn when your Agent hands off to a person, read [Escalation and handoff](/agents/escalation-and-handoff#human-handoff).
+
+## Before you start
+
+You need admin access to your Crossword workspace and to Gorgias.
+
+Open **Helpdesk > Connection** in the [Crossword dashboard](https://app.crossword.ai). This guide calls it the Helpdesk connection page.
+
+## Connect Gorgias
+
+<Steps>
+  <Step title="Get your details from Gorgias">
+    Note your **subdomain**, the part before `.gorgias.com`. For `acme.gorgias.com`, it is `acme`.
+
+    In Gorgias, go to **Settings > REST API** and copy the **API key**. Use an admin's key, so Crossword can set up webhooks for you. Gorgias explains this screen in [Access your Gorgias REST API credentials](https://docs.gorgias.com/en-US/rest-api-208286).
+
+    Note the **login email** of the Gorgias user that key belongs to.
+  </Step>
+  <Step title="Connect in Crossword">
+    On the Helpdesk connection page, choose **Gorgias**. Enter the **subdomain**, **login email**, and **API key**.
+
+    Click **Connect**. It can take up to a minute while Crossword checks the key and sets up webhooks.
+
+    If the key is not an admin's, tick **Set up webhooks myself** before you connect, then follow the steps under **Only if you ticked Set up webhooks myself**.
+  </Step>
+</Steps>
+
+<Accordion title="Only if you ticked **Set up webhooks myself**">
+  Crossword shows you the addresses and a token to copy. Follow these steps in Gorgias. Gorgias explains these screens in [Connect external apps to Gorgias and create sidebar widgets](https://docs.gorgias.com/en-US/connect-external-apps-to-gorgias-and-create-sidebar-widgets-81822).
+
+  <Steps>
+    <Step title="Open HTTP integrations">
+      Go to **Settings > HTTP integrations > Add HTTP integration**.
+    </Step>
+    <Step title="Create three integrations">
+      Create **three** integrations, each with method **POST** and content type **application/json**, one for each trigger: **Ticket message created**, **Ticket status updated**, and **Ticket assignment updated**. Use the URL and body Crossword shows for each one.
+    </Step>
+    <Step title="Add the header">
+      On each integration, add the **header** and token value Crossword shows.
+    </Step>
+  </Steps>
+</Accordion>
+
+## After you connect
+
+- The **Health** section on the Helpdesk connection page shows whether the key and webhooks are working.
+- If a key stops working, use **Replace the API key**. Open chats stay where they are.
+- Turn on identity capture in the widget, so handoffs land under the visitor's email. Your Agent can also ask for it.
