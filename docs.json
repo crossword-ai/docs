@@ -24,7 +24,8 @@
         "group": "Integrations",
         "pages": [
           "integrations/shopify",
-          "integrations/gorgias"
+          "integrations/gorgias",
+          "integrations/intercom"
         ]
       },
       {
