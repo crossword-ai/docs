@@ -23,7 +23,8 @@
       {
         "group": "Integrations",
         "pages": [
-          "integrations/shopify"
+          "integrations/shopify",
+          "integrations/gorgias"
         ]
       },
       {
